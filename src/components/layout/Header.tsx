@@ -56,11 +56,11 @@ export default function Header() {
       </IconButton>
 
       {/* Breadcrumb */}
-      <div className="flex items-center gap-1.5 text-body-sm min-w-0 flex-1">
+      <div className="flex items-center gap-1.5 text-body-sm min-w-0 flex-1 overflow-hidden">
         {breadcrumbs.map((b, i) => (
-          <span key={i} className="flex items-center gap-1.5">
-            {i > 0 && <span className="text-text-tertiary">/</span>}
-            <span className={i === breadcrumbs.length - 1 ? 'font-medium text-text-primary' : 'text-text-secondary'}>
+          <span key={i} className="flex items-center gap-1.5 min-w-0">
+            {i > 0 && <span className="text-text-tertiary flex-shrink-0">/</span>}
+            <span className={`truncate max-w-[120px] sm:max-w-none ${i === breadcrumbs.length - 1 ? 'font-semibold text-text-primary' : 'text-text-secondary'}`}>
               {b.label}
             </span>
           </span>

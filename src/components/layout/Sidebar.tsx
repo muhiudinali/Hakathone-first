@@ -275,9 +275,9 @@ export default function Sidebar() {
 
       {/* Mobile Sidebar Overlay */}
       {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 z-40">
-          <div className="absolute inset-0 bg-bg-overlay" onClick={() => dispatch(setSidebarMobileOpen(false))} />
-          <div className="relative w-[280px] h-full">
+        <div className="lg:hidden fixed inset-0 z-50">
+          <div className="absolute inset-0 bg-bg-overlay backdrop-blur-xs animate-fade-in" onClick={() => dispatch(setSidebarMobileOpen(false))} />
+          <div className="relative w-[280px] max-w-[85vw] h-full shadow-2xl animate-fade-in">
             {sidebarContent}
           </div>
         </div>

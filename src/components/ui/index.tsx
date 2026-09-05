@@ -446,7 +446,7 @@ export function Drawer({ open, onClose, title, children, side = 'right', width =
       <div className="absolute inset-0 bg-bg-overlay" />
       <div
         className={cn(
-          'relative bg-bg-secondary h-full shadow-xl flex flex-col',
+          'relative bg-bg-secondary h-full shadow-2xl flex flex-col max-w-full',
           width,
           side === 'right' ? 'ml-auto animate-slide-in-right' : 'mr-auto',
         )}

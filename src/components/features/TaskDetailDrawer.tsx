@@ -257,7 +257,7 @@ export default function TaskDetailDrawer() {
 
   return (
     <>
-      <Drawer open={!!taskId} onClose={close} title="Task Details" width="w-[520px]">
+      <Drawer open={!!taskId} onClose={close} title="Task Details" width="w-full sm:w-[540px]">
         <div className="p-5 space-y-5">
           {/* Title */}
           <div>
