@@ -83,7 +83,7 @@ export default function FilterBar() {
   ];
 
   return (
-    <div className="flex-shrink-0 border-b border-border-primary bg-bg-secondary px-6 py-2.5 space-y-2">
+    <div className="flex-shrink-0 border-b border-border-primary/80 glass-header px-6 py-2.5 space-y-2">
       <div className="flex items-center gap-3 flex-wrap">
         {/* Status Filter */}
         <div className="flex items-center gap-1">

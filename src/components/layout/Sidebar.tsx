@@ -56,18 +56,18 @@ export default function Sidebar() {
   };
 
   const sidebarContent = (
-    <div className="h-full flex flex-col bg-bg-secondary border-r border-border-primary">
+    <div className="h-full flex flex-col glass-sidebar">
       {/* Workspace Switcher */}
-      <div className="h-14 px-3 flex items-center border-b border-border-primary">
+      <div className="h-14 px-3 flex items-center border-b border-border-primary/80">
         {!collapsed && (
           <Dropdown
             trigger={
-              <button className="flex-1 flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-bg-hover transition-colors cursor-pointer min-w-0">
-                <div className="h-7 w-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0" style={{ backgroundColor: currentWorkspace?.color || '#3B82F6' }}>
+              <button className="flex-1 flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-bg-hover transition-colors cursor-pointer min-w-0 border border-transparent hover:border-border-primary/60">
+                <div className="h-7 w-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0 shadow-xs" style={{ backgroundColor: currentWorkspace?.color || '#3B82F6' }}>
                   <span className="text-white">{currentWorkspace?.icon || '🏢'}</span>
                 </div>
                 <span className="text-body-sm font-semibold text-text-primary truncate">{currentWorkspace?.name || 'Workspace'}</span>
-                <ChevronsUpDown size={14} className="text-text-tertiary flex-shrink-0" />
+                <ChevronsUpDown size={14} className="text-text-tertiary flex-shrink-0 ml-auto" />
               </button>
             }
           >
@@ -89,7 +89,7 @@ export default function Sidebar() {
           </Dropdown>
         )}
         {collapsed && currentWorkspace && (
-          <div className="mx-auto h-8 w-8 rounded-lg flex items-center justify-center text-sm cursor-pointer hover:bg-bg-hover" style={{ backgroundColor: currentWorkspace.color }}>
+          <div className="mx-auto h-8 w-8 rounded-lg flex items-center justify-center text-sm cursor-pointer hover:bg-bg-hover shadow-xs" style={{ backgroundColor: currentWorkspace.color }}>
             <span className="text-white">{currentWorkspace.icon}</span>
           </div>
         )}
@@ -112,22 +112,22 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
+      <div className="flex-1 overflow-y-auto px-2.5 py-3 space-y-1">
         {/* Quick New Task Button */}
         <div className="pb-2">
           <button
             onClick={() => dispatch(setCreateTaskOpen(true))}
             className={cn(
-              'w-full flex items-center gap-2 px-3 py-2 bg-accent-primary hover:bg-accent-hover text-white rounded-lg text-body-sm font-medium shadow-sm transition-all cursor-pointer',
-              collapsed && 'justify-center px-0 h-9 w-9 mx-auto'
+              'w-full flex items-center gap-2 px-3 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white rounded-xl text-body-sm font-semibold shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/35 transition-all cursor-pointer active:scale-95',
+              collapsed && 'justify-center px-0 h-10 w-10 mx-auto'
             )}
             title="Create New Task (C)"
           >
-            <Plus size={16} className="flex-shrink-0" />
+            <Plus size={16} className="flex-shrink-0 stroke-[2.5]" />
             {!collapsed && (
               <>
                 <span className="truncate">New Task</span>
-                <kbd className="ml-auto text-[10px] bg-white/20 px-1.5 py-0.5 rounded text-white/90">C</kbd>
+                <kbd className="ml-auto text-[10px] bg-white/20 border border-white/25 px-1.5 py-0.5 rounded text-white font-bold">C</kbd>
               </>
             )}
           </button>
@@ -140,13 +140,15 @@ export default function Sidebar() {
               key={item.id}
               onClick={() => navigate(item.path)}
               className={cn(
-                'w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-body-sm font-medium transition-colors duration-100 cursor-pointer',
-                isActive ? 'bg-bg-active text-text-primary' : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary',
-                collapsed && 'justify-center px-0',
+                'w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-sm font-medium transition-all duration-150 cursor-pointer',
+                isActive
+                  ? 'bg-accent-primary/10 text-accent-primary font-semibold border border-accent-primary/20 shadow-xs'
+                  : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary',
+                collapsed && 'justify-center px-0 h-10 w-10 mx-auto',
               )}
               title={collapsed ? item.label : undefined}
             >
-              <item.icon size={18} className="flex-shrink-0" />
+              <item.icon size={18} className={cn('flex-shrink-0', isActive ? 'text-accent-primary stroke-[2.2]' : 'text-text-tertiary')} />
               {!collapsed && item.label}
             </button>
           );
@@ -155,7 +157,7 @@ export default function Sidebar() {
         {/* Projects Section */}
         {!collapsed && (
           <div className="pt-4">
-            <div className="flex items-center justify-between px-2.5 mb-1">
+            <div className="flex items-center justify-between px-2.5 mb-1.5">
               <span className="text-overline text-text-tertiary">Projects</span>
               <IconButton size="sm" tooltip="New project" onClick={() => dispatch(setCreateProjectOpen(true))}>
                 <Plus size={14} />
@@ -171,8 +173,10 @@ export default function Sidebar() {
                     navigate(`/workspaces/${currentWorkspace?.id}/projects/${proj.id}`);
                   }}
                   className={cn(
-                    'w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-body-sm transition-colors duration-100 cursor-pointer',
-                    isActive ? 'bg-bg-active text-text-primary font-medium' : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary',
+                    'w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-body-sm transition-all duration-100 cursor-pointer',
+                    isActive
+                      ? 'bg-accent-primary/10 text-accent-primary font-medium border border-accent-primary/20'
+                      : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary',
                   )}
                 >
                   <span className="flex-shrink-0">{proj.icon}</span>

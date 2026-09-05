@@ -27,6 +27,7 @@ import CalendarView from '@/components/features/CalendarView';
 import FilterBar from '@/components/features/FilterBar';
 import { canCreateTask, canEditProject, canDeleteProject } from '@/lib/permissions';
 import { ViewType, TaskStatus } from '@/types';
+import { cn } from '@/lib/utils';
 import {
   Columns3, List, Calendar, Plus, Filter, X, MoreHorizontal,
   Archive, Trash2, Edit3, CheckCircle,
@@ -119,27 +120,35 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   return (
     <div className="h-full flex flex-col">
       {/* Project Header */}
-      <div className="flex-shrink-0 border-b border-border-primary bg-bg-secondary px-6 py-3">
+      <div className="flex-shrink-0 border-b border-border-primary/80 glass-header px-6 py-3.5">
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-3">
-            <span className="text-xl">{project.icon}</span>
+          <div className="flex items-center gap-3.5">
+            <div
+              className="h-10 w-10 rounded-xl flex items-center justify-center text-xl shadow-xs border"
+              style={{
+                backgroundColor: `${project.color}15`,
+                borderColor: `${project.color}30`,
+              }}
+            >
+              {project.icon}
+            </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-heading-md text-text-primary">{project.name}</h1>
+                <h1 className="text-heading-md text-text-primary font-heading">{project.name}</h1>
                 {project.archived && (
                   <Badge size="sm" color="#94A3B8">Archived</Badge>
                 )}
               </div>
               {project.description && (
-                <p className="text-caption text-text-secondary line-clamp-1">{project.description}</p>
+                <p className="text-caption text-text-secondary line-clamp-1 mt-0.5">{project.description}</p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {/* Members avatars */}
             {projectMembers.length > 0 && (
-              <div className="hidden md:flex items-center -space-x-1 mr-2">
+              <div className="hidden md:flex items-center -space-x-1.5 mr-2">
                 {projectMembers.slice(0, 4).map(pm => {
                   const u = users[pm.userId];
                   return u ? <Avatar key={pm.id} name={u.name} size="xs" /> : null;
@@ -148,7 +157,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             )}
 
             {role && canCreateTask(role).allowed && !project.archived && (
-              <Button size="sm" icon={<Plus size={15} />} onClick={() => dispatch(setCreateTaskOpen(true))}>
+              <Button
+                size="sm"
+                variant="primary"
+                icon={<Plus size={15} />}
+                onClick={() => dispatch(setCreateTaskOpen(true))}
+                className="shadow-sm shadow-indigo-500/20"
+              >
                 New Task
               </Button>
             )}
@@ -157,6 +172,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               onClick={() => setShowFilters(!showFilters)}
               tooltip="Filters"
               variant={hasActiveFilters ? 'outline' : 'ghost'}
+              className={hasActiveFilters ? 'border-accent-primary text-accent-primary bg-accent-primary/10' : ''}
             >
               <Filter size={16} />
               {hasActiveFilters && <span className="sr-only">Filters active</span>}
@@ -191,22 +207,26 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
 
-        {/* View Tabs */}
-        <div className="flex items-center gap-1 mt-3 -mb-px">
-          {viewTabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => dispatch(setProjectView({ projectId, view: tab.id }))}
-              className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
-                view === tab.id
-                  ? 'border-accent-primary text-text-primary'
-                  : 'border-transparent text-text-secondary hover:text-text-primary'
-              }`}
-            >
-              {tab.icon}
-              {tab.label}
-            </button>
-          ))}
+        {/* View Tabs - Modern Glass Pill Segmented Control */}
+        <div className="flex items-center gap-1.5 mt-3.5 p-1 bg-bg-tertiary/60 border border-border-primary/60 rounded-xl w-fit backdrop-blur-md">
+          {viewTabs.map(tab => {
+            const isActive = view === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => dispatch(setProjectView({ projectId, view: tab.id }))}
+                className={cn(
+                  'flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer select-none',
+                  isActive
+                    ? 'bg-accent-primary text-white shadow-sm shadow-indigo-500/25'
+                    : 'text-text-secondary hover:text-text-primary hover:bg-white/40 dark:hover:bg-white/5',
+                )}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -215,7 +235,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
       {/* Bulk Actions Bar */}
       {selectedIds.length > 0 && (
-        <div className="flex-shrink-0 bg-accent-primary text-white px-6 py-2 flex items-center gap-3 flex-wrap">
+        <div className="flex-shrink-0 bg-indigo-600/95 backdrop-blur-xl border-y border-indigo-400/30 text-white px-6 py-2.5 flex items-center gap-3 flex-wrap shadow-lg">
           <span className="text-body-sm font-medium">{selectedIds.length} task{selectedIds.length > 1 ? 's' : ''} selected</span>
           <div className="flex-1" />
 

@@ -8,25 +8,26 @@ import { cn } from '@/lib/utils';
 // ============================================================
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline' | 'glass';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   icon?: React.ReactNode;
 }
 
 export function Button({ variant = 'primary', size = 'md', loading, icon, children, className, disabled, ...props }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus';
+  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus active:scale-[0.98] select-none';
   const variants = {
-    primary: 'bg-accent-primary text-text-inverse hover:bg-accent-primary-hover active:scale-[0.98]',
-    secondary: 'bg-bg-tertiary text-text-primary hover:bg-bg-hover active:scale-[0.98] border border-border-primary',
+    primary: 'bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/35 border border-indigo-400/30 font-semibold',
+    secondary: 'bg-bg-secondary/70 hover:bg-bg-secondary text-text-primary backdrop-blur-md border border-border-primary/80 hover:border-border-focus/40 shadow-xs',
     ghost: 'text-text-secondary hover:bg-bg-hover hover:text-text-primary active:bg-bg-active',
-    danger: 'bg-error/10 text-error hover:bg-error/20 active:bg-error/30',
-    outline: 'border border-border-primary text-text-primary hover:bg-bg-hover active:bg-bg-active',
+    danger: 'bg-error/10 text-error hover:bg-error/20 border border-error/20 active:bg-error/30',
+    outline: 'border border-border-primary/90 bg-white/30 dark:bg-white/5 backdrop-blur-md text-text-primary hover:bg-white/60 dark:hover:bg-white/10 shadow-xs',
+    glass: 'bg-white/40 dark:bg-slate-800/40 backdrop-blur-lg border border-white/40 dark:border-white/10 hover:bg-white/60 dark:hover:bg-slate-800/60 text-text-primary shadow-xs',
   };
   const sizes = {
-    sm: 'h-8 px-3 text-[13px]',
-    md: 'h-9 px-4 text-sm',
-    lg: 'h-11 px-6 text-[15px]',
+    sm: 'h-8 px-3 text-[13px] rounded-lg',
+    md: 'h-9 px-4 text-sm rounded-xl',
+    lg: 'h-11 px-6 text-[15px] rounded-xl',
   };
 
   return (
@@ -47,20 +48,21 @@ export function Button({ variant = 'primary', size = 'md', loading, icon, childr
 // ============================================================
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'ghost' | 'outline' | 'danger';
+  variant?: 'ghost' | 'outline' | 'danger' | 'glass';
   size?: 'sm' | 'md' | 'lg';
   tooltip?: string;
 }
 
 export function IconButton({ variant = 'ghost', size = 'md', tooltip, className, children, ...props }: IconButtonProps) {
-  const sizes = { sm: 'h-7 w-7', md: 'h-8 w-8', lg: 'h-10 w-10' };
+  const sizes = { sm: 'h-7 w-7 rounded-lg', md: 'h-8 w-8 rounded-xl', lg: 'h-10 w-10 rounded-xl' };
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center rounded-lg transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
-        variant === 'ghost' && 'text-text-secondary hover:bg-bg-hover hover:text-text-primary',
-        variant === 'outline' && 'border border-border-primary text-text-secondary hover:bg-bg-hover',
+        'inline-flex items-center justify-center transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-95',
+        variant === 'ghost' && 'text-text-secondary hover:bg-bg-hover/80 hover:text-text-primary',
+        variant === 'outline' && 'border border-border-primary/80 bg-white/20 dark:bg-white/5 backdrop-blur-sm text-text-secondary hover:text-text-primary hover:bg-bg-hover shadow-xs',
         variant === 'danger' && 'text-text-secondary hover:bg-error/10 hover:text-error',
+        variant === 'glass' && 'bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/30 dark:border-white/10 text-text-primary hover:bg-white/60 dark:hover:bg-slate-800/60 shadow-xs',
         sizes[size],
         className,
       )}
@@ -93,11 +95,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             className={cn(
-              'w-full h-9 px-3 text-sm bg-bg-secondary border rounded-lg transition-colors duration-150',
-              'text-text-primary placeholder:text-text-tertiary',
-              'focus:outline-none focus:border-border-focus focus:ring-1 focus:ring-border-focus',
+              'w-full h-9 px-3 text-sm bg-bg-secondary/70 backdrop-blur-md border rounded-xl transition-all duration-150',
+              'text-text-primary placeholder:text-text-tertiary shadow-xs',
+              'focus:outline-none focus:border-border-focus focus:ring-2 focus:ring-border-focus/20',
               'disabled:opacity-50 disabled:cursor-not-allowed',
-              error ? 'border-error' : 'border-border-primary',
+              error ? 'border-error' : 'border-border-primary/80 hover:border-border-focus/40',
               icon && 'pl-9',
               className,
             )}
@@ -128,10 +130,10 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         <textarea
           ref={ref}
           className={cn(
-            'w-full px-3 py-2 text-sm bg-bg-secondary border rounded-lg transition-colors duration-150 resize-none',
+            'w-full px-3 py-2 text-sm bg-bg-secondary/70 backdrop-blur-md border rounded-xl transition-all duration-150 resize-none shadow-xs',
             'text-text-primary placeholder:text-text-tertiary',
-            'focus:outline-none focus:border-border-focus focus:ring-1 focus:ring-border-focus',
-            error ? 'border-error' : 'border-border-primary',
+            'focus:outline-none focus:border-border-focus focus:ring-2 focus:ring-border-focus/20',
+            error ? 'border-error' : 'border-border-primary/80 hover:border-border-focus/40',
             className,
           )}
           rows={3}
@@ -160,16 +162,16 @@ export function Select({ label, error, options, className, ...props }: SelectPro
       {label && <label className="text-body-sm font-medium text-text-primary">{label}</label>}
       <select
         className={cn(
-          'w-full h-9 px-3 text-sm bg-bg-secondary border rounded-lg transition-colors duration-150 appearance-none',
+          'w-full h-9 px-3 text-sm bg-bg-secondary/70 backdrop-blur-md border rounded-xl transition-all duration-150 appearance-none shadow-xs',
           'text-text-primary',
-          'focus:outline-none focus:border-border-focus focus:ring-1 focus:ring-border-focus',
-          error ? 'border-error' : 'border-border-primary',
+          'focus:outline-none focus:border-border-focus focus:ring-2 focus:ring-border-focus/20',
+          error ? 'border-error' : 'border-border-primary/80 hover:border-border-focus/40',
           className,
         )}
         {...props}
       >
         {options.map(o => (
-          <option key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value} className="bg-bg-secondary text-text-primary">{o.label}</option>
         ))}
       </select>
       {error && <span className="text-caption text-error">{error}</span>}
@@ -198,8 +200,8 @@ export function Checkbox({ checked, onChange, label, disabled }: CheckboxProps) 
         onClick={() => !disabled && onChange(!checked)}
         onKeyDown={(e) => e.key === ' ' && !disabled && onChange(!checked)}
         className={cn(
-          'h-4 w-4 rounded border-2 transition-all duration-150 flex items-center justify-center',
-          checked ? 'bg-accent-primary border-accent-primary' : 'border-border-primary hover:border-text-tertiary',
+          'h-4 w-4 rounded-md border-2 transition-all duration-150 flex items-center justify-center',
+          checked ? 'bg-accent-primary border-accent-primary shadow-xs shadow-indigo-500/30' : 'border-border-primary hover:border-text-tertiary bg-bg-secondary/60 backdrop-blur-sm',
         )}
       >
         {checked && (
@@ -260,26 +262,26 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'default', color, size = 'sm', dot }: BadgeProps) {
   const variants = {
-    default: 'bg-bg-tertiary text-text-secondary',
-    success: 'bg-success/10 text-success',
-    warning: 'bg-warning/10 text-warning',
-    error: 'bg-error/10 text-error',
-    info: 'bg-info/10 text-info',
-    outline: 'border border-border-primary text-text-secondary',
+    default: 'bg-bg-tertiary text-text-secondary border border-border-primary/50',
+    success: 'bg-success/15 text-success border border-success/25',
+    warning: 'bg-warning/15 text-warning border border-warning/25',
+    error: 'bg-error/15 text-error border border-error/25',
+    info: 'bg-info/15 text-info border border-info/25',
+    outline: 'border border-border-primary text-text-secondary backdrop-blur-sm',
   };
   const sizes = {
-    sm: 'h-5 px-1.5 text-[11px]',
-    md: 'h-6 px-2 text-[12px]',
+    sm: 'h-5 px-2 text-[11px]',
+    md: 'h-6 px-2.5 text-[12px]',
   };
 
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 font-medium rounded-full whitespace-nowrap',
+        'inline-flex items-center gap-1 font-medium rounded-full whitespace-nowrap shadow-xs backdrop-blur-xs',
         variants[variant],
         sizes[size],
       )}
-      style={color ? { backgroundColor: `${color}15`, color } : undefined}
+      style={color ? { backgroundColor: `${color}18`, color, borderColor: `${color}35` } : undefined}
     >
       {dot && <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color || 'currentColor' }} />}
       {children}
@@ -315,12 +317,12 @@ export function Avatar({ name, src, size = 'md', className }: AvatarProps) {
   const color = getAvatarColor(name);
 
   if (src) {
-    return <img src={src} alt={name} className={cn('rounded-full object-cover', sizes[size], className)} />;
+    return <img src={src} alt={name} className={cn('rounded-full object-cover shadow-xs ring-1 ring-white/20', sizes[size], className)} />;
   }
 
   return (
     <div
-      className={cn('rounded-full flex items-center justify-center font-semibold text-white flex-shrink-0', sizes[size], className)}
+      className={cn('rounded-full flex items-center justify-center font-semibold text-white flex-shrink-0 shadow-xs ring-1 ring-white/20', sizes[size], className)}
       style={{ backgroundColor: color }}
       title={name}
     >
@@ -397,10 +399,10 @@ export function Modal({ open, onClose, title, description, children, size = 'md'
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-overlay animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-overlay/60 backdrop-blur-md animate-fade-in"
       onClick={(e) => e.target === overlayRef.current && onClose()}
     >
-      <div className={cn('w-full bg-bg-secondary rounded-xl shadow-xl animate-scale-in', sizes[size])}>
+      <div className={cn('w-full glass-panel rounded-2xl shadow-2xl animate-scale-in border border-white/20 dark:border-white/10 overflow-hidden', sizes[size])}>
         {(title || description) && (
           <div className="px-6 pt-6 pb-2">
             {title && <h2 className="text-heading-md text-text-primary">{title}</h2>}
@@ -443,19 +445,19 @@ export function Drawer({ open, onClose, title, children, side = 'right', width =
 
   return (
     <div className="fixed inset-0 z-50 flex animate-fade-in" onClick={onClose}>
-      <div className="absolute inset-0 bg-bg-overlay" />
+      <div className="absolute inset-0 bg-bg-overlay/50 backdrop-blur-sm" />
       <div
         className={cn(
-          'relative bg-bg-secondary h-full shadow-2xl flex flex-col max-w-full',
+          'relative glass-sidebar h-full shadow-2xl flex flex-col max-w-full border-l border-white/20 dark:border-white/10',
           width,
           side === 'right' ? 'ml-auto animate-slide-in-right' : 'mr-auto',
         )}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className="px-4 h-14 flex items-center border-b border-border-primary">
+          <div className="px-5 h-14 flex items-center border-b border-border-primary/80 glass-header">
             <h3 className="text-heading-sm text-text-primary flex-1">{title}</h3>
-            <IconButton onClick={onClose} tooltip="Close">
+            <IconButton onClick={onClose} tooltip="Close" size="sm">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
             </IconButton>
           </div>
@@ -494,7 +496,7 @@ export function Dropdown({ trigger, children, align = 'left' }: DropdownProps) {
       {open && (
         <div
           className={cn(
-            'absolute z-50 mt-1 min-w-[180px] py-1 bg-bg-secondary border border-border-primary rounded-lg shadow-lg animate-slide-in-up',
+            'absolute z-50 mt-1.5 min-w-[190px] py-1.5 glass-panel rounded-xl shadow-2xl border border-white/20 dark:border-white/10 animate-slide-in-up',
             align === 'right' ? 'right-0' : 'left-0',
           )}
           onClick={() => setOpen(false)}
@@ -611,11 +613,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           <div
             key={toast.id}
             className={cn(
-              'flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg animate-toast-in text-sm font-medium',
-              toast.type === 'success' && 'bg-success text-white',
-              toast.type === 'error' && 'bg-error text-white',
-              toast.type === 'warning' && 'bg-warning text-white',
-              toast.type === 'info' && 'bg-bg-secondary text-text-primary border border-border-primary',
+              'flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl backdrop-blur-xl animate-toast-in text-sm font-medium border',
+              toast.type === 'success' && 'bg-emerald-600/90 border-emerald-400/40 text-white shadow-emerald-500/20',
+              toast.type === 'error' && 'bg-rose-600/90 border-rose-400/40 text-white shadow-rose-500/20',
+              toast.type === 'warning' && 'bg-amber-600/90 border-amber-400/40 text-white shadow-amber-500/20',
+              toast.type === 'info' && 'glass-panel text-text-primary border-border-primary/80 shadow-indigo-500/10',
             )}
           >
             <span className="flex-1">{toast.message}</span>
@@ -741,7 +743,7 @@ export function Popover({ trigger, children, align = 'left', open: controlledOpe
       {isOpen && (
         <div
           className={cn(
-            'absolute z-50 mt-2 bg-bg-secondary border border-border-primary rounded-lg shadow-lg animate-slide-in-up p-3',
+            'absolute z-50 mt-2 glass-panel border border-white/20 dark:border-white/10 rounded-xl shadow-2xl animate-slide-in-up p-3',
             align === 'right' ? 'right-0' : align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-0',
           )}
         >

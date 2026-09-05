@@ -297,12 +297,21 @@ function KanbanColumnView({
   const { setNodeRef } = useSortable({ id: column.id, data: { type: 'column' } });
 
   return (
-    <div ref={setNodeRef} className="w-[280px] flex flex-col flex-shrink-0 bg-bg-secondary/40 rounded-xl p-2 border border-border-primary/50">
-      <div className="flex items-center justify-between px-2 py-2 mb-2">
+    <div
+      ref={setNodeRef}
+      className="w-[290px] flex flex-col flex-shrink-0 glass-column rounded-2xl p-3 border border-white/60 dark:border-white/10 shadow-xs"
+    >
+      <div className="flex items-center justify-between px-1.5 py-1 mb-2.5">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="h-2.5 w-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: column.color }} />
-          <span className="text-body-sm font-semibold text-text-primary truncate">{column.title}</span>
-          <span className="text-caption text-text-tertiary bg-bg-tertiary px-2 py-0.5 rounded-full text-[11px] font-medium">
+          <div
+            className="h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-xs"
+            style={{
+              backgroundColor: column.color,
+              boxShadow: `0 0 8px ${column.color}80`,
+            }}
+          />
+          <span className="text-body-sm font-bold text-text-primary truncate font-heading">{column.title}</span>
+          <span className="text-[11px] font-semibold text-text-secondary bg-bg-tertiary/70 border border-border-primary/50 px-2 py-0.5 rounded-full shadow-2xs">
             {tasks.length}
           </span>
         </div>
@@ -322,7 +331,7 @@ function KanbanColumnView({
         </Dropdown>
       </div>
 
-      <div className="flex-1 space-y-2 overflow-y-auto pb-2 min-h-[120px]">
+      <div className="flex-1 space-y-2.5 overflow-y-auto pb-2 min-h-[140px] pr-0.5">
         {tasks.map(task => (
           <SortableTaskCard
             key={task.id}
@@ -335,8 +344,8 @@ function KanbanColumnView({
           />
         ))}
         {tasks.length === 0 && (
-          <div className="h-24 border border-dashed border-border-primary/60 rounded-lg flex items-center justify-center text-caption text-text-tertiary">
-            Drop tasks here
+          <div className="h-28 border border-dashed border-border-primary/70 rounded-xl flex flex-col items-center justify-center text-caption text-text-tertiary gap-1 bg-bg-tertiary/20">
+            <span>Drop tasks here</span>
           </div>
         )}
       </div>
@@ -387,26 +396,34 @@ function TaskCardContent({
   const taskLabels = labels.filter(l => task.labelIds.includes(l.id));
 
   return (
-    <div className="bg-bg-secondary border border-border-primary rounded-lg p-3 hover:shadow-sm hover:border-border-focus/30 transition-all duration-150 group">
+    <div className="glass-task-card rounded-xl p-3.5 border border-white/80 dark:border-white/10 shadow-xs hover:border-accent-primary/40 transition-all duration-200 group">
       {/* Labels */}
       {taskLabels.length > 0 && (
-        <div className="flex flex-wrap gap-1 mb-2">
+        <div className="flex flex-wrap gap-1.5 mb-2.5">
           {taskLabels.map(l => (
             <span
               key={l.id}
-              className="h-1.5 w-8 rounded-full"
-              style={{ backgroundColor: l.color }}
+              className="text-[10px] font-semibold px-2 py-0.5 rounded-md border shadow-2xs"
+              style={{
+                backgroundColor: `${l.color}15`,
+                color: l.color,
+                borderColor: `${l.color}35`,
+              }}
               title={l.name}
-            />
+            >
+              {l.name}
+            </span>
           ))}
         </div>
       )}
 
       {/* Title */}
-      <p className="text-body-sm font-medium text-text-primary leading-snug mb-2">{task.title}</p>
+      <p className="text-body-sm font-semibold text-text-primary leading-snug mb-2.5 group-hover:text-accent-primary transition-colors">
+        {task.title}
+      </p>
 
       {/* Meta Row */}
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex items-center gap-2 flex-wrap pt-0.5 border-t border-border-secondary/50">
         {/* Priority */}
         <Badge size="sm" color={PRIORITY_CONFIG[task.priority].color}>
           {PRIORITY_CONFIG[task.priority].label}
@@ -415,8 +432,10 @@ function TaskCardContent({
         {/* Due Date */}
         {task.dueDate && (
           <span className={cn(
-            'flex items-center gap-1 text-caption',
-            isOverdue(task.dueDate) ? 'text-error font-medium' : 'text-text-tertiary',
+            'flex items-center gap-1 text-caption px-1.5 py-0.5 rounded',
+            isOverdue(task.dueDate)
+              ? 'text-error font-semibold bg-error/10'
+              : 'text-text-tertiary bg-bg-tertiary/50',
           )}>
             <Clock size={11} />
             {formatShortDate(task.dueDate)}
@@ -427,15 +446,15 @@ function TaskCardContent({
 
         {/* Subtask progress */}
         {taskSubtasks.length > 0 && (
-          <span className="flex items-center gap-1 text-caption text-text-tertiary">
-            <CheckSquare size={11} />
+          <span className="flex items-center gap-1 text-caption text-text-tertiary bg-bg-tertiary/50 px-1.5 py-0.5 rounded">
+            <CheckSquare size={11} className={completedSubtasks === taskSubtasks.length ? 'text-success' : ''} />
             {completedSubtasks}/{taskSubtasks.length}
           </span>
         )}
 
         {/* Comments count */}
         {taskComments.length > 0 && (
-          <span className="flex items-center gap-1 text-caption text-text-tertiary">
+          <span className="flex items-center gap-1 text-caption text-text-tertiary bg-bg-tertiary/50 px-1.5 py-0.5 rounded">
             <MessageSquare size={11} />
             {taskComments.length}
           </span>

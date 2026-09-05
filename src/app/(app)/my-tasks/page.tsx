@@ -80,12 +80,17 @@ export default function MyTasksPage() {
 function Section({ title, count, color, children }: { title: string; count: number; color: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="flex items-center gap-2 mb-2">
-        <div className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
-        <h2 className="text-body-md font-semibold text-text-primary">{title}</h2>
-        <span className="text-caption text-text-tertiary">{count}</span>
+      <div className="flex items-center gap-2 mb-2.5 px-1">
+        <div
+          className="h-2.5 w-2.5 rounded-full shadow-xs"
+          style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}80` }}
+        />
+        <h2 className="text-body-md font-bold text-text-primary font-heading">{title}</h2>
+        <span className="text-caption text-text-secondary bg-bg-tertiary/70 border border-border-primary/50 px-2 py-0.5 rounded-full font-semibold text-[11px]">
+          {count}
+        </span>
       </div>
-      <div className="bg-bg-secondary border border-border-primary rounded-xl divide-y divide-border-secondary">
+      <div className="glass-card rounded-2xl overflow-hidden border border-white/70 dark:border-white/10 divide-y divide-border-secondary/60 shadow-xs">
         {children}
       </div>
     </div>
@@ -97,20 +102,32 @@ function TaskRow({ task, projects, onClick }: { task: Task; projects: Record<str
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-bg-hover transition-colors cursor-pointer text-left"
+      className="w-full flex items-center gap-3.5 px-5 py-3.5 hover:bg-white/50 dark:hover:bg-white/5 transition-all duration-150 cursor-pointer text-left group"
     >
-      <div className="h-2 w-2 rounded-full flex-shrink-0" style={{ backgroundColor: STATUS_CONFIG[task.status as keyof typeof STATUS_CONFIG].color }} />
+      <div
+        className="h-2.5 w-2.5 rounded-full flex-shrink-0 ring-4 ring-transparent group-hover:ring-accent-primary/20 transition-all"
+        style={{ backgroundColor: STATUS_CONFIG[task.status as keyof typeof STATUS_CONFIG].color }}
+      />
       <div className="flex-1 min-w-0">
-        <p className="text-body-sm font-medium text-text-primary truncate">{task.title}</p>
-        {project && <p className="text-caption text-text-tertiary">{project.icon} {project.name}</p>}
+        <p className="text-body-sm font-semibold text-text-primary truncate group-hover:text-accent-primary transition-colors">
+          {task.title}
+        </p>
+        {project && (
+          <p className="text-caption text-text-tertiary flex items-center gap-1.5 mt-0.5">
+            <span>{project.icon}</span>
+            <span>{project.name}</span>
+          </p>
+        )}
       </div>
       <Badge size="sm" color={PRIORITY_CONFIG[task.priority as keyof typeof PRIORITY_CONFIG].color}>
         {PRIORITY_CONFIG[task.priority as keyof typeof PRIORITY_CONFIG].label}
       </Badge>
       {task.dueDate && (
         <span className={cn(
-          'text-caption flex items-center gap-1',
-          isOverdue(task.dueDate) ? 'text-error font-medium' : 'text-text-tertiary',
+          'text-caption flex items-center gap-1 px-2 py-0.5 rounded-md',
+          isOverdue(task.dueDate)
+            ? 'text-error bg-error/10 border border-error/20 font-medium'
+            : 'text-text-tertiary bg-bg-tertiary/50',
         )}>
           <Clock size={11} />
           {formatShortDate(task.dueDate)}

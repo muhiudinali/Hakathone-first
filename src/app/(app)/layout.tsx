@@ -37,9 +37,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <div className="h-screen flex overflow-hidden bg-bg-primary">
+        <div className="h-screen flex overflow-hidden bg-bg-primary relative selection:bg-accent-primary/20">
+          {/* Ambient Glass Glow Cones */}
+          <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-40 dark:opacity-25">
+            <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl" />
+            <div className="absolute top-1/3 -right-40 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl" />
+            <div className="absolute -bottom-40 left-1/3 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl" />
+          </div>
+
           <Sidebar />
-          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-hidden relative z-10">
             <Header />
             <main className="flex-1 overflow-y-auto">
               {children}

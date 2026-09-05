@@ -45,7 +45,7 @@ export default function Header() {
   };
 
   return (
-    <header className="h-14 flex-shrink-0 border-b border-border-primary bg-bg-secondary flex items-center px-4 gap-3">
+    <header className="h-14 flex-shrink-0 border-b border-border-primary/80 glass-header flex items-center px-4 gap-3 z-20">
       {/* Mobile menu button */}
       <IconButton
         className="lg:hidden"
@@ -70,12 +70,12 @@ export default function Header() {
       {/* Online/Offline Status */}
       <div className="hidden sm:flex items-center gap-1.5">
         {isOnline ? (
-          <div className="flex items-center gap-1 text-caption text-success">
-            <div className="h-1.5 w-1.5 rounded-full bg-success" />
+          <div className="flex items-center gap-1.5 text-caption text-success font-medium bg-success/10 px-2 py-0.5 rounded-full border border-success/20">
+            <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
             <span>Online</span>
           </div>
         ) : (
-          <div className="flex items-center gap-1 text-caption text-warning">
+          <div className="flex items-center gap-1.5 text-caption text-warning font-medium bg-warning/10 px-2 py-0.5 rounded-full border border-warning/20">
             <WifiOff size={12} />
             <span>Offline</span>
           </div>
@@ -95,12 +95,13 @@ export default function Header() {
       {/* Search */}
       <button
         onClick={() => dispatch(toggleCommandPalette())}
-        className="hidden sm:flex items-center gap-2 h-8 px-3 bg-bg-tertiary rounded-lg text-body-sm text-text-tertiary hover:bg-bg-hover transition-colors cursor-pointer border border-border-secondary"
+        className="hidden sm:flex items-center gap-2 h-8 px-3 bg-bg-secondary/70 backdrop-blur-md rounded-lg text-body-sm text-text-secondary hover:text-text-primary hover:bg-bg-hover transition-all cursor-pointer border border-border-primary/80 shadow-xs group"
       >
-        <Search size={14} />
+        <Search size={14} className="text-accent-primary group-hover:scale-110 transition-transform" />
         <span>Search...</span>
-        <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-bg-secondary border border-border-primary text-text-tertiary ml-4">⌘K</kbd>
+        <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-bg-tertiary/80 border border-border-primary text-text-tertiary ml-3">⌘K</kbd>
       </button>
+
       {/* Undo / Redo */}
       <div className="hidden md:flex items-center gap-0.5">
         <IconButton
@@ -127,9 +128,9 @@ export default function Header() {
       <Button
         size="sm"
         variant="primary"
-        icon={<Plus size={15} />}
+        icon={<Plus size={15} className="stroke-[2.5]" />}
         onClick={() => dispatch(setCreateTaskOpen(true))}
-        className="font-medium shadow-sm ml-1"
+        className="font-semibold shadow-md shadow-accent-primary/25 hover:shadow-lg hover:shadow-accent-primary/35 ml-1 active:scale-95 transition-all"
       >
         <span className="hidden sm:inline">New Task</span>
       </Button>

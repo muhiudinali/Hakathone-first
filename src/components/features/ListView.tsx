@@ -132,14 +132,14 @@ export default function ListView({ tasks }: ListViewProps) {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Group By Toolbar */}
-      <div className="flex items-center justify-between px-6 py-2 bg-bg-secondary border-b border-border-primary text-xs flex-shrink-0">
+      <div className="flex items-center justify-between px-6 py-2.5 glass-header border-b border-border-primary/80 text-xs flex-shrink-0">
         <div className="flex items-center gap-2">
-          <Layers size={14} className="text-text-tertiary" />
+          <Layers size={14} className="text-accent-primary" />
           <span className="text-text-secondary font-medium">Group by:</span>
           <select
             value={groupBy}
             onChange={e => setGroupBy(e.target.value as GroupByOption)}
-            className="h-7 px-2 bg-bg-tertiary border border-border-primary rounded text-xs cursor-pointer text-text-primary"
+            className="h-7 px-2.5 bg-bg-secondary/70 backdrop-blur-sm border border-border-primary/80 rounded-lg text-xs cursor-pointer text-text-primary shadow-2xs"
           >
             <option value="none">None</option>
             <option value="status">Status</option>
@@ -149,7 +149,7 @@ export default function ListView({ tasks }: ListViewProps) {
           </select>
         </div>
 
-        <span className="text-caption text-text-tertiary">
+        <span className="text-caption text-text-tertiary font-medium bg-bg-tertiary/70 px-2.5 py-0.5 rounded-full border border-border-primary/50">
           {tasks.length} {tasks.length === 1 ? 'task' : 'tasks'}
         </span>
       </div>
@@ -157,7 +157,7 @@ export default function ListView({ tasks }: ListViewProps) {
       {/* Table Content */}
       <div className="flex-1 overflow-auto">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-bg-secondary z-10">
+          <thead className="sticky top-0 glass-header backdrop-blur-xl border-b border-border-primary/80 z-10 shadow-xs">
             <tr className="border-b border-border-primary">
               <th className="w-10 px-3 py-2.5">
                 <Checkbox
