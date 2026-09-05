@@ -27,8 +27,8 @@ export function canManageWorkspace(userRole: Role): PermissionCheck {
 }
 
 export function canDeleteWorkspace(userRole: Role): PermissionCheck {
-  if (userRole !== 'owner') {
-    return { allowed: false, reason: 'Only the workspace owner can delete the workspace.' };
+  if (userRole !== 'owner' && userRole !== 'admin') {
+    return { allowed: false, reason: 'Only the workspace owner or admin can delete the workspace.' };
   }
   return { allowed: true };
 }

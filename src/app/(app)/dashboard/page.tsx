@@ -8,12 +8,13 @@ import {
   selectAllUsers, selectOverdueTasks, selectAllTasks,
 } from '@/store/selectors';
 import { setCurrentProject } from '@/store/slices/projectSlice';
-import { Avatar, AvatarGroup, Badge, EmptyState } from '@/components/ui';
+import { setCreateTaskOpen } from '@/store/slices/uiSlice';
+import { Avatar, AvatarGroup, Badge, EmptyState, Button } from '@/components/ui';
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '@/types';
 import { formatShortDate, formatRelativeTime, isOverdue } from '@/lib/utils';
 import {
   FolderKanban, CheckCircle2, AlertTriangle, Clock, Activity,
-  ArrowRight, TrendingUp, Briefcase,
+  ArrowRight, TrendingUp, Briefcase, Plus,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -43,14 +44,24 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
-      {/* Welcome */}
-      <div>
-        <h1 className="text-heading-xl text-text-primary">
-          Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, {currentUser?.name?.split(' ')[0]}
-        </h1>
-        <p className="text-body-md text-text-secondary mt-1">
-          Here&apos;s what&apos;s happening in {workspace?.name}
-        </p>
+      {/* Welcome & Quick Action */}
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h1 className="text-heading-xl text-text-primary">
+            Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, {currentUser?.name?.split(' ')[0]}
+          </h1>
+          <p className="text-body-md text-text-secondary mt-1">
+            Here&apos;s what&apos;s happening in {workspace?.name}
+          </p>
+        </div>
+        <Button
+          variant="primary"
+          icon={<Plus size={16} />}
+          onClick={() => dispatch(setCreateTaskOpen(true))}
+          className="shadow-sm font-medium"
+        >
+          New Task
+        </Button>
       </div>
 
       {/* Stats Cards */}

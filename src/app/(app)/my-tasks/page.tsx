@@ -2,11 +2,11 @@
 
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { selectMyTasks, selectAllProjects } from '@/store/selectors';
-import { setTaskDetailId } from '@/store/slices/uiSlice';
-import { Badge, EmptyState } from '@/components/ui';
+import { setTaskDetailId, setCreateTaskOpen } from '@/store/slices/uiSlice';
+import { Badge, EmptyState, Button } from '@/components/ui';
 import { STATUS_CONFIG, PRIORITY_CONFIG, Task, Project } from '@/types';
 import { cn, formatShortDate, isOverdue } from '@/lib/utils';
-import { CheckSquare, Clock } from 'lucide-react';
+import { CheckSquare, Clock, Plus } from 'lucide-react';
 
 export default function MyTasksPage() {
   const dispatch = useAppDispatch();
@@ -22,7 +22,18 @@ export default function MyTasksPage() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-heading-lg text-text-primary mb-6">My Tasks</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-heading-lg text-text-primary">My Tasks</h1>
+        <Button
+          size="sm"
+          variant="primary"
+          icon={<Plus size={15} />}
+          onClick={() => dispatch(setCreateTaskOpen(true))}
+          className="shadow-sm font-medium"
+        >
+          New Task
+        </Button>
+      </div>
 
       {myTasks.length === 0 ? (
         <EmptyState

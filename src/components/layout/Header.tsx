@@ -7,11 +7,11 @@ import {
   selectUnreadNotificationCount, selectIsOnline, selectSyncStatus,
   selectLastSyncedAt, selectUserNotifications,
 } from '@/store/selectors';
-import { toggleCommandPalette, setSidebarMobileOpen, setLastSynced } from '@/store/slices/uiSlice';
+import { toggleCommandPalette, setSidebarMobileOpen, setLastSynced, setCreateTaskOpen } from '@/store/slices/uiSlice';
 import { markAsRead, markAllAsRead } from '@/store/slices/notificationSlice';
 import { undo, redo } from '@/store/slices/taskSlice';
-import { Avatar, IconButton, Badge, Dropdown, DropdownItem, DropdownSeparator } from '@/components/ui';
-import { Search, Command, Bell, Menu, Wifi, WifiOff, RefreshCw, Undo2, Redo2 } from 'lucide-react';
+import { Avatar, IconButton, Badge, Dropdown, DropdownItem, DropdownSeparator, Button } from '@/components/ui';
+import { Search, Command, Bell, Menu, Wifi, WifiOff, RefreshCw, Undo2, Redo2, Plus } from 'lucide-react';
 import { formatRelativeTime } from '@/lib/utils';
 
 export default function Header() {
@@ -122,6 +122,17 @@ export default function Header() {
           <Redo2 size={16} />
         </IconButton>
       </div>
+
+      {/* Quick New Task Button */}
+      <Button
+        size="sm"
+        variant="primary"
+        icon={<Plus size={15} />}
+        onClick={() => dispatch(setCreateTaskOpen(true))}
+        className="font-medium shadow-sm ml-1"
+      >
+        <span className="hidden sm:inline">New Task</span>
+      </Button>
 
       {/* Notifications */}
       <Dropdown

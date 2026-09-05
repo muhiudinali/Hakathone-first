@@ -10,7 +10,7 @@ import { toggleSidebar } from '@/store/slices/settingsSlice';
 import { setCurrentWorkspace } from '@/store/slices/workspaceSlice';
 import { setCurrentProject } from '@/store/slices/projectSlice';
 import { logout } from '@/store/slices/authSlice';
-import { setSidebarMobileOpen, setCreateProjectOpen, setCreateWorkspaceOpen } from '@/store/slices/uiSlice';
+import { setSidebarMobileOpen, setCreateProjectOpen, setCreateWorkspaceOpen, setCreateTaskOpen } from '@/store/slices/uiSlice';
 import { Avatar, Dropdown, DropdownItem, DropdownSeparator, IconButton } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import {
@@ -113,6 +113,26 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
+        {/* Quick New Task Button */}
+        <div className="pb-2">
+          <button
+            onClick={() => dispatch(setCreateTaskOpen(true))}
+            className={cn(
+              'w-full flex items-center gap-2 px-3 py-2 bg-accent-primary hover:bg-accent-hover text-white rounded-lg text-body-sm font-medium shadow-sm transition-all cursor-pointer',
+              collapsed && 'justify-center px-0 h-9 w-9 mx-auto'
+            )}
+            title="Create New Task (C)"
+          >
+            <Plus size={16} className="flex-shrink-0" />
+            {!collapsed && (
+              <>
+                <span className="truncate">New Task</span>
+                <kbd className="ml-auto text-[10px] bg-white/20 px-1.5 py-0.5 rounded text-white/90">C</kbd>
+              </>
+            )}
+          </button>
+        </div>
+
         {NAV_ITEMS.map(item => {
           const isActive = pathname === item.path;
           return (

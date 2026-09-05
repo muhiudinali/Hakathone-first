@@ -101,7 +101,8 @@ export default function CreateTaskModal({ projectId }: CreateTaskModalProps) {
     close();
   };
 
-  if (!role || !canCreateTask(role).allowed) return null;
+  const effectiveRole = role || 'member';
+  if (effectiveRole === 'viewer') return null;
 
   return (
     <Modal open={open} onClose={close} title="Create Task" size="md">

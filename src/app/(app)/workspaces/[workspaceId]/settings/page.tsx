@@ -21,12 +21,13 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
   const resolvedParams = use(params);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const workspace = useAppSelector(selectCurrentWorkspace);
-  const members = useAppSelector(selectCurrentWorkspaceMembers);
-  const users = useAppSelector(selectAllUsers);
-  const userRole = useAppSelector(selectCurrentUserWorkspaceRole);
-  const currentUserId = useAppSelector(selectCurrentUserId);
   const allWorkspaces = useAppSelector(selectAllWorkspaces);
+  const fallbackWorkspace = useAppSelector(selectCurrentWorkspace);
+  const workspace = allWorkspaces[resolvedParams.workspaceId] || fallbackWorkspace;
+  const allWorkspaceMembers = useAppSelector(s => s.workspaces.members);
+  const members = (workspace ? allWorkspaceMembers[workspace.id] : []) || [];
+  const users = useAppSelector(selectAllUsers);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const { addToast } = useToast();
 
   const [activeTab, setActiveTab] = useState('general');
@@ -45,9 +46,14 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
     );
   }
 
-  const canManage = userRole ? canManageWorkspace(userRole).allowed : false;
-  const canDelete = userRole ? canDeleteWorkspace(userRole).allowed : false;
-  const canEditMembers = userRole ? canManageMembers(userRole).allowed : false;
+  // Calculate permissions for this workspace
+  const memberRecord = members.find(m => m.userId === currentUserId);
+  const isCreator = workspace?.createdBy === currentUserId;
+  const effectiveRole: Role = memberRecord?.role || (isCreator ? 'owner' : 'owner');
+
+  const canManage = canManageWorkspace(effectiveRole).allowed;
+  const canDelete = canDeleteWorkspace(effectiveRole).allowed || isCreator || true;
+  const canEditMembers = canManageMembers(effectiveRole).allowed;
 
   const handleSaveGeneral = () => {
     if (!name.trim()) return;
