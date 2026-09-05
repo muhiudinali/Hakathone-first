@@ -7,18 +7,37 @@ import { setTheme, setDefaultView } from '@/store/slices/settingsSlice';
 import { setNotificationPreferences } from '@/store/slices/notificationSlice';
 import { clearAllStorage } from '@/lib/persistence/localStorage';
 import { clearAllAttachments } from '@/lib/persistence/indexedDB';
-import { Button, Switch, Select, ConfirmDialog, Tabs, useToast } from '@/components/ui';
+import { Button, Switch, Select, ConfirmDialog, Tabs, Input, Badge, useToast } from '@/components/ui';
 import { ThemeMode, ViewType } from '@/types';
-import { Download, Upload, Trash2, Moon, Sun, Monitor, AlertTriangle } from 'lucide-react';
+import {
+  Download, Upload, Trash2, Moon, Sun, Monitor, AlertTriangle,
+  Database, CheckCircle2, XCircle, RefreshCw, Copy, ExternalLink,
+} from 'lucide-react';
+import {
+  getSupabaseCredentials, saveSupabaseCredentials, clearSupabaseCredentials, isSupabaseConfigured,
+} from '@/lib/supabase/client';
+import { testSupabaseConnection, uploadLocalDataToSupabase } from '@/lib/supabase/service';
 
 export default function SettingsPage() {
   const dispatch = useAppDispatch();
   const theme = useAppSelector(selectTheme);
   const defaultView = useAppSelector(selectDefaultView);
   const notifPrefs = useAppSelector(selectNotificationPreferences);
+  const fullState = useAppSelector(s => s);
   const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState('general');
   const [resetConfirm, setResetConfirm] = useState(false);
+
+  // Supabase state
+  const initialCreds = getSupabaseCredentials();
+  const [supabaseUrl, setSupabaseUrl] = useState(initialCreds.url);
+  const [supabaseKey, setSupabaseKey] = useState(initialCreds.key);
+  const [connectionStatus, setConnectionStatus] = useState<'idle' | 'checking' | 'connected' | 'error'>(
+    isSupabaseConfigured() ? 'connected' : 'idle'
+  );
+  const [statusError, setStatusError] = useState('');
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [copiedSchema, setCopiedSchema] = useState(false);
 
   // Import/Export
   const handleExport = () => {
@@ -79,8 +98,72 @@ export default function SettingsPage() {
     window.location.href = '/login';
   };
 
+  const handleSaveSupabase = () => {
+    if (!supabaseUrl.trim() || !supabaseKey.trim()) {
+      addToast({ type: 'error', message: 'URL and Anon Key are required' });
+      return;
+    }
+    saveSupabaseCredentials(supabaseUrl, supabaseKey);
+    addToast({ type: 'success', message: 'Credentials saved! Testing connection...' });
+    handleTestConnection();
+  };
+
+  const handleClearSupabase = () => {
+    clearSupabaseCredentials();
+    setSupabaseUrl('');
+    setSupabaseKey('');
+    setConnectionStatus('idle');
+    setStatusError('');
+    addToast({ type: 'info', message: 'Supabase credentials cleared' });
+  };
+
+  const handleTestConnection = async () => {
+    setConnectionStatus('checking');
+    setStatusError('');
+    const res = await testSupabaseConnection();
+    if (res.connected) {
+      setConnectionStatus('connected');
+      addToast({ type: 'success', message: 'Supabase database connected successfully!' });
+    } else {
+      setConnectionStatus('error');
+      setStatusError(res.error || 'Connection failed');
+      addToast({ type: 'error', message: `Supabase error: ${res.error}` });
+    }
+  };
+
+  const handleSyncToSupabase = async () => {
+    setIsSyncing(true);
+    const result = await uploadLocalDataToSupabase({
+      users: Object.values(fullState.auth.users),
+      workspaces: Object.values(fullState.workspaces.entities),
+      workspaceMembers: Object.values(fullState.workspaces.members).flat(),
+      projects: Object.values(fullState.projects.entities),
+      projectMembers: Object.values(fullState.projects.members).flat(),
+      kanbanColumns: Object.values(fullState.projects.kanbanColumns).flat(),
+      labels: Object.values(fullState.workspaces.labels).flat(),
+      tasks: Object.values(fullState.tasks.entities),
+      subtasks: Object.values(fullState.tasks.subtasks).flat(),
+      comments: Object.values(fullState.comments.entities),
+      activity: fullState.activity.events,
+    });
+    setIsSyncing(false);
+    if (result.success) {
+      addToast({ type: 'success', message: result.message });
+    } else {
+      addToast({ type: 'error', message: result.message });
+    }
+  };
+
+  const handleCopySchema = () => {
+    navigator.clipboard.writeText(`-- View and copy full schema from supabase/schema.sql in your workspace`);
+    setCopiedSchema(true);
+    addToast({ type: 'success', message: 'Schema path copied! Open supabase/schema.sql' });
+    setTimeout(() => setCopiedSchema(false), 2000);
+  };
+
   const tabs = [
     { id: 'general', label: 'General' },
+    { id: 'supabase', label: 'Supabase Backend' },
     { id: 'appearance', label: 'Appearance' },
     { id: 'notifications', label: 'Notifications' },
     { id: 'data', label: 'Data' },
@@ -106,6 +189,146 @@ export default function SettingsPage() {
                   { value: 'calendar', label: 'Calendar View' },
                 ]}
               />
+            </SettingSection>
+          </div>
+        )}
+
+        {activeTab === 'supabase' && (
+          <div className="space-y-6">
+            {/* Connection Status */}
+            <div className="bg-bg-secondary border border-border-primary rounded-xl p-5">
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-accent-primary/10 flex items-center justify-center text-accent-primary">
+                    <Database size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-body-md font-semibold text-text-primary flex items-center gap-2">
+                      Supabase Cloud Backend
+                      {connectionStatus === 'connected' && (
+                        <Badge size="sm" color="#10B981">
+                          <CheckCircle2 size={12} className="inline mr-1" /> Connected
+                        </Badge>
+                      )}
+                      {connectionStatus === 'checking' && (
+                        <Badge size="sm" color="#3B82F6">
+                          <RefreshCw size={12} className="inline mr-1 animate-spin" /> Checking...
+                        </Badge>
+                      )}
+                      {connectionStatus === 'error' && (
+                        <Badge size="sm" color="#EF4444">
+                          <XCircle size={12} className="inline mr-1" /> Connection Error
+                        </Badge>
+                      )}
+                      {connectionStatus === 'idle' && (
+                        <Badge size="sm" color="#94A3B8">
+                          Local Fallback Mode
+                        </Badge>
+                      )}
+                    </h3>
+                    <p className="text-body-sm text-text-secondary mt-0.5">
+                      {connectionStatus === 'connected'
+                        ? 'Your application is connected to your Supabase PostgreSQL cloud database.'
+                        : 'Connect your Supabase project URL and Anon key to enable cloud synchronization and multi-device access.'}
+                    </p>
+                    {statusError && (
+                      <p className="text-caption text-error mt-1">{statusError}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    icon={<RefreshCw size={14} className={connectionStatus === 'checking' ? 'animate-spin' : ''} />}
+                    onClick={handleTestConnection}
+                  >
+                    Test Connection
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Credentials Setup */}
+            <SettingSection
+              title="Project API Credentials"
+              description="Find these in your Supabase Dashboard under Project Settings -> API"
+            >
+              <div className="space-y-3">
+                <Input
+                  label="Project URL"
+                  placeholder="https://your-project-id.supabase.co"
+                  value={supabaseUrl}
+                  onChange={e => setSupabaseUrl(e.target.value)}
+                />
+                <Input
+                  label="Anon / Public Key"
+                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  value={supabaseKey}
+                  onChange={e => setSupabaseKey(e.target.value)}
+                  type="password"
+                />
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex gap-2">
+                    <Button size="sm" onClick={handleSaveSupabase}>
+                      Save & Connect
+                    </Button>
+                    {(supabaseUrl || supabaseKey) && (
+                      <Button size="sm" variant="ghost" onClick={handleClearSupabase}>
+                        Disconnect
+                      </Button>
+                    )}
+                  </div>
+                  <a
+                    href="https://supabase.com/dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-caption text-text-link hover:underline flex items-center gap-1"
+                  >
+                    Open Supabase Dashboard <ExternalLink size={12} />
+                  </a>
+                </div>
+              </div>
+            </SettingSection>
+
+            {/* Cloud Sync & Migration */}
+            <SettingSection
+              title="Data Synchronization"
+              description="Push your local workspaces, projects, tasks, and comments to your Supabase PostgreSQL tables"
+            >
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div>
+                  <p className="text-body-sm text-text-primary font-medium">Sync Local Workspace to Cloud</p>
+                  <p className="text-caption text-text-secondary">
+                    Uploads {Object.keys(fullState.workspaces.entities).length} workspaces, {Object.keys(fullState.projects.entities).length} projects, and {Object.keys(fullState.tasks.entities).length} tasks.
+                  </p>
+                </div>
+                <Button
+                  variant="secondary"
+                  icon={<Upload size={14} className={isSyncing ? 'animate-spin' : ''} />}
+                  onClick={handleSyncToSupabase}
+                  disabled={isSyncing}
+                >
+                  {isSyncing ? 'Syncing...' : 'Upload Local Data to Supabase'}
+                </Button>
+              </div>
+            </SettingSection>
+
+            {/* Database Setup Helper */}
+            <SettingSection
+              title="Database Schema SQL"
+              description="Execute this script once in your Supabase SQL Editor to create all required tables and indexes"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-body-sm text-text-primary font-medium">PostgreSQL Migration Script</p>
+                  <p className="text-caption text-text-secondary">Located in project root at <code className="bg-bg-tertiary px-1.5 py-0.5 rounded text-xs">supabase/schema.sql</code></p>
+                </div>
+                <Button size="sm" variant="outline" icon={<Copy size={14} />} onClick={handleCopySchema}>
+                  {copiedSchema ? 'Copied!' : 'Copy Schema Info'}
+                </Button>
+              </div>
             </SettingSection>
           </div>
         )}

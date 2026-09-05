@@ -185,6 +185,37 @@ export default function StoreProvider({ children }: { children: React.ReactNode 
       }, 1000);
     });
 
+    // Background sync from Supabase if credentials are configured
+    if (typeof window !== 'undefined') {
+      import('@/lib/supabase/client').then(({ isSupabaseConfigured }) => {
+        if (isSupabaseConfigured()) {
+          import('@/lib/supabase/service').then(({ fetchAllFromSupabase }) => {
+            fetchAllFromSupabase().then((data) => {
+              if (data && data.workspaces.length > 0) {
+                store.dispatch(loadWorkspaces({
+                  workspaces: data.workspaces,
+                  members: data.workspaceMembers,
+                  labels: data.labels,
+                }));
+                store.dispatch(loadProjects({
+                  projects: data.projects,
+                  members: data.projectMembers,
+                  kanbanColumns: data.kanbanColumns,
+                }));
+                store.dispatch(loadTasks({
+                  tasks: data.tasks,
+                  subtasks: data.subtasks,
+                }));
+                store.dispatch(loadComments(data.comments));
+                store.dispatch(loadActivity(data.activity));
+                persistState(store);
+              }
+            }).catch(err => console.log('Supabase sync skipped:', err));
+          });
+        }
+      });
+    }
+
     return () => {
       clearTimeout(persistTimer);
       unsubscribe();
