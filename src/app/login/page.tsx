@@ -9,6 +9,7 @@ import { DEMO_USERS, DEFAULT_PASSWORD } from '@/lib/mock-data/users';
 import { Button, Input, Avatar } from '@/components/ui';
 import { generateId } from '@/lib/utils';
 import Link from 'next/link';
+import { Mail, Lock, LogIn, Sparkles } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -111,6 +112,7 @@ export default function LoginPage() {
             <Input
               label="Email"
               type="email"
+              icon={<Mail size={16} />}
               placeholder="alex@workspace.io"
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -119,12 +121,13 @@ export default function LoginPage() {
             <Input
               label="Password"
               type="password"
+              icon={<Lock size={16} />}
               placeholder="Enter password"
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
             {error && <p className="text-caption text-error">{error}</p>}
-            <Button type="submit" className="w-full" size="lg" loading={loading}>
+            <Button type="submit" className="w-full" size="lg" loading={loading} icon={<LogIn size={16} />}>
               Sign in
             </Button>
           </form>
@@ -133,7 +136,10 @@ export default function LoginPage() {
             <div className="relative mb-4">
               <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border-primary" /></div>
               <div className="relative flex justify-center">
-                <span className="bg-bg-primary px-3 text-caption text-text-tertiary">Quick demo login</span>
+                <span className="bg-bg-primary px-3 text-caption text-text-tertiary flex items-center gap-1.5">
+                  <Sparkles size={12} className="text-accent-primary" />
+                  Quick demo login
+                </span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">

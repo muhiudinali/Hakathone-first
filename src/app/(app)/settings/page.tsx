@@ -11,6 +11,7 @@ import { Button, Switch, Select, ConfirmDialog, Tabs, useToast } from '@/compone
 import { ThemeMode, ViewType } from '@/types';
 import {
   Download, Upload, Trash2, Moon, Sun, Monitor, AlertTriangle,
+  Sliders, Palette, Bell, Database, Layout,
 } from 'lucide-react';
 
 export default function SettingsPage() {
@@ -82,11 +83,11 @@ export default function SettingsPage() {
   };
 
   const tabs = [
-    { id: 'general', label: 'General' },
-    { id: 'appearance', label: 'Appearance' },
-    { id: 'notifications', label: 'Notifications' },
-    { id: 'data', label: 'Data' },
-    { id: 'danger', label: 'Danger Zone' },
+    { id: 'general', label: 'General', icon: <Sliders size={15} /> },
+    { id: 'appearance', label: 'Appearance', icon: <Palette size={15} /> },
+    { id: 'notifications', label: 'Notifications', icon: <Bell size={15} /> },
+    { id: 'data', label: 'Data', icon: <Database size={15} /> },
+    { id: 'danger', label: 'Danger Zone', icon: <AlertTriangle size={15} /> },
   ];
 
   return (
@@ -98,7 +99,11 @@ export default function SettingsPage() {
       <div className="mt-6">
         {activeTab === 'general' && (
           <div className="space-y-6">
-            <SettingSection title="Default View" description="Choose the default view for new projects">
+            <SettingSection
+              title="Default View"
+              icon={<Layout size={16} className="text-accent-primary" />}
+              description="Choose the default view for new projects"
+            >
               <Select
                 value={defaultView}
                 onChange={e => dispatch(setDefaultView(e.target.value as ViewType))}
@@ -114,7 +119,11 @@ export default function SettingsPage() {
 
         {activeTab === 'appearance' && (
           <div className="space-y-6">
-            <SettingSection title="Theme" description="Choose your preferred color theme">
+            <SettingSection
+              title="Theme"
+              icon={<Palette size={16} className="text-accent-primary" />}
+              description="Choose your preferred color theme"
+            >
               <div className="flex gap-3">
                 {([
                   { value: 'light' as ThemeMode, label: 'Light', icon: <Sun size={16} /> },
@@ -141,7 +150,11 @@ export default function SettingsPage() {
 
         {activeTab === 'notifications' && (
           <div className="space-y-4">
-            <SettingSection title="Notification Preferences" description="Choose what notifications you receive">
+            <SettingSection
+              title="Notification Preferences"
+              icon={<Bell size={16} className="text-accent-primary" />}
+              description="Choose what notifications you receive"
+            >
               <div className="space-y-3">
                 <Switch
                   checked={notifPrefs.assignments}
@@ -165,12 +178,20 @@ export default function SettingsPage() {
 
         {activeTab === 'data' && (
           <div className="space-y-6">
-            <SettingSection title="Export Data" description="Download all workspace data as JSON">
+            <SettingSection
+              title="Export Data"
+              icon={<Download size={16} className="text-accent-primary" />}
+              description="Download all workspace data as JSON"
+            >
               <Button variant="secondary" icon={<Download size={15} />} onClick={handleExport}>
                 Export Data
               </Button>
             </SettingSection>
-            <SettingSection title="Import Data" description="Import data from a previously exported JSON file">
+            <SettingSection
+              title="Import Data"
+              icon={<Upload size={16} className="text-accent-primary" />}
+              description="Import data from a previously exported JSON file"
+            >
               <label className="cursor-pointer">
                 <Button variant="secondary" icon={<Upload size={15} />} onClick={() => {}}>
                   Import Data
@@ -213,10 +234,13 @@ export default function SettingsPage() {
   );
 }
 
-function SettingSection({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
+function SettingSection({ title, description, icon, children }: { title: string; description: string; icon?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-bg-secondary border border-border-primary rounded-xl p-5">
-      <h3 className="text-body-md font-semibold text-text-primary mb-1">{title}</h3>
+    <div className="glass-card border border-white/70 dark:border-white/10 rounded-xl p-5 shadow-2xs">
+      <h3 className="text-body-md font-semibold text-text-primary mb-1 flex items-center gap-2">
+        {icon}
+        <span>{title}</span>
+      </h3>
       <p className="text-body-sm text-text-secondary mb-4">{description}</p>
       {children}
     </div>

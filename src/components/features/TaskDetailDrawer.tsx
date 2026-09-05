@@ -22,6 +22,7 @@ import { cn, generateId, formatDate, formatRelativeTime, formatFileSize, isOverd
 import {
   X, Edit3, Trash2, Copy, Paperclip,
   Plus, Send, CornerDownRight, Activity as ActivityIcon, Edit2,
+  Flag, User, Calendar, Tag, AlignLeft, CheckSquare, MessageSquare, Check,
 } from 'lucide-react';
 
 export default function TaskDetailDrawer() {
@@ -310,7 +311,7 @@ export default function TaskDetailDrawer() {
           <div className="space-y-3 bg-bg-tertiary rounded-xl p-4 border border-border-primary">
             {/* Status */}
             <div className="flex items-center gap-3">
-              <span className="text-body-sm text-text-secondary w-20">Status</span>
+              <span className="flex items-center gap-1.5 text-body-sm text-text-secondary w-24"><ActivityIcon size={14} className="text-accent-primary flex-shrink-0" /> Status</span>
               <select
                 className="flex-1 h-8 px-2 text-sm bg-bg-secondary border border-border-primary rounded-md cursor-pointer text-text-primary"
                 value={task.status}
@@ -325,7 +326,7 @@ export default function TaskDetailDrawer() {
 
             {/* Priority */}
             <div className="flex items-center gap-3">
-              <span className="text-body-sm text-text-secondary w-20">Priority</span>
+              <span className="flex items-center gap-1.5 text-body-sm text-text-secondary w-24"><Flag size={14} className="text-amber-400 flex-shrink-0" /> Priority</span>
               <select
                 className="flex-1 h-8 px-2 text-sm bg-bg-secondary border border-border-primary rounded-md cursor-pointer text-text-primary"
                 value={task.priority}
@@ -340,7 +341,7 @@ export default function TaskDetailDrawer() {
 
             {/* Assignee */}
             <div className="flex items-center gap-3">
-              <span className="text-body-sm text-text-secondary w-20">Assignee</span>
+              <span className="flex items-center gap-1.5 text-body-sm text-text-secondary w-24"><User size={14} className="text-blue-400 flex-shrink-0" /> Assignee</span>
               <select
                 className="flex-1 h-8 px-2 text-sm bg-bg-secondary border border-border-primary rounded-md cursor-pointer text-text-primary"
                 value={task.assigneeId || ''}
@@ -356,7 +357,7 @@ export default function TaskDetailDrawer() {
 
             {/* Due Date */}
             <div className="flex items-center gap-3">
-              <span className="text-body-sm text-text-secondary w-20">Due Date</span>
+              <span className="flex items-center gap-1.5 text-body-sm text-text-secondary w-24"><Calendar size={14} className="text-emerald-400 flex-shrink-0" /> Due Date</span>
               <input
                 type="date"
                 className="flex-1 h-8 px-2 text-sm bg-bg-secondary border border-border-primary rounded-md cursor-pointer text-text-primary"
@@ -368,7 +369,7 @@ export default function TaskDetailDrawer() {
 
             {/* Labels */}
             <div className="flex items-start gap-3">
-              <span className="text-body-sm text-text-secondary w-20 pt-1">Labels</span>
+              <span className="flex items-center gap-1.5 text-body-sm text-text-secondary w-24 pt-1"><Tag size={14} className="text-purple-400 flex-shrink-0" /> Labels</span>
               <div className="flex-1 flex flex-wrap gap-1">
                 {task.labelIds.map(lId => {
                   const label = labels.find(l => l.id === lId);
@@ -409,13 +410,15 @@ export default function TaskDetailDrawer() {
 
           {/* Description */}
           <div>
-            <h3 className="text-body-sm font-semibold text-text-primary mb-2">Description</h3>
+            <h3 className="flex items-center gap-1.5 text-body-sm font-semibold text-text-primary mb-2">
+              <AlignLeft size={15} className="text-accent-primary" /> Description
+            </h3>
             {editingDesc ? (
               <div>
                 <Textarea value={descValue} onChange={e => setDescValue(e.target.value)} rows={4} />
                 <div className="flex gap-2 mt-2">
-                  <Button size="sm" onClick={handleSaveDesc}>Save</Button>
-                  <Button size="sm" variant="ghost" onClick={() => { setDescValue(task.description); setEditingDesc(false); }}>Cancel</Button>
+                  <Button size="sm" icon={<Check size={13} />} onClick={handleSaveDesc}>Save</Button>
+                  <Button size="sm" variant="ghost" icon={<X size={13} />} onClick={() => { setDescValue(task.description); setEditingDesc(false); }}>Cancel</Button>
                 </div>
               </div>
             ) : (
@@ -431,8 +434,8 @@ export default function TaskDetailDrawer() {
           {/* Subtasks (Checklist) */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-body-sm font-semibold text-text-primary">
-                Subtasks {subtasks.length > 0 && <span className="text-text-tertiary font-normal">({completedSubtasks}/{subtasks.length})</span>}
+              <h3 className="flex items-center gap-1.5 text-body-sm font-semibold text-text-primary">
+                <CheckSquare size={15} className="text-emerald-400" /> Subtasks {subtasks.length > 0 && <span className="text-text-tertiary font-normal">({completedSubtasks}/{subtasks.length})</span>}
               </h3>
             </div>
             {subtasks.length > 0 && (
@@ -486,14 +489,16 @@ export default function TaskDetailDrawer() {
                   onKeyDown={e => e.key === 'Enter' && handleAddSubtask()}
                   className="flex-1"
                 />
-                <Button size="sm" variant="secondary" onClick={handleAddSubtask}>Add</Button>
+                <Button size="sm" variant="secondary" icon={<Plus size={13} />} onClick={handleAddSubtask}>Add</Button>
               </div>
             )}
           </div>
 
           {/* Attachments */}
           <div>
-            <h3 className="text-body-sm font-semibold text-text-primary mb-2">Attachments</h3>
+            <h3 className="flex items-center gap-1.5 text-body-sm font-semibold text-text-primary mb-2">
+              <Paperclip size={15} className="text-blue-400" /> Attachments
+            </h3>
             <div className="space-y-2">
               {attachments.map(att => (
                 <div key={att.id} className="flex items-center gap-3 p-2 bg-bg-tertiary rounded-lg group">
@@ -532,11 +537,11 @@ export default function TaskDetailDrawer() {
                 type="button"
                 onClick={() => setActiveBottomTab('comments')}
                 className={cn(
-                  'pb-2 text-body-sm font-medium border-b-2 transition-colors cursor-pointer',
+                  'pb-2 text-body-sm font-medium border-b-2 transition-colors cursor-pointer flex items-center gap-1.5',
                   activeBottomTab === 'comments' ? 'border-accent-primary text-text-primary' : 'border-transparent text-text-tertiary hover:text-text-secondary',
                 )}
               >
-                Comments ({comments.length})
+                <MessageSquare size={14} /> Comments ({comments.length})
               </button>
               <button
                 type="button"
@@ -599,8 +604,8 @@ export default function TaskDetailDrawer() {
                                 rows={2}
                               />
                               <div className="flex gap-2">
-                                <Button size="sm" onClick={() => handleSaveEditComment(comment.id)}>Save</Button>
-                                <Button size="sm" variant="ghost" onClick={() => setEditingCommentId(null)}>Cancel</Button>
+                                <Button size="sm" icon={<Check size={13} />} onClick={() => handleSaveEditComment(comment.id)}>Save</Button>
+                                <Button size="sm" variant="ghost" icon={<X size={13} />} onClick={() => setEditingCommentId(null)}>Cancel</Button>
                               </div>
                             </div>
                           ) : (
@@ -703,8 +708,8 @@ export default function TaskDetailDrawer() {
             ))}
           </select>
           <div className="flex justify-end gap-2 pt-2 border-t border-border-primary">
-            <Button variant="secondary" onClick={() => setConvertToSubtaskOpen(false)}>Cancel</Button>
-            <Button onClick={handleConvertTaskToSubtask} disabled={!parentTaskId}>Convert</Button>
+            <Button variant="secondary" icon={<X size={14} />} onClick={() => setConvertToSubtaskOpen(false)}>Cancel</Button>
+            <Button icon={<CornerDownRight size={14} />} onClick={handleConvertTaskToSubtask} disabled={!parentTaskId}>Convert</Button>
           </div>
         </div>
       </Modal>

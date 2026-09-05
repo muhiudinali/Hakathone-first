@@ -17,8 +17,20 @@ import { setTheme } from '@/store/slices/settingsSlice';
 import { cn, fuzzyMatch } from '@/lib/utils';
 import {
   Search, LayoutDashboard, FolderKanban, CheckSquare, Settings,
-  Plus, Sun, Moon, ArrowRight,
+  Plus, Sun, Moon, ArrowRight, Compass, Zap, Palette, Building2,
 } from 'lucide-react';
+
+function getCategoryIcon(cat: string) {
+  switch (cat) {
+    case 'Navigation': return <Compass size={13} className="text-accent-primary" />;
+    case 'Actions': return <Zap size={13} className="text-amber-400" />;
+    case 'Theme': return <Palette size={13} className="text-purple-400" />;
+    case 'Workspaces': return <Building2 size={13} className="text-blue-400" />;
+    case 'Projects': return <FolderKanban size={13} className="text-emerald-400" />;
+    case 'Tasks': return <CheckSquare size={13} className="text-cyan-400" />;
+    default: return null;
+  }
+}
 
 interface Command {
   id: string;
@@ -163,10 +175,10 @@ export default function CommandPalette() {
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4">
       <div className="fixed inset-0 bg-bg-overlay animate-fade-in" onClick={close} />
       
-      <div className="relative w-full max-w-lg bg-bg-secondary border border-border-primary rounded-xl shadow-2xl overflow-hidden animate-slide-in-down">
+      <div className="relative w-full max-w-lg glass-panel border border-white/20 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-scale-in">
         {/* Search Input */}
-        <div className="flex items-center px-4 border-b border-border-primary">
-          <Search size={18} className="text-text-tertiary flex-shrink-0" />
+        <div className="flex items-center px-4 border-b border-border-primary/80">
+          <Search size={18} className="text-accent-primary flex-shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -188,7 +200,10 @@ export default function CommandPalette() {
           ) : (
             Object.entries(grouped).map(([category, items]) => (
               <div key={category} className="mb-2 last:mb-0">
-                <div className="px-2 py-1 text-overline text-text-tertiary font-semibold">{category}</div>
+                <div className="px-2 py-1 text-overline text-text-tertiary font-semibold flex items-center gap-1.5">
+                  {getCategoryIcon(category)}
+                  <span>{category}</span>
+                </div>
                 {items.map(item => {
                   const globalIdx = flatItems.indexOf(item);
                   const isSelected = globalIdx === selectedIndex;

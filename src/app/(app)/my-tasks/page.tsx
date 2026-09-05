@@ -6,7 +6,7 @@ import { setTaskDetailId, setCreateTaskOpen } from '@/store/slices/uiSlice';
 import { Badge, EmptyState, Button } from '@/components/ui';
 import { STATUS_CONFIG, PRIORITY_CONFIG, Task, Project } from '@/types';
 import { cn, formatShortDate, isOverdue } from '@/lib/utils';
-import { CheckSquare, Clock, Plus } from 'lucide-react';
+import { CheckSquare, Clock, Plus, AlertTriangle, CalendarClock, CalendarDays, Inbox, Flag } from 'lucide-react';
 
 export default function MyTasksPage() {
   const dispatch = useAppDispatch();
@@ -23,7 +23,15 @@ export default function MyTasksPage() {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-heading-lg text-text-primary">My Tasks</h1>
+        <div className="flex items-center gap-2.5">
+          <div className="h-9 w-9 rounded-xl bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center text-accent-primary shadow-xs">
+            <CheckSquare size={18} />
+          </div>
+          <div>
+            <h1 className="text-heading-lg text-text-primary font-heading">My Tasks</h1>
+            <p className="text-caption text-text-tertiary">All assignments and deadlines across projects</p>
+          </div>
+        </div>
         <Button
           size="sm"
           variant="primary"
@@ -44,28 +52,48 @@ export default function MyTasksPage() {
       ) : (
         <div className="space-y-6">
           {grouped.overdue.length > 0 && (
-            <Section title="Overdue" count={grouped.overdue.length} color="#EF4444">
+            <Section
+              title="Overdue"
+              count={grouped.overdue.length}
+              color="#EF4444"
+              icon={<AlertTriangle size={16} className="text-error" />}
+            >
               {grouped.overdue.map(task => (
                 <TaskRow key={task.id} task={task} projects={projects} onClick={() => dispatch(setTaskDetailId(task.id))} />
               ))}
             </Section>
           )}
           {grouped.today.length > 0 && (
-            <Section title="Due Today" count={grouped.today.length} color="#3B82F6">
+            <Section
+              title="Due Today"
+              count={grouped.today.length}
+              color="#3B82F6"
+              icon={<CalendarClock size={16} className="text-info" />}
+            >
               {grouped.today.map(task => (
                 <TaskRow key={task.id} task={task} projects={projects} onClick={() => dispatch(setTaskDetailId(task.id))} />
               ))}
             </Section>
           )}
           {grouped.upcoming.length > 0 && (
-            <Section title="Upcoming" count={grouped.upcoming.length} color="#10B981">
+            <Section
+              title="Upcoming"
+              count={grouped.upcoming.length}
+              color="#10B981"
+              icon={<CalendarDays size={16} className="text-success" />}
+            >
               {grouped.upcoming.map(task => (
                 <TaskRow key={task.id} task={task} projects={projects} onClick={() => dispatch(setTaskDetailId(task.id))} />
               ))}
             </Section>
           )}
           {grouped.noDue.length > 0 && (
-            <Section title="No Due Date" count={grouped.noDue.length} color="#6B7280">
+            <Section
+              title="No Due Date"
+              count={grouped.noDue.length}
+              color="#6B7280"
+              icon={<Inbox size={16} className="text-text-tertiary" />}
+            >
               {grouped.noDue.map(task => (
                 <TaskRow key={task.id} task={task} projects={projects} onClick={() => dispatch(setTaskDetailId(task.id))} />
               ))}
@@ -77,14 +105,19 @@ export default function MyTasksPage() {
   );
 }
 
-function Section({ title, count, color, children }: { title: string; count: number; color: string; children: React.ReactNode }) {
+function Section({
+  title, count, color, icon, children,
+}: {
+  title: string;
+  count: number;
+  color: string;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-2.5 px-1">
-        <div
-          className="h-2.5 w-2.5 rounded-full shadow-xs"
-          style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}80` }}
-        />
+        {icon}
         <h2 className="text-body-md font-bold text-text-primary font-heading">{title}</h2>
         <span className="text-caption text-text-secondary bg-bg-tertiary/70 border border-border-primary/50 px-2 py-0.5 rounded-full font-semibold text-[11px]">
           {count}
@@ -120,6 +153,7 @@ function TaskRow({ task, projects, onClick }: { task: Task; projects: Record<str
         )}
       </div>
       <Badge size="sm" color={PRIORITY_CONFIG[task.priority as keyof typeof PRIORITY_CONFIG].color}>
+        <Flag size={10} className="mr-0.5" />
         {PRIORITY_CONFIG[task.priority as keyof typeof PRIORITY_CONFIG].label}
       </Badge>
       {task.dueDate && (

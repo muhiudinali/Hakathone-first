@@ -30,7 +30,7 @@ import { ViewType, TaskStatus } from '@/types';
 import { cn } from '@/lib/utils';
 import {
   Columns3, List, Calendar, Plus, Filter, X, MoreHorizontal,
-  Archive, Trash2, Edit3, CheckCircle,
+  Archive, Trash2, Edit3, CheckCircle, FolderKanban, Check,
 } from 'lucide-react';
 
 interface ProjectPageProps {
@@ -277,7 +277,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             ))}
           </select>
 
-          <Button size="sm" variant="danger" onClick={() => setBulkDeleteOpen(true)}>
+          <Button size="sm" variant="danger" icon={<Trash2 size={13} />} onClick={() => setBulkDeleteOpen(true)}>
             Delete
           </Button>
 
@@ -299,6 +299,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         <div className="space-y-4 mt-4">
           <Input
             label="Project Name"
+            icon={<FolderKanban size={15} />}
             value={editName}
             onChange={e => setEditName(e.target.value)}
           />
@@ -309,8 +310,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             rows={3}
           />
           <div className="flex justify-end gap-2 pt-2 border-t border-border-primary">
-            <Button variant="secondary" onClick={() => setEditModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleSaveEdit}>Save Changes</Button>
+            <Button variant="secondary" icon={<X size={14} />} onClick={() => setEditModalOpen(false)}>Cancel</Button>
+            <Button icon={<Check size={14} />} onClick={handleSaveEdit}>Save Changes</Button>
           </div>
         </div>
       </Modal>

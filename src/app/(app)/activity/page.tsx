@@ -5,7 +5,10 @@ import { useAppSelector } from '@/store/hooks';
 import { selectRecentActivity, selectAllUsers } from '@/store/selectors';
 import { Avatar, EmptyState } from '@/components/ui';
 import { formatRelativeTime } from '@/lib/utils';
-import { Activity as ActivityIcon, Filter, User } from 'lucide-react';
+import {
+  Activity as ActivityIcon, Filter, User, PlusCircle, CheckCircle2,
+  UserCheck, MessageSquare, Flag, Trash2, Edit3,
+} from 'lucide-react';
 
 const ACTION_VERBS: Record<string, string> = {
   created: 'created',
@@ -20,6 +23,19 @@ const ACTION_VERBS: Record<string, string> = {
   comment_edited: 'edited a comment on',
   comment_deleted: 'deleted a comment on',
 };
+
+function getActionIcon(action: string) {
+  switch (action) {
+    case 'created': return <PlusCircle size={13} className="text-emerald-500 flex-shrink-0" />;
+    case 'completed': return <CheckCircle2 size={13} className="text-emerald-500 flex-shrink-0" />;
+    case 'status_changed': return <ActivityIcon size={13} className="text-indigo-500 flex-shrink-0" />;
+    case 'assigned': return <UserCheck size={13} className="text-blue-500 flex-shrink-0" />;
+    case 'commented': return <MessageSquare size={13} className="text-purple-500 flex-shrink-0" />;
+    case 'priority_changed': return <Flag size={13} className="text-amber-500 flex-shrink-0" />;
+    case 'deleted': return <Trash2 size={13} className="text-rose-500 flex-shrink-0" />;
+    default: return <Edit3 size={13} className="text-text-tertiary flex-shrink-0" />;
+  }
+}
 
 export default function ActivityPage() {
   const activity = useAppSelector(selectRecentActivity);
@@ -101,7 +117,10 @@ export default function ActivityPage() {
                       {' '}<span className="text-text-secondary">{ACTION_VERBS[event.action] || event.action}</span>
                       {' '}<span className="font-medium text-text-primary">&quot;{event.target}&quot;</span>
                     </p>
-                    <p className="text-caption text-text-tertiary mt-0.5">{formatRelativeTime(event.timestamp)}</p>
+                    <div className="flex items-center gap-1.5 text-caption text-text-tertiary mt-1">
+                      {getActionIcon(event.action)}
+                      <span>{formatRelativeTime(event.timestamp)}</span>
+                    </div>
                   </div>
                 </div>
               );

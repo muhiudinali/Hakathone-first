@@ -15,7 +15,7 @@ import { Button, Input, Select, Avatar, ConfirmDialog, Tabs, useToast } from '@/
 import { canManageWorkspace, canDeleteWorkspace, canManageMembers } from '@/lib/permissions';
 import { PROJECT_COLORS, PROJECT_ICONS } from '@/lib/utils';
 import { Role, ViewType } from '@/types';
-import { Trash2, UserPlus, AlertTriangle, Save } from 'lucide-react';
+import { Trash2, UserPlus, AlertTriangle, Save, Building2, Users } from 'lucide-react';
 
 export default function WorkspaceSettingsPage({ params }: { params: Promise<{ workspaceId: string }> }) {
   const resolvedParams = use(params);
@@ -94,9 +94,9 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
   };
 
   const tabs = [
-    { id: 'general', label: 'General' },
-    { id: 'members', label: `Members (${members.length})` },
-    { id: 'danger', label: 'Danger Zone' },
+    { id: 'general', label: 'General', icon: <Building2 size={15} /> },
+    { id: 'members', label: `Members (${members.length})`, icon: <Users size={15} /> },
+    { id: 'danger', label: 'Danger Zone', icon: <AlertTriangle size={15} /> },
   ];
 
   return (
@@ -113,9 +113,10 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
       <div className="mt-6 space-y-6">
         {/* General Tab */}
         {activeTab === 'general' && (
-          <div className="space-y-6 bg-bg-secondary border border-border-primary rounded-xl p-6">
+          <div className="space-y-6 glass-card border border-white/70 dark:border-white/10 rounded-2xl p-6 shadow-sm">
             <Input
               label="Workspace Name"
+              icon={<Building2 size={15} />}
               value={name}
               onChange={e => setName(e.target.value)}
               disabled={!canManage}
@@ -182,7 +183,7 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
 
         {/* Members Tab */}
         {activeTab === 'members' && (
-          <div className="bg-bg-secondary border border-border-primary rounded-xl p-6">
+          <div className="glass-card border border-white/70 dark:border-white/10 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-heading-sm text-text-primary">Workspace Members</h3>
@@ -246,8 +247,9 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
                         <button
                           type="button"
                           onClick={() => setMemberToRemove({ id: member.id, name: user.name })}
-                          className="text-caption text-error hover:underline cursor-pointer p-1"
+                          className="text-caption text-error hover:underline cursor-pointer p-1 flex items-center gap-1"
                         >
+                          <Trash2 size={12} />
                           Remove
                         </button>
                       )}

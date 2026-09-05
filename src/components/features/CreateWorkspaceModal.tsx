@@ -10,6 +10,8 @@ import { Modal, Button, Input, Select, useToast } from '@/components/ui';
 import { generateId, PROJECT_COLORS, PROJECT_ICONS } from '@/lib/utils';
 import { ViewType, Workspace } from '@/types';
 
+import { Building2, Sparkles, Smile, Palette, Layout, Plus, X } from 'lucide-react';
+
 export default function CreateWorkspaceModal() {
   const dispatch = useAppDispatch();
   const open = useAppSelector(selectCreateWorkspaceOpen);
@@ -82,12 +84,14 @@ export default function CreateWorkspaceModal() {
       <div className="space-y-4 mt-4">
         {/* Quick Presets */}
         <div>
-          <label className="text-body-sm font-medium text-text-primary block mb-1.5">Quick Presets</label>
+          <label className="text-body-sm font-medium text-text-primary flex items-center gap-1.5 mb-1.5">
+            <Sparkles size={14} className="text-accent-primary" /> Quick Presets
+          </label>
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
               onClick={() => { setName('Acme Corp (Office)'); setIcon('🏢'); setColor('#3B82F6'); setError(''); }}
-              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-lg text-left transition-colors cursor-pointer bg-bg-secondary hover:bg-bg-hover"
+              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-xl text-left transition-colors cursor-pointer bg-bg-secondary/70 hover:bg-bg-hover shadow-2xs"
             >
               <div className="text-lg mb-1">🏢</div>
               <div className="text-body-xs font-semibold text-text-primary truncate">Office Workspace</div>
@@ -96,7 +100,7 @@ export default function CreateWorkspaceModal() {
             <button
               type="button"
               onClick={() => { setName('Home & Personal (Ghar)'); setIcon('🏡'); setColor('#10B981'); setError(''); }}
-              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-lg text-left transition-colors cursor-pointer bg-bg-secondary hover:bg-bg-hover"
+              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-xl text-left transition-colors cursor-pointer bg-bg-secondary/70 hover:bg-bg-hover shadow-2xs"
             >
               <div className="text-lg mb-1">🏡</div>
               <div className="text-body-xs font-semibold text-text-primary truncate">Home Workspace</div>
@@ -105,7 +109,7 @@ export default function CreateWorkspaceModal() {
             <button
               type="button"
               onClick={() => { setName('Tech & Engineering'); setIcon('💻'); setColor('#8B5CF6'); setError(''); }}
-              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-lg text-left transition-colors cursor-pointer bg-bg-secondary hover:bg-bg-hover"
+              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-xl text-left transition-colors cursor-pointer bg-bg-secondary/70 hover:bg-bg-hover shadow-2xs"
             >
               <div className="text-lg mb-1">💻</div>
               <div className="text-body-xs font-semibold text-text-primary truncate">Tech & Product</div>
@@ -116,6 +120,7 @@ export default function CreateWorkspaceModal() {
 
         <Input
           label="Workspace Name"
+          icon={<Building2 size={14} />}
           placeholder="e.g. Acme Corp, Marketing Team"
           value={name}
           onChange={e => { setName(e.target.value); setError(''); }}
@@ -125,15 +130,17 @@ export default function CreateWorkspaceModal() {
 
         {/* Icon Selection */}
         <div>
-          <label className="text-body-sm font-medium text-text-primary block mb-1.5">Workspace Icon</label>
+          <label className="text-body-sm font-medium text-text-primary flex items-center gap-1.5 mb-1.5">
+            <Smile size={14} className="text-accent-primary" /> Workspace Icon
+          </label>
           <div className="flex flex-wrap gap-2">
             {PROJECT_ICONS.slice(0, 10).map(ic => (
               <button
                 key={ic}
                 type="button"
                 onClick={() => setIcon(ic)}
-                className={`h-9 w-9 text-lg rounded-lg border flex items-center justify-center transition-transform cursor-pointer ${
-                  icon === ic ? 'border-accent-primary bg-bg-hover scale-110 shadow-sm' : 'border-border-primary hover:bg-bg-hover'
+                className={`h-9 w-9 text-lg rounded-xl border flex items-center justify-center transition-transform cursor-pointer ${
+                  icon === ic ? 'border-accent-primary bg-accent-primary/10 scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
                 }`}
               >
                 {ic}
@@ -144,7 +151,9 @@ export default function CreateWorkspaceModal() {
 
         {/* Color Selection */}
         <div>
-          <label className="text-body-sm font-medium text-text-primary block mb-1.5">Theme Color</label>
+          <label className="text-body-sm font-medium text-text-primary flex items-center gap-1.5 mb-1.5">
+            <Palette size={14} className="text-accent-primary" /> Theme Color
+          </label>
           <div className="flex flex-wrap gap-2">
             {PROJECT_COLORS.map(c => (
               <button
@@ -153,27 +162,31 @@ export default function CreateWorkspaceModal() {
                 onClick={() => setColor(c)}
                 style={{ backgroundColor: c }}
                 className={`h-7 w-7 rounded-full transition-transform cursor-pointer ${
-                  color === c ? 'ring-2 ring-offset-2 ring-accent-primary scale-110' : 'hover:scale-105'
+                  color === c ? 'ring-2 ring-offset-2 ring-accent-primary scale-110 shadow-xs' : 'hover:scale-105'
                 }`}
               />
             ))}
           </div>
         </div>
 
-        <Select
-          label="Default View"
-          value={defaultView}
-          onChange={e => setDefaultView(e.target.value as ViewType)}
-          options={[
-            { value: 'kanban', label: 'Kanban Board' },
-            { value: 'list', label: 'List View' },
-            { value: 'calendar', label: 'Calendar View' },
-          ]}
-        />
+        <div>
+          <label className="text-body-sm font-medium text-text-primary flex items-center gap-1.5 mb-1.5">
+            <Layout size={14} className="text-accent-primary" /> Default View
+          </label>
+          <select
+            value={defaultView}
+            onChange={e => setDefaultView(e.target.value as ViewType)}
+            className="w-full h-9 px-3 bg-bg-secondary/70 backdrop-blur-md border border-border-primary rounded-xl text-sm text-text-primary shadow-xs cursor-pointer"
+          >
+            <option value="kanban">Kanban Board</option>
+            <option value="list">List View</option>
+            <option value="calendar">Calendar View</option>
+          </select>
+        </div>
 
-        <div className="flex justify-end gap-2 pt-4 border-t border-border-primary">
-          <Button variant="secondary" onClick={close}>Cancel</Button>
-          <Button onClick={handleCreate} disabled={!name.trim()}>Create Workspace</Button>
+        <div className="flex justify-end gap-2 pt-4 border-t border-border-primary/80">
+          <Button variant="secondary" icon={<X size={15} />} onClick={close}>Cancel</Button>
+          <Button variant="primary" icon={<Plus size={15} />} onClick={handleCreate} disabled={!name.trim()}>Create Workspace</Button>
         </div>
       </div>
     </Modal>

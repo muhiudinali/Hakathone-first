@@ -14,6 +14,8 @@ import { generateId } from '@/lib/utils';
 import { DEMO_USERS } from '@/lib/mock-data/users';
 import { Role } from '@/types';
 
+import { User, UserPlus, Mail, Shield, Users, Plus, X } from 'lucide-react';
+
 export default function InviteMemberModal() {
   const dispatch = useAppDispatch();
   const open = useAppSelector(selectInviteMemberOpen);
@@ -100,48 +102,52 @@ export default function InviteMemberModal() {
     <Modal open={open} onClose={close} title="Invite Workspace Member" size="md">
       <div className="space-y-4 mt-4">
         {/* Toggle Mode */}
-        <div className="flex rounded-lg border border-border-primary p-1 bg-bg-secondary">
+        <div className="flex rounded-xl border border-border-primary p-1 bg-bg-secondary/70 backdrop-blur-sm">
           <button
             type="button"
             onClick={() => setMode('existing')}
-            className={`flex-1 py-1.5 text-body-sm font-medium rounded-md transition-colors cursor-pointer ${
-              mode === 'existing' ? 'bg-bg-primary text-text-primary shadow-xs' : 'text-text-secondary hover:text-text-primary'
+            className={`flex-1 py-1.5 text-body-sm font-medium rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              mode === 'existing' ? 'bg-bg-primary text-text-primary shadow-xs font-semibold' : 'text-text-secondary hover:text-text-primary'
             }`}
           >
+            <User size={14} />
             Select Demo User
           </button>
           <button
             type="button"
             onClick={() => setMode('new')}
-            className={`flex-1 py-1.5 text-body-sm font-medium rounded-md transition-colors cursor-pointer ${
-              mode === 'new' ? 'bg-bg-primary text-text-primary shadow-xs' : 'text-text-secondary hover:text-text-primary'
+            className={`flex-1 py-1.5 text-body-sm font-medium rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              mode === 'new' ? 'bg-bg-primary text-text-primary shadow-xs font-semibold' : 'text-text-secondary hover:text-text-primary'
             }`}
           >
+            <UserPlus size={14} />
             Add New Member
           </button>
         </div>
 
         {mode === 'existing' ? (
           <div>
-            <label className="text-body-sm font-medium text-text-primary block mb-2">Select User</label>
+            <label className="text-body-sm font-medium text-text-primary flex items-center gap-1.5 mb-2">
+              <Users size={14} className="text-accent-primary" /> Select User
+            </label>
             {availableMockUsers.length === 0 ? (
-              <p className="text-body-sm text-text-tertiary p-3 border border-border-primary rounded-lg">
+              <p className="text-body-sm text-text-tertiary p-3 border border-border-primary rounded-xl">
                 All pre-configured demo users are already in this workspace. Switch to &quot;Add New Member&quot; to invite someone else.
               </p>
             ) : (
-              <div className="space-y-1.5 max-h-48 overflow-y-auto border border-border-primary rounded-lg p-2 bg-bg-secondary">
+              <div className="space-y-1.5 max-h-48 overflow-y-auto border border-border-primary rounded-xl p-2 bg-bg-secondary/70 backdrop-blur-sm">
                 {availableMockUsers.map(u => (
                   <button
                     key={u.id}
                     type="button"
                     onClick={() => setSelectedUserId(u.id)}
                     className={`w-full flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors text-left ${
-                      selectedUserId === u.id ? 'bg-bg-active border border-accent-primary' : 'hover:bg-bg-hover'
+                      selectedUserId === u.id ? 'bg-accent-primary/10 border border-accent-primary/30' : 'hover:bg-bg-hover'
                     }`}
                   >
                     <Avatar name={u.name} size="sm" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-body-sm font-medium text-text-primary truncate">{u.name}</p>
+                      <p className="text-body-sm font-semibold text-text-primary truncate">{u.name}</p>
                       <p className="text-caption text-text-tertiary truncate">{u.email}</p>
                     </div>
                   </button>
@@ -153,12 +159,14 @@ export default function InviteMemberModal() {
           <div className="space-y-3">
             <Input
               label="Full Name"
+              icon={<User size={14} />}
               placeholder="e.g. Jane Doe"
               value={customName}
               onChange={e => setCustomName(e.target.value)}
             />
             <Input
               label="Email Address"
+              icon={<Mail size={14} />}
               type="email"
               placeholder="jane@company.com"
               value={customEmail}
@@ -167,20 +175,24 @@ export default function InviteMemberModal() {
           </div>
         )}
 
-        <Select
-          label="Role"
-          value={role}
-          onChange={e => setRole(e.target.value as Role)}
-          options={[
-            { value: 'admin', label: 'Admin (Can manage settings & members)' },
-            { value: 'member', label: 'Member (Can create & edit tasks/projects)' },
-            { value: 'viewer', label: 'Viewer (Read-only access)' },
-          ]}
-        />
+        <div>
+          <label className="text-body-sm font-medium text-text-primary flex items-center gap-1.5 mb-1.5">
+            <Shield size={14} className="text-accent-primary" /> Member Role
+          </label>
+          <select
+            value={role}
+            onChange={e => setRole(e.target.value as Role)}
+            className="w-full h-9 px-3 bg-bg-secondary/70 backdrop-blur-md border border-border-primary rounded-xl text-sm text-text-primary shadow-xs cursor-pointer"
+          >
+            <option value="admin">Admin (Can manage settings & members)</option>
+            <option value="member">Member (Can create & edit tasks/projects)</option>
+            <option value="viewer">Viewer (Read-only access)</option>
+          </select>
+        </div>
 
-        <div className="flex justify-end gap-2 pt-4 border-t border-border-primary">
-          <Button variant="secondary" onClick={close}>Cancel</Button>
-          <Button onClick={handleInvite}>Invite Member</Button>
+        <div className="flex justify-end gap-2 pt-4 border-t border-border-primary/80">
+          <Button variant="secondary" icon={<X size={15} />} onClick={close}>Cancel</Button>
+          <Button variant="primary" icon={<UserPlus size={15} />} onClick={handleInvite}>Invite Member</Button>
         </div>
       </div>
     </Modal>

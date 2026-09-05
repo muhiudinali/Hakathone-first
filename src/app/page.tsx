@@ -93,8 +93,9 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.push('/login')}
-              className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-bg-hover rounded-lg transition-colors cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-bg-hover rounded-lg transition-colors cursor-pointer"
             >
+              <Users size={14} />
               Sign In
             </button>
             <button

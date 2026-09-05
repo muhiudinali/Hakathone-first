@@ -8,6 +8,7 @@ import { addMember } from '@/store/slices/workspaceSlice';
 import { Button, Input } from '@/components/ui';
 import { generateId } from '@/lib/utils';
 import Link from 'next/link';
+import { User, Mail, Lock, UserPlus } from 'lucide-react';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -73,10 +74,10 @@ export default function SignupPage() {
         <p className="text-body-md text-text-secondary mb-8">Get started with your workspace</p>
 
         <form onSubmit={handleSignup} className="space-y-4">
-          <Input label="Full name" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} error={errors.name} />
-          <Input label="Email" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} error={errors.email} />
-          <Input label="Password" type="password" placeholder="Create a password" value={password} onChange={e => setPassword(e.target.value)} error={errors.password} />
-          <Button type="submit" className="w-full" size="lg" loading={loading}>Create account</Button>
+          <Input label="Full name" icon={<User size={16} />} placeholder="Your name" value={name} onChange={e => setName(e.target.value)} error={errors.name} />
+          <Input label="Email" type="email" icon={<Mail size={16} />} placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} error={errors.email} />
+          <Input label="Password" type="password" icon={<Lock size={16} />} placeholder="Create a password" value={password} onChange={e => setPassword(e.target.value)} error={errors.password} />
+          <Button type="submit" className="w-full" size="lg" loading={loading} icon={<UserPlus size={16} />}>Create account</Button>
         </form>
 
         <p className="mt-6 text-center text-body-sm text-text-secondary">

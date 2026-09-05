@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback, createContext, useContext } from 'react';
 import { cn } from '@/lib/utils';
+import { X, Check, Trash2, AlertTriangle, AlertCircle, CheckCircle2, Info } from 'lucide-react';
 
 // ============================================================
 // BUTTON
@@ -404,9 +405,19 @@ export function Modal({ open, onClose, title, description, children, size = 'md'
     >
       <div className={cn('w-full glass-panel rounded-2xl shadow-2xl animate-scale-in border border-white/20 dark:border-white/10 overflow-hidden', sizes[size])}>
         {(title || description) && (
-          <div className="px-6 pt-6 pb-2">
-            {title && <h2 className="text-heading-md text-text-primary">{title}</h2>}
-            {description && <p className="text-body-sm text-text-secondary mt-1">{description}</p>}
+          <div className="px-6 pt-6 pb-2 flex items-start justify-between gap-3">
+            <div>
+              {title && <h2 className="text-heading-md text-text-primary">{title}</h2>}
+              {description && <p className="text-body-sm text-text-secondary mt-1">{description}</p>}
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-text-tertiary hover:text-text-primary p-1.5 rounded-lg hover:bg-bg-hover transition-colors cursor-pointer -mt-1 -mr-2"
+              title="Close modal"
+            >
+              <X size={18} />
+            </button>
           </div>
         )}
         <div className="px-6 pb-6">{children}</div>
@@ -620,6 +631,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               toast.type === 'info' && 'glass-panel text-text-primary border-border-primary/80 shadow-indigo-500/10',
             )}
           >
+            {toast.type === 'success' && <CheckCircle2 size={16} className="text-white flex-shrink-0" />}
+            {toast.type === 'error' && <AlertCircle size={16} className="text-white flex-shrink-0" />}
+            {toast.type === 'warning' && <AlertTriangle size={16} className="text-white flex-shrink-0" />}
+            {toast.type === 'info' && <Info size={16} className="text-accent-primary flex-shrink-0" />}
             <span className="flex-1">{toast.message}</span>
             {toast.action && (
               <button
@@ -629,8 +644,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 {toast.action.label}
               </button>
             )}
-            <button onClick={() => removeToast(toast.id)} className="opacity-70 hover:opacity-100 cursor-pointer">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            <button onClick={() => removeToast(toast.id)} className="opacity-70 hover:opacity-100 cursor-pointer p-0.5 rounded hover:bg-black/10">
+              <X size={14} />
             </button>
           </div>
         ))}
@@ -697,9 +712,10 @@ export function ConfirmDialog({ open, onClose, onConfirm, title, message, confir
         <h3 className="text-heading-md text-text-primary mb-2">{title}</h3>
         <p className="text-body-sm text-text-secondary mb-6">{message}</p>
         <div className="flex justify-end gap-2">
-          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button variant="secondary" icon={<X size={14} />} onClick={onClose}>Cancel</Button>
           <Button
             variant={variant === 'danger' ? 'danger' : 'primary'}
+            icon={variant === 'danger' ? <Trash2 size={14} /> : <Check size={14} />}
             onClick={onConfirm}
             loading={loading}
           >

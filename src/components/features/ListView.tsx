@@ -8,7 +8,10 @@ import { setTaskDetailId } from '@/store/slices/uiSlice';
 import { Task, STATUS_CONFIG, PRIORITY_CONFIG, TaskStatus, Priority } from '@/types';
 import { Avatar, Badge, Checkbox, Select } from '@/components/ui';
 import { cn, formatShortDate, isOverdue } from '@/lib/utils';
-import { ArrowUpDown, ArrowUp, ArrowDown, Layers, ChevronDown, ChevronRight } from 'lucide-react';
+import {
+  ArrowUpDown, ArrowUp, ArrowDown, Layers, ChevronDown, ChevronRight,
+  CheckSquare, Activity, Flag, User, Tag, Calendar, ListTree, Clock,
+} from 'lucide-react';
 
 interface ListViewProps {
   tasks: Task[];
@@ -174,48 +177,52 @@ export default function ListView({ tasks }: ListViewProps) {
               <th className="text-left px-3 py-2.5">
                 <button
                   onClick={() => handleSort('title')}
-                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-semibold hover:text-text-primary cursor-pointer"
+                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-bold hover:text-text-primary cursor-pointer"
                 >
-                  Task {renderSortIcon('title')}
+                  <CheckSquare size={12} className="text-accent-primary" /> Task {renderSortIcon('title')}
                 </button>
               </th>
               <th className="text-left px-3 py-2.5 w-28">
                 <button
                   onClick={() => handleSort('status')}
-                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-semibold hover:text-text-primary cursor-pointer"
+                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-bold hover:text-text-primary cursor-pointer"
                 >
-                  Status {renderSortIcon('status')}
+                  <Activity size={12} className="text-accent-primary" /> Status {renderSortIcon('status')}
                 </button>
               </th>
-              <th className="text-left px-3 py-2.5 w-24">
+              <th className="text-left px-3 py-2.5 w-28">
                 <button
                   onClick={() => handleSort('priority')}
-                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-semibold hover:text-text-primary cursor-pointer"
+                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-bold hover:text-text-primary cursor-pointer"
                 >
-                  Priority {renderSortIcon('priority')}
+                  <Flag size={12} className="text-accent-primary" /> Priority {renderSortIcon('priority')}
                 </button>
               </th>
               <th className="text-left px-3 py-2.5 w-36 hidden md:table-cell">
                 <button
                   onClick={() => handleSort('assignee')}
-                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-semibold hover:text-text-primary cursor-pointer"
+                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-bold hover:text-text-primary cursor-pointer"
                 >
-                  Assignee {renderSortIcon('assignee')}
+                  <User size={12} className="text-accent-primary" /> Assignee {renderSortIcon('assignee')}
                 </button>
               </th>
-              <th className="text-left px-3 py-2.5 text-overline text-text-tertiary font-semibold w-36 hidden lg:table-cell">
-                Labels
+              <th className="text-left px-3 py-2.5 text-overline text-text-tertiary font-bold w-36 hidden lg:table-cell">
+                <span className="flex items-center gap-1.5">
+                  <Tag size={12} className="text-accent-primary" /> Labels
+                </span>
               </th>
               <th className="text-left px-3 py-2.5 w-28 hidden sm:table-cell">
                 <button
                   onClick={() => handleSort('dueDate')}
-                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-semibold hover:text-text-primary cursor-pointer"
+                  className="flex items-center gap-1.5 text-overline text-text-tertiary font-bold hover:text-text-primary cursor-pointer"
                 >
-                  Due Date {renderSortIcon('dueDate')}
+                  <Calendar size={12} className="text-accent-primary" /> Due Date {renderSortIcon('dueDate')}
                 </button>
               </th>
-              <th className="text-left px-3 py-2.5 text-overline text-text-tertiary font-semibold w-24 hidden lg:table-cell">
-                Subtasks
+              <th className="text-left px-3 py-2.5 text-overline text-text-tertiary font-bold w-24 hidden lg:table-cell">
+                <span className="flex items-center gap-1.5">
+                  <ListTree size={12} className="text-accent-primary" /> Subtasks
+                </span>
               </th>
             </tr>
           </thead>
@@ -253,8 +260,8 @@ export default function ListView({ tasks }: ListViewProps) {
                       <tr
                         key={task.id}
                         className={cn(
-                          'hover:bg-bg-hover transition-colors cursor-pointer',
-                          isSelected && 'bg-info/5',
+                          'hover:bg-white/50 dark:hover:bg-white/5 transition-colors cursor-pointer',
+                          isSelected && 'bg-accent-primary/5',
                           task.status === 'done' && 'opacity-60',
                         )}
                       >
@@ -269,7 +276,7 @@ export default function ListView({ tasks }: ListViewProps) {
                           onClick={() => dispatch(setTaskDetailId(task.id))}
                         >
                           <span className={cn(
-                            'text-body-sm font-medium text-text-primary',
+                            'text-body-sm font-medium text-text-primary hover:text-accent-primary transition-colors',
                             task.status === 'done' && 'line-through text-text-secondary',
                           )}>
                             {task.title}
@@ -282,6 +289,7 @@ export default function ListView({ tasks }: ListViewProps) {
                         </td>
                         <td className="px-3 py-2.5">
                           <Badge size="sm" color={PRIORITY_CONFIG[task.priority].color}>
+                            <Flag size={10} className="mr-0.5" />
                             {PRIORITY_CONFIG[task.priority].label}
                           </Badge>
                         </td>
@@ -292,22 +300,28 @@ export default function ListView({ tasks }: ListViewProps) {
                               <span className="text-body-sm text-text-secondary truncate">{assignee.name}</span>
                             </div>
                           ) : (
-                            <span className="text-caption text-text-tertiary">Unassigned</span>
+                            <span className="text-caption text-text-tertiary flex items-center gap-1">
+                              <User size={11} /> Unassigned
+                            </span>
                           )}
                         </td>
                         <td className="px-3 py-2.5 hidden lg:table-cell">
                           <div className="flex flex-wrap gap-1">
                             {taskLabels.map(l => (
-                              <Badge key={l.id} size="sm" color={l.color}>{l.name}</Badge>
+                              <Badge key={l.id} size="sm" color={l.color}>
+                                <Tag size={9} className="mr-0.5" />
+                                {l.name}
+                              </Badge>
                             ))}
                           </div>
                         </td>
                         <td className="px-3 py-2.5 hidden sm:table-cell">
                           {task.dueDate ? (
                             <span className={cn(
-                              'text-caption',
+                              'text-caption inline-flex items-center gap-1',
                               isOverdue(task.dueDate) ? 'text-error font-medium' : 'text-text-secondary',
                             )}>
+                              <Clock size={11} />
                               {formatShortDate(task.dueDate)}
                             </span>
                           ) : (
@@ -316,7 +330,8 @@ export default function ListView({ tasks }: ListViewProps) {
                         </td>
                         <td className="px-3 py-2.5 hidden lg:table-cell">
                           {taskSubs.length > 0 ? (
-                            <span className="text-caption text-text-secondary">
+                            <span className="text-caption text-text-secondary inline-flex items-center gap-1">
+                              <CheckSquare size={11} className={completedSubs === taskSubs.length ? 'text-success' : 'text-text-tertiary'} />
                               {completedSubs}/{taskSubs.length}
                             </span>
                           ) : (

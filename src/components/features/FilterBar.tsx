@@ -14,6 +14,7 @@ import { TaskStatus, Priority, STATUS_CONFIG, PRIORITY_CONFIG, SortState } from 
 import { cn, generateId } from '@/lib/utils';
 import {
   X, Save, ArrowUpDown, ArrowUp, ArrowDown, User, Tag, Calendar, Bookmark, Trash2, Check,
+  Activity, Flag,
 } from 'lucide-react';
 
 export default function FilterBar() {
@@ -87,7 +88,7 @@ export default function FilterBar() {
       <div className="flex items-center gap-3 flex-wrap">
         {/* Status Filter */}
         <div className="flex items-center gap-1">
-          <span className="text-caption text-text-tertiary mr-1 font-medium">Status:</span>
+          <span className="text-caption text-text-tertiary mr-1 font-medium flex items-center gap-1"><Activity size={12} className="text-accent-primary" /> Status:</span>
           {(Object.keys(STATUS_CONFIG) as TaskStatus[]).map(status => {
             const active = filters.statuses.includes(status);
             return (
@@ -116,7 +117,7 @@ export default function FilterBar() {
 
         {/* Priority Filter */}
         <div className="flex items-center gap-1">
-          <span className="text-caption text-text-tertiary mr-1 font-medium">Priority:</span>
+          <span className="text-caption text-text-tertiary mr-1 font-medium flex items-center gap-1"><Flag size={12} className="text-amber-400" /> Priority:</span>
           {(Object.keys(PRIORITY_CONFIG) as Priority[]).map(priority => {
             const active = filters.priorities.includes(priority);
             return (
@@ -250,7 +251,7 @@ export default function FilterBar() {
 
         {/* Sort Controls */}
         <div className="flex items-center gap-1 ml-auto">
-          <span className="text-caption text-text-tertiary font-medium">Sort:</span>
+          <span className="text-caption text-text-tertiary font-medium flex items-center gap-1"><ArrowUpDown size={12} /> Sort:</span>
           <select
             value={sort.field}
             onChange={e => dispatch(setSort({ ...sort, field: e.target.value as SortState['field'] }))}
