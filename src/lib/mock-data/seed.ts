@@ -28,7 +28,7 @@ export function generateSeedData(): SeedData {
     {
       id: 'ws-main',
       name: 'My Workspace',
-      icon: '🏢',
+      icon: 'building',
       color: '#3B82F6',
       defaultView: 'kanban' as ViewType,
       createdAt: new Date().toISOString(),

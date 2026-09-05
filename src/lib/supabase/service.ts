@@ -265,7 +265,7 @@ export async function fetchAllFromSupabase(): Promise<{
     const workspaces: Workspace[] = (wsRes.data || []).map(w => ({
       id: w.id,
       name: w.name,
-      icon: w.icon || '🏢',
+      icon: w.icon || 'building',
       color: w.color || '#3B82F6',
       defaultView: w.default_view || 'kanban',
       createdBy: w.created_by || '',
@@ -286,7 +286,7 @@ export async function fetchAllFromSupabase(): Promise<{
       workspaceId: p.workspace_id,
       name: p.name,
       description: p.description || '',
-      icon: p.icon || '📁',
+      icon: p.icon || 'folder',
       color: p.color || '#3B82F6',
       archived: p.archived || false,
       template: p.template || undefined,

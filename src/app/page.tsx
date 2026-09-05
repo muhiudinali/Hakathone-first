@@ -10,7 +10,7 @@ import {
   Kanban, ListOrdered, Calendar, ShieldCheck, Zap, Cloud,
   CheckCircle2, ArrowRight, Sparkles, ChevronDown, ChevronUp,
   Layers, Users, Clock, Database, Laptop, Smartphone, Search,
-  Command, Plus, ExternalLink, Activity,
+  Command, Plus, ExternalLink, Activity, Building2, Home, FolderKanban,
 } from 'lucide-react';
 
 export default function LandingPage() {
@@ -185,7 +185,9 @@ export default function LandingPage() {
               <div className="h-3 w-3 rounded-full bg-[#27C93F] border border-[#1AAB29]" />
               <div className="h-4 w-px bg-border-primary mx-2" />
               <span className="text-xs font-medium text-text-secondary flex items-center gap-1.5">
-                <span>🏢</span>
+                <span className="h-5 w-5 rounded-md bg-blue-500 flex items-center justify-center text-white shadow-2xs">
+                  <Building2 size={12} />
+                </span>
                 <span>My Workspace</span>
                 <span className="text-text-tertiary">/</span>
                 <span className="text-text-primary font-semibold">Sprint Deliverables</span>
@@ -554,7 +556,9 @@ export default function LandingPage() {
           {/* Office Workflow */}
           <div className="glass-card rounded-2xl p-7 border-l-4 border-l-indigo-500">
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl">🏢</span>
+              <div className="h-11 w-11 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-500 shadow-2xs">
+                <Building2 size={22} />
+              </div>
               <div>
                 <h3 className="text-lg font-bold text-text-primary">Office Operations & Sprints</h3>
                 <span className="text-xs text-indigo-500 font-medium">Enterprise & Engineering Workflow</span>
@@ -579,7 +583,9 @@ export default function LandingPage() {
           {/* Home Workflow */}
           <div className="glass-card rounded-2xl p-7 border-l-4 border-l-emerald-500">
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl">🏠</span>
+              <div className="h-11 w-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-500 shadow-2xs">
+                <Home size={22} />
+              </div>
               <div>
                 <h3 className="text-lg font-bold text-text-primary">Personal & Household Management</h3>
                 <span className="text-xs text-emerald-500 font-medium">Daily Chores & Budget Tracking</span>

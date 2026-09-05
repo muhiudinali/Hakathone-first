@@ -9,7 +9,7 @@ import {
 } from '@/store/selectors';
 import { setCurrentProject } from '@/store/slices/projectSlice';
 import { setCreateTaskOpen, setCreateProjectOpen, setTaskDetailId } from '@/store/slices/uiSlice';
-import { Avatar, AvatarGroup, Badge, EmptyState, Button } from '@/components/ui';
+import { Avatar, AvatarGroup, Badge, EmptyState, Button, DynamicIcon } from '@/components/ui';
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '@/types';
 import { formatShortDate, formatRelativeTime, isOverdue } from '@/lib/utils';
 import {
@@ -322,13 +322,14 @@ export default function DashboardPage() {
 
                   <div className="flex items-center gap-3.5 mb-3 pt-1">
                     <div
-                      className="h-11 w-11 rounded-xl flex items-center justify-center text-xl shadow-xs border transition-transform duration-300 group-hover:scale-105"
+                      className="h-11 w-11 rounded-xl flex items-center justify-center shadow-xs border transition-transform duration-300 group-hover:scale-105"
                       style={{
                         backgroundColor: `${project.color}15`,
                         borderColor: `${project.color}30`,
+                        color: project.color,
                       }}
                     >
-                      {project.icon}
+                      <DynamicIcon icon={project.icon || 'folder'} size={20} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-body-md font-bold text-text-primary truncate group-hover:text-accent-primary transition-colors font-heading">

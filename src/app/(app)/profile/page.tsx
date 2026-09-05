@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { selectCurrentUser } from '@/store/selectors';
 import { updateProfile, switchUser } from '@/store/slices/authSlice';
-import { Button, Input, Avatar, useToast } from '@/components/ui';
+import { Button, Input, Avatar, DynamicIcon, useToast } from '@/components/ui';
 import { DEMO_USERS } from '@/lib/mock-data/users';
 import { Save, User, Mail, Edit3, X, Users } from 'lucide-react';
 
-const AVATAR_OPTIONS = ['👨‍💼', '👩‍💼', '👨‍💻', '👩‍💻', '🚀', '🎨', '⚡', '🦉', '🦊', '🐱'];
+const AVATAR_OPTIONS = ['user', 'briefcase', 'code', 'rocket', 'shield', 'sparkles', 'target', 'zap', 'palette', 'globe'];
 
 export default function ProfilePage() {
   const dispatch = useAppDispatch();
@@ -40,8 +40,8 @@ export default function ProfilePage() {
       <div className="glass-card border border-white/70 dark:border-white/10 rounded-2xl p-6 shadow-sm">
         <div className="flex items-center gap-4 mb-6 pb-6 border-b border-border-primary">
           {currentUser.avatar ? (
-            <div className="h-14 w-14 rounded-full bg-accent-primary/20 border border-border-primary flex items-center justify-center text-2xl">
-              {currentUser.avatar}
+            <div className="h-14 w-14 rounded-full bg-accent-primary/15 border border-accent-primary/30 flex items-center justify-center text-accent-primary shadow-xs">
+              <DynamicIcon icon={currentUser.avatar} size={26} />
             </div>
           ) : (
             <Avatar name={currentUser.name} size="lg" />
@@ -58,18 +58,18 @@ export default function ProfilePage() {
             <Input label="Email" type="email" icon={<Mail size={15} />} value={email} onChange={e => setEmail(e.target.value)} />
 
             <div>
-              <label className="text-body-sm font-medium text-text-primary block mb-1.5">Avatar Emoji</label>
+              <label className="text-body-sm font-medium text-text-primary block mb-1.5">Avatar Icon</label>
               <div className="flex flex-wrap gap-2">
-                {AVATAR_OPTIONS.map(emoji => (
+                {AVATAR_OPTIONS.map(iconKey => (
                   <button
-                    key={emoji}
+                    key={iconKey}
                     type="button"
-                    onClick={() => setAvatar(emoji)}
-                    className={`h-9 w-9 text-lg rounded-lg border flex items-center justify-center cursor-pointer transition-transform ${
-                      avatar === emoji ? 'border-accent-primary bg-bg-hover scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
+                    onClick={() => setAvatar(iconKey)}
+                    className={`h-9 w-9 rounded-xl border flex items-center justify-center cursor-pointer transition-all ${
+                      avatar === iconKey ? 'border-accent-primary bg-accent-primary/15 text-accent-primary scale-110 shadow-xs ring-2 ring-accent-primary/20' : 'border-border-primary hover:bg-bg-hover text-text-secondary hover:text-text-primary'
                     }`}
                   >
-                    {emoji}
+                    <DynamicIcon icon={iconKey} size={18} />
                   </button>
                 ))}
               </div>
@@ -97,7 +97,9 @@ export default function ProfilePage() {
             {currentUser.avatar && (
               <div>
                 <label className="text-body-sm text-text-secondary mb-0.5 block">Avatar</label>
-                <p className="text-xl">{currentUser.avatar}</p>
+                <div className="h-9 w-9 rounded-xl bg-accent-primary/15 border border-accent-primary/30 flex items-center justify-center text-accent-primary shadow-xs">
+                  <DynamicIcon icon={currentUser.avatar} size={18} />
+                </div>
               </div>
             )}
             <div className="pt-2">

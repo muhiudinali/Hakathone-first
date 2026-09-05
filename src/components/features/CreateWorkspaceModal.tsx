@@ -6,11 +6,11 @@ import { selectCreateWorkspaceOpen, selectCurrentUserId } from '@/store/selector
 import { createWorkspace, setCurrentWorkspace } from '@/store/slices/workspaceSlice';
 import { setCreateWorkspaceOpen } from '@/store/slices/uiSlice';
 import { addActivity } from '@/store/slices/activitySlice';
-import { Modal, Button, Input, Select, useToast } from '@/components/ui';
+import { Modal, Button, Input, Select, useToast, DynamicIcon } from '@/components/ui';
 import { generateId, PROJECT_COLORS, PROJECT_ICONS } from '@/lib/utils';
 import { ViewType, Workspace } from '@/types';
 
-import { Building2, Sparkles, Smile, Palette, Layout, Plus, X } from 'lucide-react';
+import { Building2, Sparkles, Smile, Palette, Layout, Plus, X, Home, Code2 } from 'lucide-react';
 
 export default function CreateWorkspaceModal() {
   const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ export default function CreateWorkspaceModal() {
   const { addToast } = useToast();
 
   const [name, setName] = useState('');
-  const [icon, setIcon] = useState('🏢');
+  const [icon, setIcon] = useState('building');
   const [color, setColor] = useState(PROJECT_COLORS[0]);
   const [defaultView, setDefaultView] = useState<ViewType>('kanban');
   const [error, setError] = useState('');
@@ -27,7 +27,7 @@ export default function CreateWorkspaceModal() {
   const close = () => {
     dispatch(setCreateWorkspaceOpen(false));
     setName('');
-    setIcon('🏢');
+    setIcon('building');
     setColor(PROJECT_COLORS[0]);
     setDefaultView('kanban');
     setError('');
@@ -90,29 +90,29 @@ export default function CreateWorkspaceModal() {
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
-              onClick={() => { setName('Acme Corp (Office)'); setIcon('🏢'); setColor('#3B82F6'); setError(''); }}
+              onClick={() => { setName('Acme Corp (HQ)'); setIcon('building'); setColor('#3B82F6'); setError(''); }}
               className="p-2.5 border border-border-primary hover:border-accent-primary rounded-xl text-left transition-colors cursor-pointer bg-bg-secondary/70 hover:bg-bg-hover shadow-2xs"
             >
-              <div className="text-lg mb-1">🏢</div>
-              <div className="text-body-xs font-semibold text-text-primary truncate">Office Workspace</div>
-              <div className="text-caption text-text-tertiary truncate">Office ka Kaam</div>
+              <Building2 size={20} className="text-blue-500 mb-1" />
+              <div className="text-body-xs font-semibold text-text-primary truncate">HQ Workspace</div>
+              <div className="text-caption text-text-tertiary truncate">Enterprise & Ops</div>
             </button>
             <button
               type="button"
-              onClick={() => { setName('Home & Personal (Ghar)'); setIcon('🏡'); setColor('#10B981'); setError(''); }}
+              onClick={() => { setName('Home & Personal'); setIcon('home'); setColor('#10B981'); setError(''); }}
               className="p-2.5 border border-border-primary hover:border-accent-primary rounded-xl text-left transition-colors cursor-pointer bg-bg-secondary/70 hover:bg-bg-hover shadow-2xs"
             >
-              <div className="text-lg mb-1">🏡</div>
-              <div className="text-body-xs font-semibold text-text-primary truncate">Home Workspace</div>
-              <div className="text-caption text-text-tertiary truncate">Ghar ka Kaam</div>
+              <Home size={20} className="text-emerald-500 mb-1" />
+              <div className="text-body-xs font-semibold text-text-primary truncate">Home / Personal</div>
+              <div className="text-caption text-text-tertiary truncate">Tasks & Chores</div>
             </button>
             <button
               type="button"
-              onClick={() => { setName('Tech & Engineering'); setIcon('💻'); setColor('#8B5CF6'); setError(''); }}
+              onClick={() => { setName('Tech & Engineering'); setIcon('code'); setColor('#8B5CF6'); setError(''); }}
               className="p-2.5 border border-border-primary hover:border-accent-primary rounded-xl text-left transition-colors cursor-pointer bg-bg-secondary/70 hover:bg-bg-hover shadow-2xs"
             >
-              <div className="text-lg mb-1">💻</div>
-              <div className="text-body-xs font-semibold text-text-primary truncate">Tech & Product</div>
+              <Code2 size={20} className="text-purple-500 mb-1" />
+              <div className="text-body-xs font-semibold text-text-primary truncate">Engineering</div>
               <div className="text-caption text-text-tertiary truncate">Sprint Backlog</div>
             </button>
           </div>
@@ -134,16 +134,17 @@ export default function CreateWorkspaceModal() {
             <Smile size={14} className="text-accent-primary" /> Workspace Icon
           </label>
           <div className="flex flex-wrap gap-2">
-            {PROJECT_ICONS.slice(0, 10).map(ic => (
+            {PROJECT_ICONS.slice(0, 12).map(ic => (
               <button
                 key={ic}
                 type="button"
                 onClick={() => setIcon(ic)}
-                className={`h-9 w-9 text-lg rounded-xl border flex items-center justify-center transition-transform cursor-pointer ${
-                  icon === ic ? 'border-accent-primary bg-accent-primary/10 scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
+                className={`h-9 w-9 rounded-xl border flex items-center justify-center transition-transform cursor-pointer ${
+                  icon === ic ? 'border-accent-primary bg-accent-primary/15 scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
                 }`}
+                title={ic}
               >
-                {ic}
+                <DynamicIcon icon={ic} size={18} className={icon === ic ? 'text-accent-primary' : 'text-text-secondary'} />
               </button>
             ))}
           </div>

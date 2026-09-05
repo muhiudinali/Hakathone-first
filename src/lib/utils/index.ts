@@ -187,8 +187,9 @@ export const PROJECT_COLORS = [
 ];
 
 export const PROJECT_ICONS = [
-  '📁', '🚀', '💡', '🎯', '📊', '🔧', '🎨', '📝',
-  '🏗️', '🔬', '📱', '🌐', '⚡', '🎮', '📈', '🛡️',
+  'folder', 'building', 'briefcase', 'code', 'rocket', 'layers',
+  'palette', 'target', 'barchart', 'globe', 'shield', 'zap',
+  'cpu', 'smartphone', 'notes', 'home',
 ];
 
 export const LABEL_COLORS = [

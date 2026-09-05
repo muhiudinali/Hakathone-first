@@ -11,7 +11,7 @@ import { setCurrentWorkspace } from '@/store/slices/workspaceSlice';
 import { setCurrentProject } from '@/store/slices/projectSlice';
 import { logout } from '@/store/slices/authSlice';
 import { setSidebarMobileOpen, setCreateProjectOpen, setCreateWorkspaceOpen, setCreateTaskOpen } from '@/store/slices/uiSlice';
-import { Avatar, Dropdown, DropdownItem, DropdownSeparator, IconButton } from '@/components/ui';
+import { Avatar, Dropdown, DropdownItem, DropdownSeparator, IconButton, DynamicIcon } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard, FolderKanban, CheckSquare, Activity, Settings, LogOut,
@@ -58,39 +58,44 @@ export default function Sidebar() {
   const sidebarContent = (
     <div className="h-full flex flex-col glass-sidebar">
       {/* Workspace Switcher */}
-      <div className="h-14 px-3 flex items-center border-b border-border-primary/80">
+      <div className="h-14 px-3 flex items-center border-b border-border-primary/80 relative z-30">
         {!collapsed && (
-          <Dropdown
-            trigger={
-              <button className="flex-1 flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-bg-hover transition-colors cursor-pointer min-w-0 border border-transparent hover:border-border-primary/60">
-                <div className="h-7 w-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0 shadow-xs" style={{ backgroundColor: currentWorkspace?.color || '#3B82F6' }}>
-                  <span className="text-white">{currentWorkspace?.icon || '🏢'}</span>
-                </div>
-                <span className="text-body-sm font-semibold text-text-primary truncate">{currentWorkspace?.name || 'Workspace'}</span>
-                <ChevronsUpDown size={14} className="text-text-tertiary flex-shrink-0 ml-auto" />
-              </button>
-            }
-          >
-            <div className="px-2 py-1.5 text-overline text-text-tertiary">Workspaces</div>
-            {workspaces.map(ws => (
-              <DropdownItem key={ws.id} onClick={() => handleSwitchWorkspace(ws.id)}>
-                <span className="mr-1.5">{ws.icon}</span> {ws.name}
+          <div className="flex-1 min-w-0">
+            <Dropdown
+              trigger={
+                <button className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-bg-hover transition-colors cursor-pointer min-w-0 border border-transparent hover:border-border-primary/60">
+                  <div className="h-7 w-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0 shadow-xs" style={{ backgroundColor: currentWorkspace?.color || '#3B82F6' }}>
+                    <DynamicIcon icon={currentWorkspace?.icon || 'building'} size={15} className="text-white" />
+                  </div>
+                  <span className="text-body-sm font-semibold text-text-primary truncate">{currentWorkspace?.name || 'Workspace'}</span>
+                  <ChevronsUpDown size={14} className="text-text-tertiary flex-shrink-0 ml-auto" />
+                </button>
+              }
+            >
+              <div className="px-2 py-1.5 text-overline text-text-tertiary">Workspaces</div>
+              {workspaces.map(ws => (
+                <DropdownItem key={ws.id} onClick={() => handleSwitchWorkspace(ws.id)}>
+                  <div className="h-5 w-5 rounded-md flex items-center justify-center flex-shrink-0 mr-2 shadow-2xs" style={{ backgroundColor: ws.color }}>
+                    <DynamicIcon icon={ws.icon || 'building'} size={12} className="text-white" />
+                  </div>
+                  <span className="truncate">{ws.name}</span>
+                </DropdownItem>
+              ))}
+              <DropdownSeparator />
+              <DropdownItem icon={<Plus size={14} />} onClick={() => dispatch(setCreateWorkspaceOpen(true))}>
+                Create workspace
               </DropdownItem>
-            ))}
-            <DropdownSeparator />
-            <DropdownItem icon={<Plus size={14} />} onClick={() => dispatch(setCreateWorkspaceOpen(true))}>
-              Create workspace
-            </DropdownItem>
-            {currentWorkspace && (
-              <DropdownItem icon={<Settings size={14} />} onClick={() => navigate(`/workspaces/${currentWorkspace.id}/settings`)}>
-                Workspace settings
-              </DropdownItem>
-            )}
-          </Dropdown>
+              {currentWorkspace && (
+                <DropdownItem icon={<Settings size={14} />} onClick={() => navigate(`/workspaces/${currentWorkspace.id}/settings`)}>
+                  Workspace settings
+                </DropdownItem>
+              )}
+            </Dropdown>
+          </div>
         )}
         {collapsed && currentWorkspace && (
           <div className="mx-auto h-8 w-8 rounded-lg flex items-center justify-center text-sm cursor-pointer hover:bg-bg-hover shadow-xs" style={{ backgroundColor: currentWorkspace.color }}>
-            <span className="text-white">{currentWorkspace.icon}</span>
+            <DynamicIcon icon={currentWorkspace.icon || 'building'} size={16} className="text-white" />
           </div>
         )}
         <IconButton
@@ -179,7 +184,16 @@ export default function Sidebar() {
                       : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary',
                   )}
                 >
-                  <span className="flex-shrink-0">{proj.icon}</span>
+                  <div
+                    className="h-5 w-5 rounded-md flex items-center justify-center flex-shrink-0 shadow-2xs border"
+                    style={{
+                      backgroundColor: `${proj.color}15`,
+                      borderColor: `${proj.color}30`,
+                      color: proj.color,
+                    }}
+                  >
+                    <DynamicIcon icon={proj.icon || 'folder'} size={12} />
+                  </div>
                   <span className="truncate">{proj.name}</span>
                 </button>
               );
@@ -202,7 +216,16 @@ export default function Sidebar() {
                 className="w-full flex items-center justify-center py-1.5 rounded-lg hover:bg-bg-hover transition-colors cursor-pointer"
                 title={proj.name}
               >
-                <span className="text-sm">{proj.icon}</span>
+                <div
+                  className="h-7 w-7 rounded-lg flex items-center justify-center shadow-xs border"
+                  style={{
+                    backgroundColor: `${proj.color}15`,
+                    borderColor: `${proj.color}30`,
+                    color: proj.color,
+                  }}
+                >
+                  <DynamicIcon icon={proj.icon || 'folder'} size={14} />
+                </div>
               </button>
             ))}
           </div>

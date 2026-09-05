@@ -507,7 +507,7 @@ export function Dropdown({ trigger, children, align = 'left' }: DropdownProps) {
       {open && (
         <div
           className={cn(
-            'absolute z-50 mt-1.5 min-w-[190px] py-1.5 glass-panel rounded-xl shadow-2xl border border-white/20 dark:border-white/10 animate-slide-in-up',
+            'absolute z-50 mt-1.5 min-w-[210px] py-1.5 bg-white dark:bg-[#0F172A] rounded-xl shadow-2xl border border-border-primary ring-1 ring-black/10 animate-slide-in-up',
             align === 'right' ? 'right-0' : 'left-0',
           )}
           onClick={() => setOpen(false)}
@@ -759,7 +759,7 @@ export function Popover({ trigger, children, align = 'left', open: controlledOpe
       {isOpen && (
         <div
           className={cn(
-            'absolute z-50 mt-2 glass-panel border border-white/20 dark:border-white/10 rounded-xl shadow-2xl animate-slide-in-up p-3',
+            'absolute z-50 mt-2 bg-bg-secondary/98 dark:bg-bg-elevated/98 backdrop-blur-2xl border border-border-primary ring-1 ring-black/5 rounded-xl shadow-2xl animate-slide-in-up p-3',
             align === 'right' ? 'right-0' : align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-0',
           )}
         >
@@ -777,3 +777,5 @@ export function Popover({ trigger, children, align = 'left', open: controlledOpe
 export function Tooltip({ children, content }: { children: React.ReactElement; content: string }) {
   return React.cloneElement(children, { title: content } as React.HTMLAttributes<HTMLElement>);
 }
+
+export * from './DynamicIcon';

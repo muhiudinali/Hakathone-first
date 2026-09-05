@@ -11,7 +11,7 @@ import {
   updateWorkspace, deleteWorkspace, changeMemberRole, removeMember, setCurrentWorkspace,
 } from '@/store/slices/workspaceSlice';
 import { setInviteMemberOpen } from '@/store/slices/uiSlice';
-import { Button, Input, Select, Avatar, ConfirmDialog, Tabs, useToast } from '@/components/ui';
+import { Button, Input, Select, Avatar, ConfirmDialog, Tabs, useToast, DynamicIcon } from '@/components/ui';
 import { canManageWorkspace, canDeleteWorkspace, canManageMembers } from '@/lib/permissions';
 import { PROJECT_COLORS, PROJECT_ICONS } from '@/lib/utils';
 import { Role, ViewType } from '@/types';
@@ -32,7 +32,7 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
 
   const [activeTab, setActiveTab] = useState('general');
   const [name, setName] = useState(workspace?.name || '');
-  const [icon, setIcon] = useState(workspace?.icon || '🏢');
+  const [icon, setIcon] = useState(workspace?.icon || 'building');
   const [color, setColor] = useState(workspace?.color || '#3B82F6');
   const [defaultView, setDefaultView] = useState<ViewType>(workspace?.defaultView || 'kanban');
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -131,11 +131,12 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
                     type="button"
                     onClick={() => canManage && setIcon(ic)}
                     disabled={!canManage}
-                    className={`h-9 w-9 text-lg rounded-lg border flex items-center justify-center transition-transform cursor-pointer ${
-                      icon === ic ? 'border-accent-primary bg-bg-hover scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
+                    className={`h-9 w-9 rounded-xl border flex items-center justify-center transition-transform cursor-pointer ${
+                      icon === ic ? 'border-accent-primary bg-accent-primary/15 scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
                     }`}
+                    title={ic}
                   >
-                    {ic}
+                    <DynamicIcon icon={ic} size={18} className={icon === ic ? 'text-accent-primary' : 'text-text-secondary'} />
                   </button>
                 ))}
               </div>

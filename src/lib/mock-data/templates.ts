@@ -5,7 +5,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     id: 'tpl-home-chores',
     name: 'Home & Household (Ghar ka Kaam)',
     description: 'Track household chores, groceries, repairs, bills, and maintenance',
-    icon: '🏠',
+    icon: 'home',
     tasks: [
       { title: 'Weekly Grocery & Household Shopping', description: 'Buy fresh vegetables, milk, eggs, bread, pantry essentials and cleaning supplies', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
       { title: 'Pay Monthly Household Utility Bills', description: 'Pay electricity, gas, water, and home fiber internet WiFi bills before due date', status: 'todo' as TaskStatus, priority: 'urgent' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
@@ -20,7 +20,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     id: 'tpl-office-work',
     name: 'Office & Operations (Office ka Kaam)',
     description: 'Manage office tasks, team meetings, client deliverables, and operations',
-    icon: '💼',
+    icon: 'briefcase',
     tasks: [
       { title: 'Prepare Q3 Client Proposal & Pitch Deck', description: 'Create presentation slides covering project scope, timelines, and cost estimate', status: 'in_progress' as TaskStatus, priority: 'urgent' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
       { title: 'Weekly Team Sprint Planning & Review', description: 'Review sprint backlog, assign tickets to developers, and finalize milestone goals', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
@@ -34,7 +34,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     id: 'tpl-website-launch',
     name: 'Website Launch',
     description: 'Complete website redesign and launch plan',
-    icon: '🌐',
+    icon: 'globe',
     tasks: [
       { title: 'Competitive research & analysis', description: 'Analyze competitor websites and identify best practices', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
       { title: 'Define site architecture', description: 'Create sitemap and information architecture document', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
@@ -52,7 +52,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     id: 'tpl-product-dev',
     name: 'Product Development',
     description: 'End-to-end product development workflow',
-    icon: '🚀',
+    icon: 'rocket',
     tasks: [
       { title: 'Gather requirements', description: 'Collect and document product requirements from stakeholders', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
       { title: 'Create PRD', description: 'Write product requirements document with user stories', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
@@ -70,7 +70,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     id: 'tpl-marketing',
     name: 'Marketing Campaign',
     description: 'Plan and execute a marketing campaign',
-    icon: '📈',
+    icon: 'barchart',
     tasks: [
       { title: 'Market research', description: 'Analyze target audience and market opportunities', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
       { title: 'Define campaign strategy', description: 'Set goals, KPIs, and campaign messaging framework', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
@@ -88,7 +88,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     id: 'tpl-content',
     name: 'Content Calendar',
     description: 'Organize and manage content production',
-    icon: '📝',
+    icon: 'notes',
     tasks: [
       { title: 'Content audit', description: 'Review existing content and identify gaps', status: 'done' as TaskStatus, priority: 'medium' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
       { title: 'Keyword research', description: 'Identify target keywords and search intent', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
@@ -104,7 +104,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     id: 'tpl-bug-tracking',
     name: 'Bug Tracking',
     description: 'Track and resolve software bugs',
-    icon: '🔧',
+    icon: 'shield',
     tasks: [
       { title: 'Login page crash on mobile Safari', description: 'App crashes when tapping the login button on Safari iOS 17', status: 'in_progress' as TaskStatus, priority: 'urgent' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
       { title: 'Dashboard data not refreshing', description: 'Dashboard metrics show stale data until manual refresh', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },

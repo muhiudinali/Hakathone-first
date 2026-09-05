@@ -11,12 +11,12 @@ import { createProject, setCurrentProject } from '@/store/slices/projectSlice';
 import { createTask } from '@/store/slices/taskSlice';
 import { setCreateProjectOpen } from '@/store/slices/uiSlice';
 import { addActivity } from '@/store/slices/activitySlice';
-import { Modal, Button, Input, Textarea, Avatar, Checkbox, useToast } from '@/components/ui';
+import { Modal, Button, Input, Textarea, Avatar, Checkbox, useToast, DynamicIcon } from '@/components/ui';
 import { generateId, PROJECT_COLORS, PROJECT_ICONS } from '@/lib/utils';
 import { PROJECT_TEMPLATES } from '@/lib/mock-data/templates';
 import { KanbanColumn, Project, ProjectMember } from '@/types';
 
-import { FolderPlus, LayoutTemplate, Palette, Users, Smile, X, Plus } from 'lucide-react';
+import { FolderPlus, LayoutTemplate, Palette, Users, Smile, X, Plus, Sparkles } from 'lucide-react';
 
 export default function CreateProjectModal() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function CreateProjectModal() {
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [icon, setIcon] = useState('📁');
+  const [icon, setIcon] = useState('folder');
   const [color, setColor] = useState(PROJECT_COLORS[0]);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>('blank');
   const [selectedMemberIds, setSelectedMemberIds] = useState<string[]>(
@@ -53,7 +53,7 @@ export default function CreateProjectModal() {
     dispatch(setCreateProjectOpen(false));
     setName('');
     setDescription('');
-    setIcon('📁');
+    setIcon('folder');
     setColor(PROJECT_COLORS[0]);
     setSelectedTemplateId('blank');
     setSelectedMemberIds(currentUserId ? [currentUserId] : []);
@@ -157,7 +157,7 @@ export default function CreateProjectModal() {
                   : 'border-border-primary hover:bg-bg-hover'
               }`}
             >
-              <div className="text-lg mb-1">✨</div>
+              <Sparkles size={18} className="text-accent-primary mb-1.5" />
               <div className="text-body-sm font-medium text-text-primary">Blank</div>
               <div className="text-caption text-text-tertiary truncate">Start fresh</div>
             </button>
@@ -172,7 +172,9 @@ export default function CreateProjectModal() {
                     : 'border-border-primary hover:bg-bg-hover'
                 }`}
               >
-                <div className="text-lg mb-1">{tpl.icon}</div>
+                <div className="mb-1.5">
+                  <DynamicIcon icon={tpl.icon} size={18} className="text-accent-primary" />
+                </div>
                 <div className="text-body-sm font-medium text-text-primary truncate">{tpl.name}</div>
                 <div className="text-caption text-text-tertiary">{tpl.tasks.length} tasks</div>
               </button>
@@ -204,16 +206,17 @@ export default function CreateProjectModal() {
               <Smile size={14} className="text-accent-primary" /> Project Icon
             </label>
             <div className="flex flex-wrap gap-1.5">
-              {PROJECT_ICONS.slice(0, 10).map(ic => (
+              {PROJECT_ICONS.slice(0, 12).map(ic => (
                 <button
                   key={ic}
                   type="button"
                   onClick={() => setIcon(ic)}
-                  className={`h-8 w-8 text-base rounded-lg border flex items-center justify-center cursor-pointer transition-transform ${
-                    icon === ic ? 'border-accent-primary bg-accent-primary/10 scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
+                  className={`h-8 w-8 rounded-lg border flex items-center justify-center cursor-pointer transition-transform ${
+                    icon === ic ? 'border-accent-primary bg-accent-primary/15 scale-110 shadow-xs' : 'border-border-primary hover:bg-bg-hover'
                   }`}
+                  title={ic}
                 >
-                  {ic}
+                  <DynamicIcon icon={ic} size={15} className={icon === ic ? 'text-accent-primary' : 'text-text-secondary'} />
                 </button>
               ))}
             </div>

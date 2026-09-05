@@ -19,7 +19,7 @@ import {
 } from '@/store/slices/taskSlice';
 import {
   Button, IconButton, Badge, EmptyState, ConfirmDialog, Modal, Input, Textarea,
-  Dropdown, DropdownItem, DropdownSeparator, Avatar, AvatarGroup, useToast,
+  Dropdown, DropdownItem, DropdownSeparator, Avatar, AvatarGroup, useToast, DynamicIcon,
 } from '@/components/ui';
 import KanbanBoard from '@/components/features/KanbanBoard';
 import ListView from '@/components/features/ListView';
@@ -124,13 +124,14 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3.5">
             <div
-              className="h-10 w-10 rounded-xl flex items-center justify-center text-xl shadow-xs border"
+              className="h-10 w-10 rounded-xl flex items-center justify-center shadow-xs border"
               style={{
                 backgroundColor: `${project.color}15`,
                 borderColor: `${project.color}30`,
+                color: project.color,
               }}
             >
-              {project.icon}
+              <DynamicIcon icon={project.icon || 'folder'} size={20} />
             </div>
             <div>
               <div className="flex items-center gap-2">
