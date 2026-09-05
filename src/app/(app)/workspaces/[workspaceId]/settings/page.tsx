@@ -63,10 +63,23 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
     addToast({ type: 'success', message: 'Workspace settings saved' });
   };
 
-  const handleDeleteWorkspace = () => {
+  const handleDeleteWorkspace = async () => {
     dispatch(deleteWorkspace(workspace.id));
     addToast({ type: 'info', message: `Workspace "${workspace.name}" deleted` });
     setDeleteConfirm(false);
+
+    try {
+      const { getSupabaseClient, isSupabaseConfigured } = await import('@/lib/supabase/client');
+      if (isSupabaseConfigured()) {
+        const supabase = getSupabaseClient();
+        if (supabase) {
+          await supabase.from('workspaces').delete().eq('id', workspace.id);
+        }
+      }
+    } catch (e) {
+      console.error('Supabase workspace deletion error:', e);
+    }
+
     const remaining = Object.values(allWorkspaces).filter(w => w.id !== workspace.id);
     if (remaining.length > 0) {
       dispatch(setCurrentWorkspace(remaining[0].id));
