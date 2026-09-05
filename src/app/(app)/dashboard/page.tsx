@@ -8,7 +8,7 @@ import {
   selectAllUsers, selectOverdueTasks, selectAllTasks,
 } from '@/store/selectors';
 import { setCurrentProject } from '@/store/slices/projectSlice';
-import { setCreateTaskOpen } from '@/store/slices/uiSlice';
+import { setCreateTaskOpen, setCreateProjectOpen } from '@/store/slices/uiSlice';
 import { Avatar, AvatarGroup, Badge, EmptyState, Button } from '@/components/ui';
 import { STATUS_CONFIG, PRIORITY_CONFIG } from '@/types';
 import { formatShortDate, formatRelativeTime, isOverdue } from '@/lib/utils';
@@ -154,8 +154,35 @@ export default function DashboardPage() {
 
       {/* Projects */}
       <div>
-        <h2 className="text-heading-sm text-text-primary mb-4">Projects</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-heading-sm text-text-primary">Projects</h2>
+          <Button
+            size="sm"
+            variant="secondary"
+            icon={<Plus size={14} />}
+            onClick={() => dispatch(setCreateProjectOpen(true))}
+          >
+            Create Project
+          </Button>
+        </div>
+
+        {projects.length === 0 ? (
+          <div className="bg-bg-secondary border border-border-primary rounded-xl p-8 text-center">
+            <FolderKanban size={40} className="mx-auto text-text-tertiary mb-3 opacity-60" />
+            <h3 className="text-body-md font-medium text-text-primary">No projects yet</h3>
+            <p className="text-body-sm text-text-secondary mt-1 mb-4">
+              Get started by creating your first project to organize your team&apos;s tasks and boards.
+            </p>
+            <Button
+              variant="primary"
+              icon={<Plus size={15} />}
+              onClick={() => dispatch(setCreateProjectOpen(true))}
+            >
+              Create Project
+            </Button>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map(project => {
             const projectTasks = Object.values(allTasks || {}).filter(t => t.projectId === project.id);
             const completedCount = projectTasks.filter(t => t.status === 'done').length;
@@ -200,6 +227,7 @@ export default function DashboardPage() {
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );

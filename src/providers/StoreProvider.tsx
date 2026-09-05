@@ -21,10 +21,20 @@ import {
 } from '@/types';
 
 function hydrateStore(store: AppStore) {
-  const seeded = loadFromStorage<boolean>('seeded_v3', false);
+  const seeded = loadFromStorage<boolean>('seeded_clean_v7', false);
   
   if (!seeded) {
-    // First launch or data refresh: seed data
+    // Purge old dummy data from localStorage
+    if (typeof window !== 'undefined') {
+      [
+        'workspaces', 'projects', 'tasks', 'comments', 'activity',
+        'notifications', 'seeded_v1', 'seeded_v2', 'seeded_v3',
+      ].forEach(k => {
+        try { localStorage.removeItem(`wm_${k}`); } catch {}
+      });
+    }
+
+    // Load clean initial state
     const seed = generateSeedData();
     store.dispatch(setUsers(seed.users));
     store.dispatch(loadWorkspaces({
@@ -33,20 +43,20 @@ function hydrateStore(store: AppStore) {
       labels: seed.labels,
     }));
     store.dispatch(loadProjects({
-      projects: seed.projects,
-      members: seed.projectMembers,
-      kanbanColumns: seed.kanbanColumns,
+      projects: [],
+      members: [],
+      kanbanColumns: [],
     }));
     store.dispatch(loadTasks({
-      tasks: seed.tasks,
-      subtasks: seed.subtasks,
+      tasks: [],
+      subtasks: [],
     }));
-    store.dispatch(loadComments(seed.comments));
-    store.dispatch(loadActivity(seed.activity));
-    store.dispatch(loadNotifications(seed.notifications));
-    store.dispatch(setCurrentWorkspace('ws-1'));
+    store.dispatch(loadComments([]));
+    store.dispatch(loadActivity([]));
+    store.dispatch(loadNotifications([]));
+    store.dispatch(setCurrentWorkspace(seed.workspaces[0]?.id || 'ws-main'));
     
-    saveToStorage('seeded_v3', true);
+    saveToStorage('seeded_clean_v7', true);
     persistState(store);
   } else {
     // Subsequent launches: load from storage
