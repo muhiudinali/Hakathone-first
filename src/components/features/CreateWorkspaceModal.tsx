@@ -80,6 +80,40 @@ export default function CreateWorkspaceModal() {
   return (
     <Modal open={open} onClose={close} title="Create Workspace" size="md">
       <div className="space-y-4 mt-4">
+        {/* Quick Presets */}
+        <div>
+          <label className="text-body-sm font-medium text-text-primary block mb-1.5">Quick Presets</label>
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => { setName('Acme Corp (Office)'); setIcon('🏢'); setColor('#3B82F6'); setError(''); }}
+              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-lg text-left transition-colors cursor-pointer bg-bg-secondary hover:bg-bg-hover"
+            >
+              <div className="text-lg mb-1">🏢</div>
+              <div className="text-body-xs font-semibold text-text-primary truncate">Office Workspace</div>
+              <div className="text-caption text-text-tertiary truncate">Office ka Kaam</div>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setName('Home & Personal (Ghar)'); setIcon('🏡'); setColor('#10B981'); setError(''); }}
+              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-lg text-left transition-colors cursor-pointer bg-bg-secondary hover:bg-bg-hover"
+            >
+              <div className="text-lg mb-1">🏡</div>
+              <div className="text-body-xs font-semibold text-text-primary truncate">Home Workspace</div>
+              <div className="text-caption text-text-tertiary truncate">Ghar ka Kaam</div>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setName('Tech & Engineering'); setIcon('💻'); setColor('#8B5CF6'); setError(''); }}
+              className="p-2.5 border border-border-primary hover:border-accent-primary rounded-lg text-left transition-colors cursor-pointer bg-bg-secondary hover:bg-bg-hover"
+            >
+              <div className="text-lg mb-1">💻</div>
+              <div className="text-body-xs font-semibold text-text-primary truncate">Tech & Product</div>
+              <div className="text-caption text-text-tertiary truncate">Sprint Backlog</div>
+            </button>
+          </div>
+        </div>
+
         <Input
           label="Workspace Name"
           placeholder="e.g. Acme Corp, Marketing Team"

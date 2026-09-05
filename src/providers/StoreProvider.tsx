@@ -21,10 +21,10 @@ import {
 } from '@/types';
 
 function hydrateStore(store: AppStore) {
-  const seeded = loadFromStorage<boolean>('seeded', false);
+  const seeded = loadFromStorage<boolean>('seeded_v3', false);
   
   if (!seeded) {
-    // First launch: seed data
+    // First launch or data refresh: seed data
     const seed = generateSeedData();
     store.dispatch(setUsers(seed.users));
     store.dispatch(loadWorkspaces({
@@ -46,7 +46,7 @@ function hydrateStore(store: AppStore) {
     store.dispatch(loadNotifications(seed.notifications));
     store.dispatch(setCurrentWorkspace('ws-1'));
     
-    saveToStorage('seeded', true);
+    saveToStorage('seeded_v3', true);
     persistState(store);
   } else {
     // Subsequent launches: load from storage

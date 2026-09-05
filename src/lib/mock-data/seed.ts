@@ -71,7 +71,7 @@ export function generateSeedData(): SeedData {
   const workspaces: Workspace[] = [
     {
       id: 'ws-1',
-      name: 'Acme Corp',
+      name: 'Acme Corp (Office)',
       icon: '🏢',
       color: '#3B82F6',
       defaultView: 'kanban' as ViewType,
@@ -81,12 +81,12 @@ export function generateSeedData(): SeedData {
     },
     {
       id: 'ws-2',
-      name: 'Side Projects',
-      icon: '🎯',
-      color: '#8B5CF6',
-      defaultView: 'list' as ViewType,
+      name: 'Home & Personal (Ghar)',
+      icon: '🏡',
+      color: '#10B981',
+      defaultView: 'kanban' as ViewType,
       createdAt: daysAgo(60),
-      updatedAt: daysAgo(3),
+      updatedAt: daysAgo(1),
       createdBy: 'user-alex',
     },
   ];
@@ -105,32 +105,32 @@ export function generateSeedData(): SeedData {
   // ── Projects ──
   const projects: Project[] = [
     {
-      id: 'proj-1', workspaceId: 'ws-1', name: 'Website Redesign', description: 'Complete overhaul of the company website with modern design and improved UX',
-      icon: '🌐', color: '#3B82F6', archived: false, template: 'Website Launch', createdAt: daysAgo(60), updatedAt: daysAgo(1), createdBy: 'user-alex',
+      id: 'proj-1', workspaceId: 'ws-1', name: 'Office Operations & Client Work (Office ka Kaam)', description: 'Daily office operations, client project deliverables, sprint planning, and administrative tasks',
+      icon: '💼', color: '#3B82F6', archived: false, template: 'Office & Operations', createdAt: daysAgo(60), updatedAt: daysAgo(1), createdBy: 'user-alex',
     },
     {
-      id: 'proj-2', workspaceId: 'ws-1', name: 'Mobile App v2', description: 'Second major release of the mobile application with new features',
-      icon: '📱', color: '#10B981', archived: false, template: 'Product Development', createdAt: daysAgo(45), updatedAt: daysAgo(2), createdBy: 'user-sarah',
+      id: 'proj-2', workspaceId: 'ws-1', name: 'Software Engineering & Platform', description: 'Web and mobile engineering, backend architecture, API endpoints, and code quality',
+      icon: '💻', color: '#8B5CF6', archived: false, template: 'Product Development', createdAt: daysAgo(45), updatedAt: daysAgo(2), createdBy: 'user-sarah',
     },
     {
-      id: 'proj-3', workspaceId: 'ws-1', name: 'Q4 Marketing', description: 'Fourth quarter marketing campaign across all channels',
+      id: 'proj-3', workspaceId: 'ws-1', name: 'Marketing & Client Outreach', description: 'Fourth quarter marketing campaign across all channels and client acquisition',
       icon: '📈', color: '#F59E0B', archived: false, template: 'Marketing Campaign', createdAt: daysAgo(30), updatedAt: daysAgo(1), createdBy: 'user-alex',
     },
     {
       id: 'proj-4', workspaceId: 'ws-1', name: 'API Platform', description: 'Public API platform for third-party integrations',
-      icon: '⚡', color: '#8B5CF6', archived: false, createdAt: daysAgo(20), updatedAt: daysAgo(5), createdBy: 'user-sarah',
+      icon: '⚡', color: '#06B6D4', archived: false, createdAt: daysAgo(20), updatedAt: daysAgo(5), createdBy: 'user-sarah',
     },
     {
-      id: 'proj-5', workspaceId: 'ws-2', name: 'Portfolio Site', description: 'Personal portfolio website with blog and project showcase',
-      icon: '🎨', color: '#EC4899', archived: false, createdAt: daysAgo(40), updatedAt: daysAgo(7), createdBy: 'user-alex',
+      id: 'proj-5', workspaceId: 'ws-2', name: 'Home Maintenance & Chores (Ghar ka Kaam)', description: 'Weekly grocery shopping, utility bill payments, kitchen plumbing repairs, and home deep cleaning',
+      icon: '🏠', color: '#10B981', archived: false, template: 'Home & Household', createdAt: daysAgo(40), updatedAt: daysAgo(1), createdBy: 'user-alex',
     },
     {
-      id: 'proj-6', workspaceId: 'ws-2', name: 'Open Source Library', description: 'React component library for the community',
-      icon: '📦', color: '#06B6D4', archived: false, createdAt: daysAgo(25), updatedAt: daysAgo(3), createdBy: 'user-alex',
+      id: 'proj-6', workspaceId: 'ws-2', name: 'Household Budget & Bills (Ghar ka Budget)', description: 'Monthly budget allocation, electricity solar savings plan, and emergency family reserve fund',
+      icon: '💵', color: '#06B6D4', archived: false, createdAt: daysAgo(25), updatedAt: daysAgo(3), createdBy: 'user-alex',
     },
     {
-      id: 'proj-7', workspaceId: 'ws-2', name: 'Learning Tracker', description: 'App to track learning progress and goals',
-      icon: '📚', color: '#F97316', archived: false, createdAt: daysAgo(15), updatedAt: daysAgo(2), createdBy: 'user-sarah',
+      id: 'proj-7', workspaceId: 'ws-2', name: 'Personal Health & Fitness', description: 'Daily workout routine, steps tracking, health checkups, and prescription refills',
+      icon: '🏃', color: '#F43F5E', archived: false, createdAt: daysAgo(15), updatedAt: daysAgo(2), createdBy: 'user-sarah',
     },
   ];
 
@@ -198,21 +198,16 @@ export function generateSeedData(): SeedData {
 
   // Project 1 - Website Redesign tasks
   const proj1Tasks = [
-    { title: 'Audit current website analytics', desc: 'Review Google Analytics data and identify key user flows and drop-off points', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(10) },
-    { title: 'Competitor analysis report', desc: 'Analyze top 5 competitor websites for design patterns and UX insights', status: 'done' as TaskStatus, priority: 'medium' as Priority, due: daysAgo(7) },
-    { title: 'Create brand style guide', desc: 'Define typography, color palette, spacing, and component styles', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(5) },
-    { title: 'Design homepage wireframe', desc: 'Low-fidelity wireframe for the new homepage layout', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(3) },
-    { title: 'Design product page layout', desc: 'Create wireframe and mockup for the product listing page', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(3) },
-    { title: 'Build navigation component', desc: 'Responsive navigation with mobile hamburger menu', status: 'in_progress' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(5) },
-    { title: 'Implement hero section', desc: 'Animated hero section with CTA and background video', status: 'in_progress' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(4) },
-    { title: 'Set up CMS for blog', desc: 'Configure headless CMS for blog content management', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(10) },
-    { title: 'Create pricing page', desc: 'Design and build the pricing comparison page', status: 'todo' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(7) },
-    { title: 'Implement contact form', desc: 'Contact form with validation and email notification', status: 'todo' as TaskStatus, priority: 'low' as Priority, due: daysFromNow(12) },
-    { title: 'SEO meta tags implementation', desc: 'Add proper meta tags, Open Graph, and structured data', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(14) },
-    { title: 'Performance optimization', desc: 'Optimize images, lazy loading, and Core Web Vitals', status: 'backlog' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(20) },
-    { title: 'Accessibility audit', desc: 'WCAG 2.1 compliance check and fixes', status: 'backlog' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(18) },
-    { title: 'Browser compatibility testing', desc: 'Test across Chrome, Firefox, Safari, Edge', status: 'backlog' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(22) },
-    { title: 'Launch preparation checklist', desc: 'DNS, SSL, redirects, monitoring, analytics setup', status: 'backlog' as TaskStatus, priority: 'urgent' as Priority, due: daysFromNow(25) },
+    { title: 'Prepare Q3 Client Proposal & Pitch Deck', desc: 'Create presentation slides covering project scope, timelines, and cost estimate', status: 'in_progress' as TaskStatus, priority: 'urgent' as Priority, due: daysFromNow(2) },
+    { title: 'Weekly Team Sprint Planning & Review', desc: 'Review sprint backlog, assign tickets to developers, and finalize milestone goals', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(2) },
+    { title: 'Code Review & Staging Deployment', desc: 'Review pull requests, verify test coverage, and deploy release candidate to staging', status: 'review' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(1) },
+    { title: 'Monthly Financial Expense & Budget Audit', desc: 'Audit monthly operational expenses, verify team reimbursements, and balance sheet', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(5) },
+    { title: 'Conduct Candidate Technical Interview', desc: 'Interview senior developer candidate and submit evaluation scorecard', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(4) },
+    { title: 'Security & Access Control Audit', desc: 'Review active team permissions, rotate API tokens, and verify MFA compliance', status: 'backlog' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(10) },
+    { title: 'Client Support SLA & Escalation Review', desc: 'Analyze open support tickets and average resolution turnaround times', status: 'done' as TaskStatus, priority: 'medium' as Priority, due: daysAgo(5) },
+    { title: 'Vendor SaaS Contract & License Renewal', desc: 'Negotiate annual software tooling licenses and seat allotments', status: 'todo' as TaskStatus, priority: 'low' as Priority, due: daysFromNow(14) },
+    { title: 'Quarterly OKR & Performance Alignment', desc: 'Align department key results and team milestone goals for the quarter', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(7) },
+    { title: 'Office Workstation & Hardware Upgrade', desc: 'Review ergonomic equipment requests and procure developer monitors', status: 'backlog' as TaskStatus, priority: 'low' as Priority, due: daysFromNow(20) },
   ];
 
   proj1Tasks.forEach((t, i) => {
@@ -221,21 +216,21 @@ export function generateSeedData(): SeedData {
     tasks.push({
       id: taskId, projectId: 'proj-1', title: t.title, description: t.desc,
       status: t.status, priority: t.priority, dueDate: t.due, assigneeId: assignee,
-      labelIds: i % 3 === 0 ? ['label-feature'] : i % 3 === 1 ? ['label-design'] : ['label-improvement'],
+      labelIds: i % 3 === 0 ? ['label-feature'] : i % 3 === 1 ? ['label-urgent'] : ['label-improvement'],
       order: i, createdAt: daysAgo(60 - i), updatedAt: daysAgo(Math.max(0, 5 - i)), createdBy: 'user-alex',
     });
 
     // Add subtasks to some tasks
     if (i < 5) {
       const subtaskTitles = i === 0
-        ? ['Set up analytics dashboard', 'Export monthly report', 'Identify top pages']
+        ? ['Analyze client requirements', 'Draft executive summary & scope', 'Prepare pricing & deliverables slides', 'Schedule presentation meeting']
         : i === 1
-        ? ['Research competitor A', 'Research competitor B', 'Write comparison report', 'Present findings']
+        ? ['Review unassigned backlog issues', 'Estimate story points with team', 'Define sprint goal & timeline']
         : i === 2
-        ? ['Define color palette', 'Choose typography', 'Create component library']
+        ? ['Run automated test suite', 'Verify responsive design on mobile', 'Approve GitHub PR #42', 'Deploy to staging environment']
         : i === 3
-        ? ['Sketch layout options', 'Create digital wireframe', 'Get stakeholder feedback']
-        : ['Design desktop layout', 'Design mobile layout', 'Create interactive prototype'];
+        ? ['Collect vendor invoices & receipts', 'Review team expense claims', 'Reconcile company bank statement']
+        : ['Review candidate resume & GitHub portfolio', 'Conduct coding session & architecture discussion', 'Submit interview feedback form'];
 
       subtaskTitles.forEach((st, si) => {
         subtasks.push({
@@ -330,14 +325,15 @@ export function generateSeedData(): SeedData {
     });
   });
 
-  // Project 5 - Portfolio Site (ws-2)
+  // Project 5 - Home Maintenance & Chores (ws-2)
   const proj5Tasks = [
-    { title: 'Select tech stack', desc: 'Choose framework and hosting for portfolio', status: 'done' as TaskStatus, priority: 'medium' as Priority, due: daysAgo(20) },
-    { title: 'Design homepage', desc: 'Create engaging homepage with hero section', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(15) },
-    { title: 'Build project showcase', desc: 'Grid layout with project cards and filters', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(5) },
-    { title: 'Blog integration', desc: 'Set up MDX blog with syntax highlighting', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(10) },
-    { title: 'Contact section', desc: 'Build contact form with validation', status: 'todo' as TaskStatus, priority: 'low' as Priority, due: daysFromNow(12) },
-    { title: 'Deploy to Vercel', desc: 'Configure deployment and custom domain', status: 'backlog' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(15) },
+    { title: 'Weekly Grocery & Household Shopping', desc: 'Buy fresh vegetables, milk, eggs, bread, pantry essentials and cleaning supplies', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(1) },
+    { title: 'Pay Monthly Household Utility Bills', desc: 'Pay electricity, gas, water, and home fiber internet WiFi bills before due date', status: 'todo' as TaskStatus, priority: 'urgent' as Priority, due: daysFromNow(2) },
+    { title: 'Kitchen Plumbing & Sink Leak Repair', desc: 'Inspect kitchen pipe leakage, replace worn rubber washer, and seal pipe joints', status: 'backlog' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(5) },
+    { title: 'Whole House Deep Cleaning & Organization', desc: 'Vacuum carpets, wash window curtains, deep clean kitchen counters and bathrooms', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(4) },
+    { title: 'AC Servicing & Filter Cleaning', desc: 'Wash internal dust filters and schedule technician for compressor service', status: 'review' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(3) },
+    { title: 'Car & Bike Routine Maintenance', desc: 'Perform engine oil change, check brake pads, tire pressure, and battery health', status: 'backlog' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(7) },
+    { title: 'Monthly Family Medicines & Health Checkup', desc: 'Refill monthly prescription medicines and book routine health checkup', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(2) },
   ];
 
   proj5Tasks.forEach((t, i) => {
@@ -348,18 +344,35 @@ export function generateSeedData(): SeedData {
       labelIds: i < 2 ? ['label-client'] : ['label-internal'],
       order: i, createdAt: daysAgo(40 - i * 3), updatedAt: daysAgo(Math.max(0, 3 - i)), createdBy: 'user-alex',
     });
+
+    // Subtasks for home chores
+    const homeSubtaskMap: Record<number, string[]> = {
+      0: ['Fresh milk, eggs, and whole wheat bread', 'Potatoes, onions, tomatoes, and seasonal fruits', 'Rice, lentils, and cooking oil', 'Laundry detergent & dishwasher soap'],
+      1: ['Pay Electricity bill online via banking app', 'Pay Sui Gas bill', 'Pay Home High-Speed Fiber Internet / WiFi', 'Pay Water & Sanitation tax'],
+      2: ['Inspect leak under the sink basin', 'Buy plumbing Teflon tape and new rubber washer', 'Tighten pipe connection or call local plumber'],
+      3: ['Vacuum and mop living room & bedroom floors', 'Wipe down kitchen cabinets and stove', 'Deep clean bathrooms and mirrors', 'Organize clothes wardrobe'],
+      4: ['Remove and wash indoor AC air filters', 'Clean outdoor compressor coils', 'Check remote batteries & cooling performance'],
+      5: ['Engine oil & oil filter replacement', 'Check brake fluid and brake pads', 'Inspect tire air pressure and wash vehicle'],
+      6: ['Check current prescription medicine stock', 'Order monthly medicines online', 'Book routine blood pressure and sugar check'],
+    };
+
+    if (homeSubtaskMap[i]) {
+      homeSubtaskMap[i].forEach((st, si) => {
+        subtasks.push({
+          id: `st-p5-${i}-${si}`, taskId, title: st,
+          completed: t.status === 'done' ? true : si < Math.floor(homeSubtaskMap[i].length / 2),
+          order: si, createdAt: daysAgo(35 - i),
+        });
+      });
+    }
   });
 
-  // Project 6 - Open Source Library (ws-2)
+  // Project 6 - Household Budget & Bills (ws-2)
   const proj6Tasks = [
-    { title: 'Component architecture design', desc: 'Define component API patterns and composition', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(10) },
-    { title: 'Button component', desc: 'Fully accessible button with variants', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(7) },
-    { title: 'Input components', desc: 'Text input, textarea, and select components', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(3) },
-    { title: 'Modal component', desc: 'Accessible modal dialog with animations', status: 'in_progress' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(5) },
-    { title: 'Storybook setup', desc: 'Configure Storybook for component documentation', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(8) },
-    { title: 'Unit test suite', desc: 'Jest + Testing Library test suite for all components', status: 'todo' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(10) },
-    { title: 'NPM publishing setup', desc: 'Configure package.json and publishing workflow', status: 'backlog' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(15) },
-    { title: 'Documentation site', desc: 'Build docs site with usage examples', status: 'backlog' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(20) },
+    { title: 'Monthly Salary Allocation & Household Budget', desc: 'Distribute monthly income into savings, rent, utilities, groceries, and investments', status: 'done' as TaskStatus, priority: 'high' as Priority, due: daysAgo(10) },
+    { title: 'Review Solar Panel Proposal to Cut Bills', desc: 'Evaluate 5kW vs 7kW on-grid solar system quotes and net metering payback period', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(4) },
+    { title: 'Emergency Family Reserve Fund Deposit', desc: 'Transfer 15% of monthly savings into high-yield emergency reserve fund', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(8) },
+    { title: 'Audit Past Month Food & Dining Out Expenses', desc: 'Analyze grocery spending vs food deliveries and optimize monthly budget', status: 'todo' as TaskStatus, priority: 'low' as Priority, due: daysFromNow(12) },
   ];
 
   proj6Tasks.forEach((t, i) => {
@@ -372,13 +385,12 @@ export function generateSeedData(): SeedData {
     });
   });
 
-  // Project 7 - Learning Tracker (ws-2)
+  // Project 7 - Personal Health & Fitness (ws-2)
   const proj7Tasks = [
-    { title: 'Define learning categories', desc: 'Set up categories like programming, design, languages', status: 'done' as TaskStatus, priority: 'medium' as Priority, due: daysAgo(5) },
-    { title: 'Build progress tracking UI', desc: 'Visual progress bars and streak counters', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(5) },
-    { title: 'Goal setting feature', desc: 'Set weekly/monthly learning goals', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(10) },
-    { title: 'Statistics dashboard', desc: 'Charts showing learning trends over time', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(15) },
-    { title: 'Resource bookmarking', desc: 'Save and organize learning resources', status: 'backlog' as TaskStatus, priority: 'low' as Priority, due: daysFromNow(20) },
+    { title: 'Morning Jog & 10,000 Steps Daily Routine', desc: 'Maintain consistent 30-minute cardio and walk 10,000 steps daily', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, due: daysFromNow(2) },
+    { title: 'Annual Family Dental & Eye Vision Checkup', desc: 'Schedule appointments for annual dental cleaning and vision check', status: 'todo' as TaskStatus, priority: 'medium' as Priority, due: daysFromNow(10) },
+    { title: 'Daily 30-Minute Reading Habit', desc: 'Read personal growth, engineering, or literature books daily before bed', status: 'done' as TaskStatus, priority: 'medium' as Priority, due: daysAgo(3) },
+    { title: 'Daily Water Intake & Hydration Tracker', desc: 'Drink at least 3 liters of fresh water daily to stay hydrated', status: 'in_progress' as TaskStatus, priority: 'low' as Priority, due: daysFromNow(5) },
   ];
 
   proj7Tasks.forEach((t, i) => {

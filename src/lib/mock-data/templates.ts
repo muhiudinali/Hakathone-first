@@ -2,6 +2,35 @@ import { ProjectTemplate, TaskStatus, Priority } from '@/types';
 
 export const PROJECT_TEMPLATES: ProjectTemplate[] = [
   {
+    id: 'tpl-home-chores',
+    name: 'Home & Household (Ghar ka Kaam)',
+    description: 'Track household chores, groceries, repairs, bills, and maintenance',
+    icon: '🏠',
+    tasks: [
+      { title: 'Weekly Grocery & Household Shopping', description: 'Buy fresh vegetables, milk, eggs, bread, pantry essentials and cleaning supplies', status: 'in_progress' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
+      { title: 'Pay Monthly Household Utility Bills', description: 'Pay electricity, gas, water, and home fiber internet WiFi bills before due date', status: 'todo' as TaskStatus, priority: 'urgent' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
+      { title: 'Kitchen Plumbing & Sink Leak Repair', description: 'Inspect kitchen pipe leakage, replace worn washers, and seal connections', status: 'backlog' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 2 },
+      { title: 'Whole House Deep Cleaning & Organization', description: 'Vacuum carpets, wash window curtains, deep clean kitchen counters and bathrooms', status: 'todo' as TaskStatus, priority: 'medium' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 3 },
+      { title: 'AC Servicing & Filter Cleaning', description: 'Wash internal dust filters and schedule technician for compressor service', status: 'todo' as TaskStatus, priority: 'medium' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 4 },
+      { title: 'Car & Bike Routine Maintenance', description: 'Perform engine oil change, check brake pads, tire pressure, and battery health', status: 'backlog' as TaskStatus, priority: 'medium' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 5 },
+      { title: 'Monthly Medicines & First Aid Restock', description: 'Refill monthly prescription medicines and restock first aid kit', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 6 },
+    ],
+  },
+  {
+    id: 'tpl-office-work',
+    name: 'Office & Operations (Office ka Kaam)',
+    description: 'Manage office tasks, team meetings, client deliverables, and operations',
+    icon: '💼',
+    tasks: [
+      { title: 'Prepare Q3 Client Proposal & Pitch Deck', description: 'Create presentation slides covering project scope, timelines, and cost estimate', status: 'in_progress' as TaskStatus, priority: 'urgent' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 0 },
+      { title: 'Weekly Team Sprint Planning & Review', description: 'Review sprint backlog, assign tickets to developers, and finalize milestone goals', status: 'done' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 1 },
+      { title: 'Code Review & Staging Deployment', description: 'Review pull requests, verify test coverage, and deploy release candidate to staging', status: 'review' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 2 },
+      { title: 'Monthly Financial Expense & Budget Audit', description: 'Audit monthly operational expenses, verify team reimbursements, and balance sheet', status: 'todo' as TaskStatus, priority: 'medium' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 3 },
+      { title: 'Conduct Candidate Technical Interview', description: 'Interview senior developer candidate and submit evaluation scorecard', status: 'todo' as TaskStatus, priority: 'medium' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 4 },
+      { title: 'Security & Access Control Audit', description: 'Review active team permissions, rotate API tokens, and verify MFA compliance', status: 'backlog' as TaskStatus, priority: 'high' as Priority, dueDate: null, assigneeId: null, labelIds: [], order: 5 },
+    ],
+  },
+  {
     id: 'tpl-website-launch',
     name: 'Website Launch',
     description: 'Complete website redesign and launch plan',
