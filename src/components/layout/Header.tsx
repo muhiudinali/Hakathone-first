@@ -45,95 +45,98 @@ export default function Header() {
   };
 
   return (
-    <header className="h-14 flex-shrink-0 border-b border-border-primary/80 glass-header flex items-center px-4 gap-3 z-20">
-      {/* Mobile menu button */}
-      <IconButton
-        className="lg:hidden"
-        onClick={() => dispatch(setSidebarMobileOpen(true))}
-        tooltip="Menu"
-      >
-        <Menu size={20} />
-      </IconButton>
+    <header className="flex-shrink-0 border-b border-border-primary bg-bg-secondary/95 backdrop-blur-md z-20 flex flex-col">
+      <div className="google-bar" />
+      <div className="h-14 flex items-center px-4 gap-3">
+        {/* Mobile menu button */}
+        <IconButton
+          className="lg:hidden"
+          onClick={() => dispatch(setSidebarMobileOpen(true))}
+          tooltip="Menu"
+        >
+          <Menu size={20} />
+        </IconButton>
 
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-1.5 text-body-sm min-w-0 flex-1 overflow-hidden">
-        {breadcrumbs.map((b, i) => (
-          <span key={i} className="flex items-center gap-1.5 min-w-0">
-            {i > 0 && <span className="text-text-tertiary flex-shrink-0">/</span>}
-            <span className={`truncate max-w-[120px] sm:max-w-none ${i === breadcrumbs.length - 1 ? 'font-semibold text-text-primary' : 'text-text-secondary'}`}>
-              {b.label}
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-1.5 text-body-sm min-w-0 flex-1 overflow-hidden font-medium">
+          {breadcrumbs.map((b, i) => (
+            <span key={i} className="flex items-center gap-1.5 min-w-0">
+              {i > 0 && <span className="text-text-tertiary flex-shrink-0">/</span>}
+              <span className={`truncate max-w-[120px] sm:max-w-none ${i === breadcrumbs.length - 1 ? 'font-semibold text-text-primary' : 'text-text-secondary'}`}>
+                {b.label}
+              </span>
             </span>
-          </span>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Online/Offline Status */}
-      <div className="hidden sm:flex items-center gap-1.5">
-        {isOnline ? (
-          <div className="flex items-center gap-1.5 text-caption text-success font-medium bg-success/10 px-2 py-0.5 rounded-full border border-success/20">
-            <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-            <span>Online</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-1.5 text-caption text-warning font-medium bg-warning/10 px-2 py-0.5 rounded-full border border-warning/20">
-            <WifiOff size={12} />
-            <span>Offline</span>
-          </div>
-        )}
-      </div>
-
-      {/* Sync Status */}
-      <button
-        onClick={handleSync}
-        className="hidden sm:flex items-center gap-1 text-caption text-text-tertiary hover:text-text-secondary transition-colors cursor-pointer"
-        title={lastSynced ? `Last synced ${formatRelativeTime(lastSynced)}` : 'Click to sync'}
-      >
-        <RefreshCw size={12} className={syncStatus === 'pending' ? 'animate-spin' : ''} />
-        <span>{syncStatus === 'pending' ? 'Syncing...' : lastSynced ? formatRelativeTime(lastSynced) : 'Sync'}</span>
-      </button>
-
-      {/* Search */}
-      <button
-        onClick={() => dispatch(toggleCommandPalette())}
-        className="hidden sm:flex items-center gap-2 h-8 px-3 bg-bg-secondary/70 backdrop-blur-md rounded-lg text-body-sm text-text-secondary hover:text-text-primary hover:bg-bg-hover transition-all cursor-pointer border border-border-primary/80 shadow-xs group"
-      >
-        <Search size={14} className="text-accent-primary group-hover:scale-110 transition-transform" />
-        <span>Search...</span>
-        <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-bg-tertiary/80 border border-border-primary text-text-tertiary ml-3">⌘K</kbd>
-      </button>
-
-      {/* Undo / Redo */}
-      <div className="hidden md:flex items-center gap-0.5">
-        <IconButton
-          size="sm"
-          variant="ghost"
-          disabled={!canUndo}
-          onClick={() => dispatch(undo())}
-          tooltip="Undo (⌘Z)"
+        {/* Google Workspace Search Pill */}
+        <button
+          onClick={() => dispatch(toggleCommandPalette())}
+          className="hidden sm:flex items-center gap-2.5 h-9 px-4 bg-bg-tertiary hover:bg-[#E8EAED] dark:hover:bg-[#3C4043] rounded-full text-body-sm text-text-secondary hover:text-text-primary transition-all cursor-pointer border border-border-primary/60 hover:border-border-primary w-48 md:w-72 lg:w-96 group shadow-2xs"
+          title="Search in workspace (⌘K)"
         >
-          <Undo2 size={16} />
-        </IconButton>
-        <IconButton
-          size="sm"
-          variant="ghost"
-          disabled={!canRedo}
-          onClick={() => dispatch(redo())}
-          tooltip="Redo (⌘Y)"
-        >
-          <Redo2 size={16} />
-        </IconButton>
-      </div>
+          <Search size={15} className="text-text-tertiary group-hover:text-accent-primary transition-colors flex-shrink-0" />
+          <span className="truncate">Search tasks, projects...</span>
+          <kbd className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white dark:bg-[#202124] border border-border-primary text-text-tertiary ml-auto shadow-2xs flex-shrink-0">⌘K</kbd>
+        </button>
 
-      {/* Quick New Task Button */}
-      <Button
-        size="sm"
-        variant="primary"
-        icon={<Plus size={15} className="stroke-[2.5]" />}
-        onClick={() => dispatch(setCreateTaskOpen(true))}
-        className="font-semibold shadow-md shadow-accent-primary/25 hover:shadow-lg hover:shadow-accent-primary/35 ml-1 active:scale-95 transition-all"
-      >
-        <span className="hidden sm:inline">New Task</span>
-      </Button>
+        {/* Online/Offline Status */}
+        <div className="hidden sm:flex items-center gap-1.5">
+          {isOnline ? (
+            <div className="flex items-center gap-1.5 text-caption font-medium bg-[#E6F4EA] dark:bg-[#137333]/25 text-[#137333] dark:text-[#81C995] px-2.5 py-0.5 rounded-full border border-[#CEEAD6] dark:border-transparent shadow-2xs">
+              <div className="h-1.5 w-1.5 rounded-full bg-[#34A853] animate-pulse" />
+              <span>Online</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 text-caption font-medium bg-[#FEF7E0] dark:bg-[#B06000]/25 text-[#B06000] dark:text-[#FDD663] px-2.5 py-0.5 rounded-full border border-[#FEEFC3] dark:border-transparent shadow-2xs">
+              <WifiOff size={12} />
+              <span>Offline</span>
+            </div>
+          )}
+        </div>
+
+        {/* Sync Status */}
+        <button
+          onClick={handleSync}
+          className="hidden lg:flex items-center gap-1 text-caption text-text-tertiary hover:text-text-secondary transition-colors cursor-pointer"
+          title={lastSynced ? `Last synced ${formatRelativeTime(lastSynced)}` : 'Click to sync'}
+        >
+          <RefreshCw size={12} className={syncStatus === 'pending' ? 'animate-spin' : ''} />
+          <span>{syncStatus === 'pending' ? 'Syncing...' : lastSynced ? formatRelativeTime(lastSynced) : 'Sync'}</span>
+        </button>
+
+        {/* Undo / Redo */}
+        <div className="hidden md:flex items-center gap-0.5">
+          <IconButton
+            size="sm"
+            variant="ghost"
+            disabled={!canUndo}
+            onClick={() => dispatch(undo())}
+            tooltip="Undo (⌘Z)"
+          >
+            <Undo2 size={16} />
+          </IconButton>
+          <IconButton
+            size="sm"
+            variant="ghost"
+            disabled={!canRedo}
+            onClick={() => dispatch(redo())}
+            tooltip="Redo (⌘Y)"
+          >
+            <Redo2 size={16} />
+          </IconButton>
+        </div>
+
+        {/* Quick New Task Google Pill Button */}
+        <Button
+          size="sm"
+          variant="primary"
+          icon={<Plus size={16} className="stroke-[2.5]" />}
+          onClick={() => dispatch(setCreateTaskOpen(true))}
+          className="rounded-full font-medium shadow-sm hover:shadow-md px-4 ml-1 active:scale-95 transition-all"
+        >
+          <span className="hidden sm:inline">New Task</span>
+        </Button>
 
       {/* Notifications */}
       <Dropdown
@@ -188,8 +191,9 @@ export default function Header() {
         </div>
       </Dropdown>
 
-      {/* User Avatar (mobile) */}
-      <Avatar name={currentUser?.name || 'User'} size="sm" className="lg:hidden" />
+        {/* User Avatar (mobile) */}
+        <Avatar name={currentUser?.name || 'User'} size="sm" className="lg:hidden" />
+      </div>
     </header>
   );
 }

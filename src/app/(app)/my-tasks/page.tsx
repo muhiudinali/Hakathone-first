@@ -118,12 +118,12 @@ function Section({
     <div>
       <div className="flex items-center gap-2 mb-2.5 px-1">
         {icon}
-        <h2 className="text-body-md font-bold text-text-primary font-heading">{title}</h2>
-        <span className="text-caption text-text-secondary bg-bg-tertiary/70 border border-border-primary/50 px-2 py-0.5 rounded-full font-semibold text-[11px]">
+        <h2 className="text-body-md font-semibold text-text-primary font-heading">{title}</h2>
+        <span className="text-caption text-text-secondary bg-bg-tertiary border border-border-primary px-2.5 py-0.5 rounded-full font-medium text-[11px] shadow-2xs">
           {count}
         </span>
       </div>
-      <div className="glass-card rounded-2xl overflow-hidden border border-white/70 dark:border-white/10 divide-y divide-border-secondary/60 shadow-xs">
+      <div className="google-card overflow-hidden divide-y divide-border-secondary shadow-xs">
         {children}
       </div>
     </div>
@@ -135,14 +135,16 @@ function TaskRow({ task, projects, onClick }: { task: Task; projects: Record<str
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3.5 px-5 py-3.5 hover:bg-white/50 dark:hover:bg-white/5 transition-all duration-150 cursor-pointer text-left group"
+      className="w-full flex items-center gap-3.5 px-5 py-3.5 hover:bg-[#F8FAFD] dark:hover:bg-[#303134] transition-all duration-150 cursor-pointer text-left group"
     >
       <div
-        className="h-2.5 w-2.5 rounded-full flex-shrink-0 ring-4 ring-transparent group-hover:ring-accent-primary/20 transition-all"
-        style={{ backgroundColor: STATUS_CONFIG[task.status as keyof typeof STATUS_CONFIG].color }}
-      />
+        className="h-4 w-4 rounded-full border-2 border-border-primary group-hover:border-accent-primary flex items-center justify-center transition-colors flex-shrink-0"
+        title={STATUS_CONFIG[task.status as keyof typeof STATUS_CONFIG].label}
+      >
+        <div className="h-1.5 w-1.5 rounded-full opacity-0 group-hover:opacity-100 bg-accent-primary transition-opacity" />
+      </div>
       <div className="flex-1 min-w-0">
-        <p className="text-body-sm font-semibold text-text-primary truncate group-hover:text-accent-primary transition-colors">
+        <p className="text-body-sm font-medium text-text-primary truncate group-hover:text-accent-primary transition-colors">
           {task.title}
         </p>
         {project && (
@@ -158,10 +160,10 @@ function TaskRow({ task, projects, onClick }: { task: Task; projects: Record<str
       </Badge>
       {task.dueDate && (
         <span className={cn(
-          'text-caption flex items-center gap-1 px-2 py-0.5 rounded-md',
+          'text-caption flex items-center gap-1 px-2.5 py-0.5 rounded-full',
           isOverdue(task.dueDate)
-            ? 'text-error bg-error/10 border border-error/20 font-medium'
-            : 'text-text-tertiary bg-bg-tertiary/50',
+            ? 'text-[#C5221F] bg-[#FCE8E6] dark:bg-[#C5221F]/20 font-medium'
+            : 'text-text-tertiary bg-bg-tertiary',
         )}>
           <Clock size={11} />
           {formatShortDate(task.dueDate)}

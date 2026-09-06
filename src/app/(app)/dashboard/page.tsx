@@ -42,39 +42,47 @@ export default function DashboardPage() {
     ? Math.round((stats.completedTasks / totalTasksCount) * 100) 
     : 100;
 
-  // Soft UI Stat Cards matching the user's reference image
+  // Google Workflow Stat Cards with signature 4-color accents
   const statCards = [
     {
-      label: "Today's Projects",
+      label: "Active Projects",
       value: stats.totalProjects,
       icon: FolderKanban,
       trend: '+55%',
-      trendContext: 'than last week',
+      trendContext: 'vs last week',
       trendPositive: true,
+      color: '#1A73E8',
+      iconBg: 'bg-[#E8F0FE] text-[#1A73E8] dark:bg-[#1A73E8]/20 dark:text-[#8AB4F8]',
     },
     {
       label: "Today's Tasks",
       value: stats.activeTasks,
       icon: CheckSquare,
       trend: '+3%',
-      trendContext: 'than last month',
+      trendContext: 'vs last month',
       trendPositive: true,
+      color: '#34A853',
+      iconBg: 'bg-[#E6F4EA] text-[#34A853] dark:bg-[#34A853]/20 dark:text-[#81C995]',
     },
     {
       label: 'Completed Tasks',
       value: stats.completedTasks,
       icon: CheckCircle2,
       trend: '+12%',
-      trendContext: 'than yesterday',
+      trendContext: 'vs yesterday',
       trendPositive: true,
+      color: '#F9AB00',
+      iconBg: 'bg-[#FEF7E0] text-[#B06000] dark:bg-[#F9AB00]/20 dark:text-[#FDD663]',
     },
     {
       label: 'Team Efficiency',
       value: `${completedRate}%`,
       icon: BarChart3,
       trend: stats.overdueTasks === 0 ? '+5%' : `-${stats.overdueTasks}%`,
-      trendContext: 'than yesterday',
+      trendContext: 'completion rate',
       trendPositive: stats.overdueTasks === 0,
+      color: '#EA4335',
+      iconBg: 'bg-[#FCE8E6] text-[#EA4335] dark:bg-[#EA4335]/20 dark:text-[#F28B82]',
     },
   ];
 
@@ -83,9 +91,15 @@ export default function DashboardPage() {
       {/* Welcome & Quick Actions Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs">
-              <Sparkles size={12} /> Live Workspace
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-medium bg-[#E8F0FE] text-[#1967D2] dark:bg-[#1A73E8]/20 dark:text-[#8AB4F8] border border-[#D2E3FC] dark:border-transparent shadow-2xs">
+              <span className="flex items-center gap-0.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4285F4]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#EA4335]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FBBC04]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#34A853]" />
+              </span>
+              Google Workflow Engine
             </span>
             <span className="text-xs text-text-tertiary">{workspace?.name || 'Workspace'}</span>
           </div>
@@ -93,7 +107,7 @@ export default function DashboardPage() {
             Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, {currentUser?.name?.split(' ')[0]}
           </h1>
           <p className="text-body-md text-text-secondary mt-0.5">
-            Here&apos;s your daily command center and mission progress
+            Real-time project pipeline, team velocity, and workflow orchestration
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -101,39 +115,39 @@ export default function DashboardPage() {
             variant="primary"
             icon={<Plus size={16} />}
             onClick={() => dispatch(setCreateTaskOpen(true))}
-            className="bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 shadow-md shadow-slate-900/15"
+            className="rounded-full px-5 py-2.5 shadow-sm hover:shadow-md"
           >
             New Task
           </Button>
         </div>
       </div>
 
-      {/* Row 1: 4 Stat Cards - Soft UI Style Matching Reference Image */}
+      {/* Row 1: 4 Google Color Accent Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {statCards.map(stat => (
           <div
             key={stat.label}
-            className="soft-card rounded-2xl p-5 flex flex-col justify-between hover:-translate-y-0.5 transition-all duration-200"
+            className="google-card p-5 flex flex-col justify-between hover:-translate-y-0.5 transition-all duration-200"
           >
             <div className="flex items-center justify-between gap-3">
-              {/* Dark squircle icon tile on left - EXACTLY matching reference image */}
-              <div className="h-12 w-12 rounded-xl bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center shadow-md shadow-slate-900/20 flex-shrink-0">
-                <stat.icon size={22} className="text-white" />
+              {/* Google Material Tonal Icon Tile */}
+              <div className={cn('h-12 w-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-2xs transition-transform group-hover:scale-105', stat.iconBg)}>
+                <stat.icon size={22} />
               </div>
-              {/* Label and Big Bold Metric on right */}
+              {/* Metric & Label */}
               <div className="text-right min-w-0">
-                <span className="text-xs font-bold text-text-tertiary uppercase tracking-wider block truncate">
+                <span className="text-[11px] font-medium text-text-tertiary uppercase tracking-wider block truncate">
                   {stat.label}
                 </span>
-                <span className="text-2xl sm:text-3xl font-black text-text-primary tracking-tight font-heading mt-0.5 block">
+                <span className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight font-heading mt-0.5 block">
                   {stat.value}
                 </span>
               </div>
             </div>
 
             {/* Bottom trend row with divider */}
-            <div className="pt-3.5 mt-3.5 border-t border-border-primary/60 flex items-center text-xs">
-              <span className={cn('font-bold mr-1.5', stat.trendPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400')}>
+            <div className="pt-3.5 mt-3.5 border-t border-border-primary flex items-center justify-between text-xs">
+              <span className={cn('px-2 py-0.5 rounded-full font-medium text-[11px]', stat.trendPositive ? 'bg-[#E6F4EA] text-[#137333] dark:bg-[#137333]/25 dark:text-[#81C995]' : 'bg-[#FCE8E6] text-[#C5221F] dark:bg-[#C5221F]/25 dark:text-[#F28B82]')}>
                 {stat.trend}
               </span>
               <span className="text-text-tertiary font-normal">
@@ -144,10 +158,52 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Row 2: 3 Visual Chart Cards - Matching Reference Image */}
+      {/* Google Workflow Execution Pipeline Tracker */}
+      <div className="google-card p-5 space-y-4">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 rounded-full bg-[#E8F0FE] dark:bg-[#1A73E8]/20 text-[#1A73E8] dark:text-[#8AB4F8] flex items-center justify-center shadow-2xs">
+              <TrendingUp size={18} />
+            </div>
+            <div>
+              <h3 className="text-body-md font-semibold text-text-primary">Workflow Execution Pipeline</h3>
+              <p className="text-caption text-text-tertiary">Real-time status tracking across workspace life-cycle</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-caption font-medium px-3 py-1 rounded-full bg-[#E6F4EA] dark:bg-[#137333]/25 text-[#137333] dark:text-[#81C995] border border-[#CEEAD6] dark:border-transparent flex items-center gap-1.5 shadow-2xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#34A853] animate-pulse" />
+              All Pipelines Healthy
+            </span>
+          </div>
+        </div>
+
+        {/* 4 Pipeline Stage Nodes */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1">
+          {[
+            { stage: '1. Backlog & Triage', count: myTasks.filter(t => t.status === 'backlog' || t.status === 'todo').length, color: '#1A73E8', bg: 'bg-[#E8F0FE] text-[#1967D2] dark:bg-[#1A73E8]/20 dark:text-[#8AB4F8]', border: 'border-[#D2E3FC] dark:border-transparent' },
+            { stage: '2. In Execution', count: myTasks.filter(t => t.status === 'in_progress').length, color: '#FBBC04', bg: 'bg-[#FEF7E0] text-[#B06000] dark:bg-[#FBBC04]/20 dark:text-[#FDD663]', border: 'border-[#FEEFC3] dark:border-transparent' },
+            { stage: '3. Peer Review', count: myTasks.filter(t => t.status === 'review').length, color: '#EA4335', bg: 'bg-[#FCE8E6] text-[#C5221F] dark:bg-[#EA4335]/20 dark:text-[#F28B82]', border: 'border-[#FAD2CF] dark:border-transparent' },
+            { stage: '4. Verified Done', count: myTasks.filter(t => t.status === 'done').length, color: '#34A853', bg: 'bg-[#E6F4EA] text-[#137333] dark:bg-[#34A853]/20 dark:text-[#81C995]', border: 'border-[#CEEAD6] dark:border-transparent' },
+          ].map((node) => (
+            <div key={node.stage} className={cn('p-3.5 rounded-2xl border flex flex-col justify-between transition-all hover:shadow-xs', node.bg, node.border)}>
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-medium uppercase tracking-wider">{node.stage}</span>
+                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: node.color }} />
+              </div>
+              <div className="mt-2 flex items-baseline justify-between">
+                <span className="text-xl font-bold font-heading">{node.count}</span>
+                <span className="text-caption opacity-80">tasks active</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Row 2: 3 Visual Chart Cards - Google Cloud / Workspace Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {/* Chart 1: Bar Chart (Weekly Velocity) */}
-        <div className="soft-card rounded-2xl p-5 flex flex-col justify-between">
+        {/* Chart 1: Bar Chart (Weekly Velocity - Google Green) */}
+        <div className="google-card p-5 flex flex-col justify-between">
           <div className="relative w-full h-44 mb-2">
             <svg className="w-full h-full" viewBox="0 0 300 160" preserveAspectRatio="none">
               {/* Dashed Horizontal Grid lines */}
@@ -164,35 +220,35 @@ export default function DashboardPage() {
               <text x="12" y="114" className="text-[10px] fill-current text-text-tertiary font-medium">20</text>
               <text x="12" y="144" className="text-[10px] fill-current text-text-tertiary font-medium">10</text>
 
-              {/* Bars (Mon to Sun) */}
-              <rect x="52" y="45" width="8" height="95" rx="4" className="fill-emerald-500 hover:fill-emerald-400 transition-colors cursor-pointer" />
-              <rect x="88" y="25" width="8" height="115" rx="4" className="fill-emerald-500 hover:fill-emerald-400 transition-colors cursor-pointer" />
-              <rect x="124" y="65" width="8" height="75" rx="4" className="fill-emerald-500 hover:fill-emerald-400 transition-colors cursor-pointer" />
-              <rect x="160" y="30" width="8" height="110" rx="4" className="fill-emerald-500 hover:fill-emerald-400 transition-colors cursor-pointer" />
-              <rect x="196" y="20" width="8" height="120" rx="4" className="fill-emerald-500 hover:fill-emerald-400 transition-colors cursor-pointer" />
-              <rect x="232" y="85" width="8" height="55" rx="4" className="fill-emerald-500 hover:fill-emerald-400 transition-colors cursor-pointer" />
-              <rect x="268" y="105" width="8" height="35" rx="4" className="fill-emerald-500 hover:fill-emerald-400 transition-colors cursor-pointer" />
+              {/* Google Green Bars (Mon to Sun) */}
+              <rect x="52" y="45" width="9" height="95" rx="4.5" className="fill-[#34A853] hover:fill-[#1E8E3E] transition-colors cursor-pointer" />
+              <rect x="88" y="25" width="9" height="115" rx="4.5" className="fill-[#34A853] hover:fill-[#1E8E3E] transition-colors cursor-pointer" />
+              <rect x="124" y="65" width="9" height="75" rx="4.5" className="fill-[#34A853] hover:fill-[#1E8E3E] transition-colors cursor-pointer" />
+              <rect x="160" y="30" width="9" height="110" rx="4.5" className="fill-[#34A853] hover:fill-[#1E8E3E] transition-colors cursor-pointer" />
+              <rect x="196" y="20" width="9" height="120" rx="4.5" className="fill-[#34A853] hover:fill-[#1E8E3E] transition-colors cursor-pointer" />
+              <rect x="232" y="85" width="9" height="55" rx="4.5" className="fill-[#34A853] hover:fill-[#1E8E3E] transition-colors cursor-pointer" />
+              <rect x="268" y="105" width="9" height="35" rx="4.5" className="fill-[#34A853] hover:fill-[#1E8E3E] transition-colors cursor-pointer" />
             </svg>
           </div>
           <div>
-            <h3 className="text-body-md font-bold text-text-primary">Weekly Task Velocity</h3>
+            <h3 className="text-body-md font-semibold text-text-primary">Weekly Task Velocity</h3>
             <p className="text-body-sm text-text-secondary mt-0.5">
-              (<span className="text-emerald-600 dark:text-emerald-400 font-bold">+15%</span>) increase in today&apos;s completed tasks
+              (<span className="text-[#137333] dark:text-[#81C995] font-semibold">+15%</span>) increase in today&apos;s completed tasks
             </p>
-            <div className="flex items-center gap-1.5 text-caption text-text-tertiary mt-3 pt-3 border-t border-border-primary/60">
+            <div className="flex items-center gap-1.5 text-caption text-text-tertiary mt-3 pt-3 border-t border-border-primary">
               <Clock size={13} /> updated 4 mins ago
             </div>
           </div>
         </div>
 
-        {/* Chart 2: Electric Blue Line Chart (Sprint Progress) */}
-        <div className="soft-card rounded-2xl p-5 flex flex-col justify-between">
+        {/* Chart 2: Google Blue Line Chart (Sprint Progress) */}
+        <div className="google-card p-5 flex flex-col justify-between">
           <div className="relative w-full h-44 mb-2">
             <svg className="w-full h-full" viewBox="0 0 300 160" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0284C7" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#0284C7" stopOpacity="0.0" />
+                  <stop offset="0%" stopColor="#1A73E8" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#1A73E8" stopOpacity="0.0" />
                 </linearGradient>
               </defs>
               {/* Dashed Horizontal Grid lines */}
@@ -219,37 +275,37 @@ export default function DashboardPage() {
               <path
                 d="M 52 140 C 85 125, 115 100, 140 100 C 170 100, 185 70, 205 60 C 235 45, 255 40, 280 25"
                 fill="none"
-                stroke="#0284C7"
+                stroke="#1A73E8"
                 strokeWidth="3"
                 strokeLinecap="round"
               />
 
               {/* Circular Data Nodes */}
-              <circle cx="52" cy="140" r="4.5" className="fill-white dark:fill-slate-900" stroke="#0284C7" strokeWidth="2.5" />
-              <circle cx="140" cy="100" r="4.5" className="fill-white dark:fill-slate-900" stroke="#0284C7" strokeWidth="2.5" />
-              <circle cx="205" cy="60" r="4.5" className="fill-white dark:fill-slate-900" stroke="#0284C7" strokeWidth="2.5" />
-              <circle cx="280" cy="25" r="4.5" className="fill-white dark:fill-slate-900" stroke="#0284C7" strokeWidth="2.5" />
+              <circle cx="52" cy="140" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#1A73E8" strokeWidth="2.5" />
+              <circle cx="140" cy="100" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#1A73E8" strokeWidth="2.5" />
+              <circle cx="205" cy="60" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#1A73E8" strokeWidth="2.5" />
+              <circle cx="280" cy="25" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#1A73E8" strokeWidth="2.5" />
             </svg>
           </div>
           <div>
-            <h3 className="text-body-md font-bold text-text-primary">Sprint Progress Velocity</h3>
+            <h3 className="text-body-md font-semibold text-text-primary">Sprint Progress Velocity</h3>
             <p className="text-body-sm text-text-secondary mt-0.5">
-              (<span className="text-sky-600 dark:text-sky-400 font-bold">+82%</span>) on-schedule milestone velocity
+              (<span className="text-[#1A73E8] dark:text-[#8AB4F8] font-semibold">+82%</span>) on-schedule milestone velocity
             </p>
-            <div className="flex items-center gap-1.5 text-caption text-text-tertiary mt-3 pt-3 border-t border-border-primary/60">
-              <Clock size={13} /> campaign sent 2 days ago
+            <div className="flex items-center gap-1.5 text-caption text-text-tertiary mt-3 pt-3 border-t border-border-primary">
+              <Clock size={13} /> updated 2 days ago
             </div>
           </div>
         </div>
 
-        {/* Chart 3: Emerald Green Line Chart + Floating Quick Settings Action */}
-        <div className="soft-card rounded-2xl p-5 flex flex-col justify-between relative">
+        {/* Chart 3: Google Yellow/Amber Line Chart */}
+        <div className="google-card p-5 flex flex-col justify-between relative">
           <div className="relative w-full h-44 mb-2">
             <svg className="w-full h-full" viewBox="0 0 300 160" preserveAspectRatio="none">
               <defs>
-                <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#10B981" stopOpacity="0.0" />
+                <linearGradient id="amberGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#F9AB00" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#F9AB00" stopOpacity="0.0" />
                 </linearGradient>
               </defs>
               {/* Dashed Horizontal Grid lines */}
@@ -269,39 +325,39 @@ export default function DashboardPage() {
               {/* Area fill */}
               <path
                 d="M 52 145 C 80 140, 110 95, 140 100 C 170 105, 190 45, 215 75 C 240 100, 260 40, 280 35 L 280 145 L 52 145 Z"
-                fill="url(#greenGradient)"
+                fill="url(#amberGradient)"
               />
 
               {/* Curve */}
               <path
                 d="M 52 145 C 80 140, 110 95, 140 100 C 170 105, 190 45, 215 75 C 240 100, 260 40, 280 35"
                 fill="none"
-                stroke="#10B981"
+                stroke="#F9AB00"
                 strokeWidth="3"
                 strokeLinecap="round"
               />
 
               {/* Circular Data Nodes */}
-              <circle cx="52" cy="145" r="4.5" className="fill-white dark:fill-slate-900" stroke="#10B981" strokeWidth="2.5" />
-              <circle cx="140" cy="100" r="4.5" className="fill-white dark:fill-slate-900" stroke="#10B981" strokeWidth="2.5" />
-              <circle cx="215" cy="75" r="4.5" className="fill-white dark:fill-slate-900" stroke="#10B981" strokeWidth="2.5" />
-              <circle cx="280" cy="35" r="4.5" className="fill-white dark:fill-slate-900" stroke="#10B981" strokeWidth="2.5" />
+              <circle cx="52" cy="145" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#F9AB00" strokeWidth="2.5" />
+              <circle cx="140" cy="100" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#F9AB00" strokeWidth="2.5" />
+              <circle cx="215" cy="75" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#F9AB00" strokeWidth="2.5" />
+              <circle cx="280" cy="35" r="4.5" className="fill-white dark:fill-[#202124]" stroke="#F9AB00" strokeWidth="2.5" />
             </svg>
           </div>
           <div>
-            <h3 className="text-body-md font-bold text-text-primary">Completed Sprints & Velocity</h3>
+            <h3 className="text-body-md font-semibold text-text-primary">Completed Sprints & Velocity</h3>
             <p className="text-body-sm text-text-secondary mt-0.5">
-              (<span className="text-emerald-600 dark:text-emerald-400 font-bold">+28%</span>) throughput increase across teams
+              (<span className="text-[#B06000] dark:text-[#FDD663] font-semibold">+28%</span>) throughput increase across teams
             </p>
-            <div className="flex items-center gap-1.5 text-caption text-text-tertiary mt-3 pt-3 border-t border-border-primary/60">
+            <div className="flex items-center gap-1.5 text-caption text-text-tertiary mt-3 pt-3 border-t border-border-primary">
               <Clock size={13} /> just updated
             </div>
           </div>
 
-          {/* Floating Settings Gear Button - Exactly matching the user's reference image */}
+          {/* Floating Settings Gear Button */}
           <button
             onClick={() => dispatch(setCommandPaletteOpen(true))}
-            className="absolute -bottom-2 -right-2 sm:bottom-4 sm:right-4 h-11 w-11 rounded-full bg-white dark:bg-slate-800 shadow-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 hover:rotate-90 hover:scale-105 transition-all duration-300 z-10 cursor-pointer"
+            className="absolute -bottom-2 -right-2 sm:bottom-4 sm:right-4 h-11 w-11 rounded-full bg-white dark:bg-[#303134] shadow-md border border-border-primary flex items-center justify-center text-text-secondary hover:text-accent-primary hover:rotate-90 hover:scale-105 transition-all duration-300 z-10 cursor-pointer"
             title="Command Palette & Settings (⌘K)"
           >
             <Settings size={18} />
@@ -311,40 +367,41 @@ export default function DashboardPage() {
 
       {/* Row 3: Priority Tasks & Recent Activity */}
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* My Tasks Panel */}
-        <div className="lg:col-span-2 soft-card rounded-2xl overflow-hidden flex flex-col">
-          <div className="px-6 py-4 border-b border-border-primary/80 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/40">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs">
+        {/* My Tasks Panel - Google Tasks Styled */}
+        <div className="lg:col-span-2 google-card overflow-hidden flex flex-col">
+          <div className="px-6 py-4 border-b border-border-primary flex items-center justify-between bg-bg-tertiary/40">
+            <div className="flex items-center gap-2.5">
+              <div className="h-8 w-8 rounded-full bg-[#E8F0FE] text-[#1A73E8] dark:bg-[#1A73E8]/20 dark:text-[#8AB4F8] flex items-center justify-center shadow-2xs">
                 <CheckCircle2 size={16} />
               </div>
               <div>
-                <h2 className="text-heading-sm text-text-primary">My Priority Tasks</h2>
+                <h2 className="text-heading-sm text-text-primary">Google Tasks Overview</h2>
                 <p className="text-caption text-text-tertiary">Assigned to you across active projects</p>
               </div>
             </div>
             <button
               onClick={() => router.push('/my-tasks')}
-              className="text-caption text-accent-primary hover:text-accent-primary-hover font-semibold cursor-pointer flex items-center gap-1 transition-colors px-2.5 py-1 rounded-lg hover:bg-accent-primary/10"
+              className="text-caption text-accent-primary hover:text-accent-primary-hover font-medium cursor-pointer flex items-center gap-1 transition-colors px-3 py-1 rounded-full hover:bg-[#E8F0FE] dark:hover:bg-[#1A73E8]/20"
             >
               View all <ArrowRight size={13} />
             </button>
           </div>
 
-          <div className="divide-y divide-border-secondary/60 flex-1">
+          <div className="divide-y divide-border-secondary flex-1">
             {myTasks.slice(0, 6).map(task => (
               <div
                 key={task.id}
                 onClick={() => dispatch(setTaskDetailId(task.id))}
-                className="px-6 py-3.5 flex items-center gap-3.5 hover:bg-slate-50 dark:hover:bg-white/5 transition-all duration-150 cursor-pointer group"
+                className="px-6 py-3.5 flex items-center gap-3.5 hover:bg-[#F8FAFD] dark:hover:bg-[#303134] transition-all duration-150 cursor-pointer group"
               >
                 <div
-                  className="h-2.5 w-2.5 rounded-full flex-shrink-0 ring-4 ring-transparent group-hover:ring-accent-primary/20 transition-all"
-                  style={{ backgroundColor: STATUS_CONFIG[task.status].color }}
+                  className="h-4 w-4 rounded-full border-2 border-border-primary group-hover:border-[#1A73E8] flex items-center justify-center transition-colors flex-shrink-0"
                   title={STATUS_CONFIG[task.status].label}
-                />
+                >
+                  <div className="h-1.5 w-1.5 rounded-full opacity-0 group-hover:opacity-100 bg-[#1A73E8] transition-opacity" />
+                </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-body-sm font-semibold text-text-primary truncate group-hover:text-accent-primary transition-colors">
+                  <p className="text-body-sm font-medium text-text-primary truncate group-hover:text-accent-primary transition-colors">
                     {task.title}
                   </p>
                   <div className="flex items-center gap-2 mt-0.5">
@@ -363,10 +420,10 @@ export default function DashboardPage() {
                   {PRIORITY_CONFIG[task.priority].label}
                 </Badge>
                 {task.dueDate && (
-                  <span className={`text-caption flex items-center gap-1 px-2 py-0.5 rounded-md ${
+                  <span className={`text-caption flex items-center gap-1 px-2.5 py-0.5 rounded-full ${
                     isOverdue(task.dueDate)
-                      ? 'text-error bg-error/10 border border-error/20 font-medium'
-                      : 'text-text-tertiary bg-bg-tertiary/50'
+                      ? 'text-[#C5221F] bg-[#FCE8E6] dark:bg-[#C5221F]/20 font-medium'
+                      : 'text-text-tertiary bg-bg-tertiary'
                   }`}>
                     <Clock size={11} />
                     {formatShortDate(task.dueDate)}
@@ -384,27 +441,27 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Activity Panel */}
-        <div className="soft-card rounded-2xl overflow-hidden flex flex-col">
-          <div className="px-6 py-4 border-b border-border-primary/80 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/40">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center shadow-xs">
+        <div className="google-card overflow-hidden flex flex-col">
+          <div className="px-6 py-4 border-b border-border-primary flex items-center justify-between bg-bg-tertiary/40">
+            <div className="flex items-center gap-2.5">
+              <div className="h-8 w-8 rounded-full bg-[#FEF7E0] text-[#B06000] dark:bg-[#FBBC04]/20 dark:text-[#FDD663] flex items-center justify-center shadow-2xs">
                 <Activity size={16} />
               </div>
               <h2 className="text-heading-sm text-text-primary">Recent Activity</h2>
             </div>
             <button
               onClick={() => router.push('/activity')}
-              className="text-caption text-text-tertiary hover:text-text-primary transition-colors cursor-pointer"
+              className="text-caption text-text-tertiary hover:text-text-primary transition-colors cursor-pointer px-2.5 py-1 rounded-full hover:bg-bg-hover"
             >
               History
             </button>
           </div>
 
-          <div className="divide-y divide-border-secondary/60 max-h-[420px] overflow-y-auto flex-1">
+          <div className="divide-y divide-border-secondary max-h-[420px] overflow-y-auto flex-1">
             {recentActivity.slice(0, 8).map(event => {
               const user = users[event.userId];
               return (
-                <div key={event.id} className="px-5 py-3.5 flex items-start gap-3 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                <div key={event.id} className="px-5 py-3.5 flex items-start gap-3 hover:bg-[#F8FAFD] dark:hover:bg-[#303134] transition-colors">
                   <Avatar name={user?.name || 'Unknown'} size="xs" className="mt-0.5" />
                   <div className="min-w-0 flex-1">
                     <p className="text-body-sm text-text-primary leading-snug">
@@ -434,7 +491,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-2">
             <FolderKanban size={18} className="text-accent-primary" />
             <h2 className="text-heading-sm text-text-primary">Active Project Suites</h2>
-            <span className="text-xs text-text-tertiary bg-bg-tertiary px-2 py-0.5 rounded-full font-medium">
+            <span className="text-xs text-text-tertiary bg-bg-tertiary px-2.5 py-0.5 rounded-full font-medium">
               {projects.length}
             </span>
           </div>
@@ -443,13 +500,14 @@ export default function DashboardPage() {
             variant="secondary"
             icon={<Plus size={14} />}
             onClick={() => dispatch(setCreateProjectOpen(true))}
+            className="rounded-full"
           >
             Create Project
           </Button>
         </div>
 
         {projects.length === 0 ? (
-          <div className="soft-card rounded-2xl p-10 text-center">
+          <div className="google-card p-10 text-center">
             <FolderKanban size={44} className="mx-auto text-text-tertiary mb-3 opacity-60" />
             <h3 className="text-body-md font-semibold text-text-primary">No projects yet</h3>
             <p className="text-body-sm text-text-secondary mt-1 mb-5 max-w-md mx-auto">
@@ -459,6 +517,7 @@ export default function DashboardPage() {
               variant="primary"
               icon={<Plus size={15} />}
               onClick={() => dispatch(setCreateProjectOpen(true))}
+              className="rounded-full"
             >
               Create Project
             </Button>
@@ -478,7 +537,7 @@ export default function DashboardPage() {
                     dispatch(setCurrentProject(project.id));
                     router.push(`/workspaces/${workspace?.id}/projects/${project.id}`);
                   }}
-                  className="soft-card rounded-2xl p-5 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 text-left cursor-pointer group relative overflow-hidden flex flex-col justify-between"
+                  className="google-card p-5 hover:-translate-y-1 hover:shadow-md transition-all duration-300 text-left cursor-pointer group relative overflow-hidden flex flex-col justify-between"
                 >
                   {/* Subtle top color bar */}
                   <div

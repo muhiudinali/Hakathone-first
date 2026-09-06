@@ -61,13 +61,14 @@ export default function LandingPage() {
       </div>
 
       {/* ============================================================
-          STICKY GLASS NAVIGATION BAR
+          STICKY GOOGLE WORKSPACE NAVIGATION BAR
           ============================================================ */}
-      <header className="sticky top-0 z-50 glass-panel border-b border-border-primary/80 transition-all duration-200">
+      <header className="sticky top-0 z-50 bg-bg-secondary/95 backdrop-blur-md border-b border-border-primary transition-all duration-200">
+        <div className="google-bar" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo & Brand */}
           <Link href="/" className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">
+            <div className="h-9 w-9 rounded-2xl bg-gradient-to-tr from-[#1A73E8] to-[#34A853] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-200">
               <Layers size={20} className="stroke-[2.5]" />
             </div>
             <div className="flex flex-col">
@@ -75,7 +76,7 @@ export default function LandingPage() {
                 Workspace <span className="gradient-text font-extrabold">Manager</span>
               </span>
               <span className="text-[10px] text-text-tertiary -mt-1 tracking-wider uppercase font-semibold">
-                Project Suite 2.0
+                Google Workflow Suite
               </span>
             </div>
           </Link>
@@ -93,14 +94,14 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.push('/login')}
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-bg-hover rounded-lg transition-colors cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-bg-hover rounded-full transition-colors cursor-pointer"
             >
               <Users size={14} />
               Sign In
             </button>
             <button
               onClick={handleLaunchApp}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-accent-primary hover:bg-accent-primary-hover rounded-xl shadow-md shadow-accent-primary/25 hover:shadow-lg hover:shadow-accent-primary/30 transition-all duration-150 cursor-pointer active:scale-95"
+              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-accent-primary hover:bg-accent-primary-hover rounded-full shadow-sm hover:shadow-md transition-all duration-150 cursor-pointer active:scale-95"
             >
               <span>{isAuthenticated ? 'Open Dashboard' : 'Launch Demo'}</span>
               <ArrowRight size={15} />
@@ -114,11 +115,16 @@ export default function LandingPage() {
           ============================================================ */}
       <section className="relative z-10 pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 text-center max-w-5xl mx-auto">
         {/* Announcement Pill Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-indigo-500/20 text-xs font-semibold text-text-primary mb-6 shadow-sm hover:border-indigo-500/40 transition-colors cursor-default">
-          <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse" />
-          <span className="text-text-secondary font-normal">Next.js 16 + React 19 •</span>
-          <span className="gradient-text font-bold">Workspace Manager 2.0</span>
-          <Sparkles size={13} className="text-indigo-500 ml-0.5" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white dark:bg-[#292A2D] border border-border-primary text-xs font-medium text-text-primary mb-6 shadow-2xs hover:border-accent-primary transition-colors cursor-default">
+          <span className="flex items-center gap-0.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#4285F4]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#EA4335]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FBBC04]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#34A853]" />
+          </span>
+          <span className="text-text-secondary font-normal">Google Workflow Theme •</span>
+          <span className="gradient-text font-bold">Workspace Suite</span>
+          <Sparkles size={13} className="text-accent-primary ml-0.5" />
         </div>
 
         {/* Main Display Headline */}

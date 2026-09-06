@@ -123,27 +123,35 @@ export default function Sidebar() {
 
       {/* Navigation Section */}
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
-        {/* Quick New Task Button */}
-        <div className="pb-3">
+        {/* Google Workspace "+ Create" Floating Pill */}
+        <div className="pb-3 pt-1">
           <button
             onClick={() => dispatch(setCreateTaskOpen(true))}
             className={cn(
-              'w-full flex items-center gap-2 px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 rounded-xl text-body-sm font-semibold shadow-md shadow-slate-900/15 hover:shadow-lg transition-all cursor-pointer active:scale-95',
-              collapsed && 'justify-center px-0 h-10 w-10 mx-auto'
+              'w-full flex items-center gap-3 px-4 py-3 bg-white hover:bg-[#F8FAFD] dark:bg-[#303134] dark:hover:bg-[#3C4043] text-text-primary rounded-2xl text-body-sm font-medium border border-border-primary shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-98',
+              collapsed && 'justify-center px-0 h-11 w-11 mx-auto'
             )}
             title="Create New Task (C)"
           >
-            <Plus size={16} className="flex-shrink-0 stroke-[2.5]" />
+            {/* Google 4-color plus icon */}
+            <div className="flex-shrink-0 flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5V19" stroke="#EA4335" strokeWidth="2.75" strokeLinecap="round" />
+                <path d="M5 12H19" stroke="#4285F4" strokeWidth="2.75" strokeLinecap="round" />
+                <path d="M12 12V19" stroke="#34A853" strokeWidth="2.75" strokeLinecap="round" />
+                <path d="M12 12H19" stroke="#FBBC04" strokeWidth="2.75" strokeLinecap="round" />
+              </svg>
+            </div>
             {!collapsed && (
               <>
-                <span className="truncate">New Task</span>
-                <kbd className="ml-auto text-[10px] bg-white/20 dark:bg-black/10 border border-white/25 dark:border-black/15 px-1.5 py-0.5 rounded text-white dark:text-slate-900 font-bold">C</kbd>
+                <span className="font-medium text-text-primary">Create Task</span>
+                <kbd className="ml-auto text-[10px] bg-bg-tertiary border border-border-primary px-2 py-0.5 rounded-full text-text-tertiary font-mono">C</kbd>
               </>
             )}
           </button>
         </div>
 
-        {/* Navigation Items (Soft UI Style with Dark Active Capsule) */}
+        {/* Navigation Items (Google Material 3 Pill Selection) */}
         {NAV_ITEMS.map(item => {
           const isActive = pathname === item.path;
           return (
@@ -151,25 +159,15 @@ export default function Sidebar() {
               key={item.id}
               onClick={() => navigate(item.path)}
               className={cn(
-                'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 cursor-pointer text-left',
+                'w-full flex items-center gap-3.5 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-150 cursor-pointer text-left',
                 isActive
-                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md shadow-slate-900/20 font-semibold'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-slate-100 dark:hover:bg-slate-800/60',
+                  ? 'bg-[#E8F0FE] text-[#1967D2] dark:bg-[#3C4043] dark:text-[#8AB4F8] font-semibold'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-[#F1F3F4] dark:hover:bg-[#303134]',
                 collapsed && 'justify-center px-0 h-10 w-10 mx-auto',
               )}
               title={collapsed ? item.label : undefined}
             >
-              <div
-                className={cn(
-                  'h-7 w-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors',
-                  isActive
-                    ? 'bg-white/15 dark:bg-slate-900/10 text-white dark:text-slate-900'
-                    : 'bg-slate-100 dark:bg-slate-800 text-text-tertiary',
-                  collapsed && 'h-8 w-8',
-                )}
-              >
-                <item.icon size={15} />
-              </div>
+              <item.icon size={18} className={cn('flex-shrink-0', isActive ? 'text-[#1967D2] dark:text-[#8AB4F8]' : 'text-text-secondary')} />
               {!collapsed && <span>{item.label}</span>}
             </button>
           );
@@ -178,10 +176,10 @@ export default function Sidebar() {
         {/* Projects Section */}
         {!collapsed && (
           <div className="pt-4">
-            <div className="flex items-center justify-between px-2 mb-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-text-tertiary">Projects</span>
+            <div className="flex items-center justify-between px-3 mb-1.5">
+              <span className="text-[11px] font-medium uppercase tracking-wider text-text-tertiary">Projects</span>
               <IconButton size="sm" tooltip="New project" onClick={() => dispatch(setCreateProjectOpen(true))}>
-                <Plus size={13} />
+                <Plus size={14} />
               </IconButton>
             </div>
             {projects.map(proj => {
@@ -194,26 +192,22 @@ export default function Sidebar() {
                     navigate(`/workspaces/${currentWorkspace?.id}/projects/${proj.id}`);
                   }}
                   className={cn(
-                    'w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-sm transition-all duration-100 cursor-pointer text-left',
+                    'w-full flex items-center gap-3 px-3.5 py-2 rounded-full text-body-sm transition-all duration-100 cursor-pointer text-left',
                     isActive
-                      ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md shadow-slate-900/20 font-semibold'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-slate-100 dark:hover:bg-slate-800/60',
+                      ? 'bg-[#E8F0FE] text-[#1967D2] dark:bg-[#3C4043] dark:text-[#8AB4F8] font-semibold'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-[#F1F3F4] dark:hover:bg-[#303134]',
                   )}
                 >
                   <div
-                    className={cn(
-                      'h-6 w-6 rounded-lg flex items-center justify-center flex-shrink-0 shadow-2xs border',
-                      isActive ? 'bg-white/20 border-transparent text-white dark:text-slate-900' : ''
-                    )}
-                    style={isActive ? undefined : {
-                      backgroundColor: `${proj.color}15`,
-                      borderColor: `${proj.color}30`,
+                    className="h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{
+                      backgroundColor: `${proj.color}20`,
                       color: proj.color,
                     }}
                   >
                     <DynamicIcon icon={proj.icon || 'folder'} size={13} />
                   </div>
-                  <span className="truncate">{proj.name}</span>
+                  <span className="truncate font-normal">{proj.name}</span>
                 </button>
               );
             })}
@@ -232,11 +226,11 @@ export default function Sidebar() {
                   dispatch(setCurrentProject(proj.id));
                   navigate(`/workspaces/${currentWorkspace?.id}/projects/${proj.id}`);
                 }}
-                className="w-full flex items-center justify-center py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="w-full flex items-center justify-center py-1.5 rounded-full hover:bg-[#F1F3F4] dark:hover:bg-[#303134] transition-colors cursor-pointer"
                 title={proj.name}
               >
                 <div
-                  className="h-8 w-8 rounded-lg flex items-center justify-center shadow-xs border"
+                  className="h-8 w-8 rounded-full flex items-center justify-center shadow-xs border"
                   style={{
                     backgroundColor: `${proj.color}15`,
                     borderColor: `${proj.color}30`,
@@ -252,34 +246,24 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom Section - AUTH PAGES & SETTINGS */}
-      <div className="border-t border-border-primary/80 p-3 space-y-1.5">
+      <div className="border-t border-border-primary p-3 space-y-1.5">
         {!collapsed && (
-          <div className="text-[10px] font-bold uppercase tracking-wider text-text-tertiary px-2 pb-0.5">
-            Auth & Settings
+          <div className="text-[11px] font-medium uppercase tracking-wider text-text-tertiary px-2 pb-0.5">
+            Settings & Account
           </div>
         )}
         <button
           onClick={() => navigate('/settings')}
           className={cn(
-            'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors cursor-pointer text-left',
+            'w-full flex items-center gap-3.5 px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer text-left',
             pathname === '/settings'
-              ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold shadow-md'
-              : 'text-text-secondary hover:text-text-primary hover:bg-slate-100 dark:hover:bg-slate-800/60',
+              ? 'bg-[#E8F0FE] text-[#1967D2] dark:bg-[#3C4043] dark:text-[#8AB4F8] font-semibold'
+              : 'text-text-secondary hover:text-text-primary hover:bg-[#F1F3F4] dark:hover:bg-[#303134]',
             collapsed && 'justify-center px-0',
           )}
           title={collapsed ? 'Settings' : undefined}
         >
-          <div
-            className={cn(
-              'h-7 w-7 rounded-lg flex items-center justify-center flex-shrink-0',
-              pathname === '/settings'
-                ? 'bg-white/15 dark:bg-slate-900/10 text-white dark:text-slate-900'
-                : 'bg-slate-100 dark:bg-slate-800 text-text-tertiary',
-              collapsed && 'h-8 w-8',
-            )}
-          >
-            <Settings size={15} />
-          </div>
+          <Settings size={18} className="flex-shrink-0" />
           {!collapsed && <span>Settings</span>}
         </button>
 
@@ -287,10 +271,10 @@ export default function Sidebar() {
         {!collapsed && currentUser && (
           <Dropdown
             trigger={
-              <button className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors cursor-pointer text-left border border-border-primary/60">
+              <button className="w-full flex items-center gap-2.5 p-2 rounded-2xl hover:bg-[#F1F3F4] dark:hover:bg-[#303134] transition-colors cursor-pointer text-left border border-border-primary">
                 <Avatar name={currentUser.name} size="sm" />
                 <div className="flex-1 min-w-0">
-                  <div className="text-body-sm font-semibold text-text-primary truncate">{currentUser.name}</div>
+                  <div className="text-body-sm font-medium text-text-primary truncate">{currentUser.name}</div>
                   <div className="text-[11px] text-text-tertiary truncate">{currentUser.email}</div>
                 </div>
               </button>
@@ -327,14 +311,14 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Desktop Sidebar - Soft UI Elevated Card */}
+      {/* Desktop Sidebar - Google Workspace Card */}
       <aside
         className={cn(
-          'hidden lg:flex flex-col flex-shrink-0 transition-all duration-300 p-3 z-30',
+          'hidden lg:flex flex-col flex-shrink-0 transition-all duration-300 p-2.5 z-30',
           collapsed ? 'w-20' : 'w-[264px]',
         )}
       >
-        <div className="h-full flex flex-col soft-card rounded-2xl overflow-hidden shadow-lg shadow-slate-200/50 dark:shadow-black/40">
+        <div className="h-full flex flex-col bg-bg-secondary rounded-3xl border border-border-primary overflow-hidden shadow-xs">
           {sidebarContent}
         </div>
       </aside>
@@ -344,7 +328,7 @@ export default function Sidebar() {
         <div className="lg:hidden fixed inset-0 z-50">
           <div className="absolute inset-0 bg-bg-overlay backdrop-blur-xs animate-fade-in" onClick={() => dispatch(setSidebarMobileOpen(false))} />
           <div className="relative w-[280px] max-w-[85vw] h-full p-3 shadow-2xl animate-fade-in">
-            <div className="h-full flex flex-col soft-card rounded-2xl overflow-hidden">
+            <div className="h-full flex flex-col bg-bg-secondary rounded-3xl border border-border-primary overflow-hidden shadow-lg">
               {sidebarContent}
             </div>
           </div>

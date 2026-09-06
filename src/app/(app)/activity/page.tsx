@@ -61,7 +61,7 @@ export default function ActivityPage() {
         {/* Filters */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* User Filter */}
-          <div className="flex items-center gap-1.5 bg-bg-secondary/70 backdrop-blur-md border border-border-primary/80 rounded-xl px-3 py-1.5 text-xs shadow-2xs">
+          <div className="flex items-center gap-1.5 bg-bg-secondary border border-border-primary rounded-full px-3.5 py-1.5 text-xs shadow-2xs">
             <User size={13} className="text-accent-primary" />
             <select
               value={selectedUser}
@@ -76,7 +76,7 @@ export default function ActivityPage() {
           </div>
 
           {/* Action Type Filter */}
-          <div className="flex items-center gap-1.5 bg-bg-secondary/70 backdrop-blur-md border border-border-primary/80 rounded-xl px-3 py-1.5 text-xs shadow-2xs">
+          <div className="flex items-center gap-1.5 bg-bg-secondary border border-border-primary rounded-full px-3.5 py-1.5 text-xs shadow-2xs">
             <Filter size={13} className="text-accent-primary" />
             <select
               value={selectedAction}
@@ -102,7 +102,7 @@ export default function ActivityPage() {
           description={activity.length > 0 ? "No activity matches the selected filters." : "Actions in your workspace will be logged here."}
         />
       ) : (
-        <div className="relative glass-card border border-white/70 dark:border-white/10 rounded-2xl p-6 shadow-sm">
+        <div className="relative google-card rounded-2xl p-6 shadow-xs">
           <div className="absolute left-10 top-8 bottom-8 w-px bg-border-primary/80" />
           <div className="space-y-4">
             {filteredActivity.map(event => {

@@ -7,58 +7,60 @@
    ============================================================ */
 
 :root {
-  /* Fonts */
-  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Google Fonts */
+  --font-display: 'Google Sans', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Roboto', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
 
-  /* Backgrounds */
-  --bg-primary: #F8FAFC;
+  /* Google Workspace Backgrounds */
+  --bg-primary: #F8FAFD;
   --bg-secondary: #FFFFFF;
-  --bg-tertiary: #F1F5F9;
+  --bg-tertiary: #F1F3F4;
   --bg-elevated: #FFFFFF;
-  --bg-hover: #F1F5F9;
-  --bg-active: #E2E8F0;
-  --bg-overlay: rgba(15, 23, 42, 0.45);
+  --bg-hover: #F1F3F4;
+  --bg-active: #E8F0FE;
+  --bg-overlay: rgba(32, 33, 36, 0.55);
 
-  /* Typography */
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-tertiary: #94A3B8;
+  /* Google Typography */
+  --text-primary: #202124;
+  --text-secondary: #5F6368;
+  --text-tertiary: #80868B;
   --text-inverse: #FFFFFF;
-  --text-link: #4F46E5;
+  --text-link: #1A73E8;
 
-  /* Borders */
-  --border-primary: #E2E8F0;
-  --border-secondary: #F1F5F9;
-  --border-focus: #4F46E5;
+  /* Google Borders */
+  --border-primary: #DADCE0;
+  --border-secondary: #E8EAED;
+  --border-focus: #1A73E8;
 
-  /* Accents */
-  --accent-primary: #4F46E5;
-  --accent-primary-hover: #4338CA;
+  /* Google Signature Accents */
+  --accent-primary: #1A73E8;
+  --accent-primary-hover: #1557B0;
   --accent-primary-text: #FFFFFF;
+  --accent-tint: #E8F0FE;
 
-  /* Status Colors */
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
-  --color-info: #3B82F6;
+  /* Google 4-Color Status Palette */
+  --color-success: #34A853;
+  --color-warning: #F9AB00;
+  --color-error: #EA4335;
+  --color-info: #1A73E8;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
-  --shadow-glow: 0 0 35px -5px rgba(79, 70, 229, 0.25);
+  /* Google Material 3 Elevation */
+  --shadow-xs: 0 1px 2px 0 rgba(60, 64, 67, 0.15);
+  --shadow-sm: 0 1px 3px 0 rgba(60, 64, 67, 0.2), 0 1px 2px 0 rgba(60, 64, 67, 0.1);
+  --shadow-md: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --shadow-lg: 0 2px 6px 2px rgba(60, 64, 67, 0.15), 0 8px 24px 6px rgba(60, 64, 67, 0.15);
+  --shadow-xl: 0 4px 12px 4px rgba(60, 64, 67, 0.2), 0 12px 32px 8px rgba(60, 64, 67, 0.2);
+  --shadow-glow: 0 0 24px -2px rgba(26, 115, 232, 0.3);
 
   /* Sizing & Radius */
   --sidebar-width: 260px;
-  --sidebar-collapsed-width: 64px;
-  --header-height: 56px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  --sidebar-collapsed-width: 68px;
+  --header-height: 60px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
   /* Transitions */
@@ -68,39 +70,46 @@
 }
 
 .dark {
-  /* Rich Deep Obsidian & Slate Palette */
-  --bg-primary: #090D16;
-  --bg-secondary: #0F172A;
-  --bg-tertiary: #1E293B;
-  --bg-elevated: #192237;
-  --bg-hover: #1E293B;
-  --bg-active: #334155;
-  --bg-overlay: rgba(3, 7, 18, 0.75);
+  /* Google Dark Theme Palette */
+  --bg-primary: #202124;
+  --bg-secondary: #292A2D;
+  --bg-tertiary: #303134;
+  --bg-elevated: #35363A;
+  --bg-hover: #35363A;
+  --bg-active: #3C4043;
+  --bg-overlay: rgba(0, 0, 0, 0.7);
 
   /* Typography */
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-tertiary: #64748B;
-  --text-inverse: #0F172A;
-  --text-link: #818CF8;
+  --text-primary: #E8EAED;
+  --text-secondary: #9AA0A6;
+  --text-tertiary: #5F6368;
+  --text-inverse: #202124;
+  --text-link: #8AB4F8;
 
   /* Borders */
-  --border-primary: #1E293B;
-  --border-secondary: #162032;
-  --border-focus: #6366F1;
+  --border-primary: #3C4043;
+  --border-secondary: #2D2E30;
+  --border-focus: #8AB4F8;
 
   /* Accents */
-  --accent-primary: #6366F1;
-  --accent-primary-hover: #4F46E5;
-  --accent-primary-text: #FFFFFF;
+  --accent-primary: #8AB4F8;
+  --accent-primary-hover: #AECBFA;
+  --accent-primary-text: #202124;
+  --accent-tint: rgba(138, 180, 248, 0.15);
+
+  /* Status Colors */
+  --color-success: #81C995;
+  --color-warning: #FDD663;
+  --color-error: #F28B82;
+  --color-info: #8AB4F8;
 
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 45px -5px rgba(99, 102, 241, 0.35);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 30px -4px rgba(138, 180, 248, 0.35);
 }
 
 /* ============================================================
@@ -228,91 +237,104 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .glass-card:hover {
-  border-color: rgba(99, 102, 241, 0.45);
-  box-shadow: 0 8px 30px -4px rgba(99, 102, 241, 0.15);
+  border-color: rgba(26, 115, 232, 0.45);
+  box-shadow: 0 4px 16px -2px rgba(26, 115, 232, 0.15);
 }
 
 .soft-card {
   background: #FFFFFF;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  border: 1px solid #DADCE0;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.15), 0 1px 3px 1px rgba(60, 64, 67, 0.08);
   transition: all var(--transition-base);
 }
 
 .dark .soft-card {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  background: #292A2D;
+  border: 1px solid #3C4043;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
 }
 
 .soft-card:hover {
-  box-shadow: 0 8px 25px -4px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 6px 2px rgba(60, 64, 67, 0.15), 0 4px 8px 3px rgba(60, 64, 67, 0.1);
 }
 
 .dark .soft-card:hover {
-  box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.google-bar {
+  background: linear-gradient(90deg, #4285F4 0%, #EA4335 33%, #FBBC04 66%, #34A853 100%);
+  height: 3px;
+  width: 100%;
+}
+
+.google-card {
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.15);
+  transition: all var(--transition-base);
+}
+
+.dark .google-card {
+  background: #292A2D;
+  border: 1px solid #3C4043;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
 }
 
 .glass-column {
-  background: rgba(248, 250, 252, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
+  background: #F8FAFD;
+  border: 1px solid #DADCE0;
 }
 
 .dark .glass-column {
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #202124;
+  border: 1px solid #3C4043;
 }
 
 .glass-task-card {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04);
+  background: #FFFFFF;
+  border: 1px solid #DADCE0;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.1);
   transition: all var(--transition-fast);
 }
 
 .dark .glass-task-card {
-  background: rgba(23, 33, 53, 0.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  background: #2D2E30;
+  border: 1px solid #3C4043;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .glass-task-card:hover {
   transform: translateY(-1px);
-  border-color: rgba(99, 102, 241, 0.45);
-  box-shadow: 0 8px 16px -2px rgba(15, 23, 42, 0.1);
+  border-color: #1A73E8;
+  box-shadow: 0 2px 6px 2px rgba(60, 64, 67, 0.15);
 }
 
 .dark .glass-task-card:hover {
-  box-shadow: 0 8px 20px -2px rgba(0, 0, 0, 0.5), 0 0 15px -3px rgba(99, 102, 241, 0.2);
+  border-color: #8AB4F8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #06B6D4 100%);
+  background: linear-gradient(135deg, #1A73E8 0%, #34A853 50%, #FBBC04 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .dark .gradient-text {
-  background: linear-gradient(135deg, #818CF8 0%, #C084FC 50%, #38BDF8 100%);
+  background: linear-gradient(135deg, #8AB4F8 0%, #81C995 50%, #FDD663 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .hero-grid {
-  background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(26, 115, 232, 0.15) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
-.glow-indigo {
-  box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.3);
+.glow-google {
+  box-shadow: 0 0 35px -5px rgba(26, 115, 232, 0.25);
 }
 
 /* ============================================================
@@ -341,10 +363,19 @@ h1, h2, h3, h4, .font-heading {
    FOCUS STYLES
    ============================================================ */
 
-*:focus-visible {
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none !important;
 }
 
 /* ============================================================

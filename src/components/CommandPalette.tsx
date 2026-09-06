@@ -173,12 +173,13 @@ export default function CommandPalette() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4">
-      <div className="fixed inset-0 bg-bg-overlay animate-fade-in" onClick={close} />
+      <div className="fixed inset-0 bg-black/45 dark:bg-black/70 backdrop-blur-sm animate-fade-in" onClick={close} />
       
-      <div className="relative w-full max-w-lg glass-panel border border-white/20 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-scale-in">
+      <div className="relative w-full max-w-xl bg-white dark:bg-[#202124] border border-border-primary rounded-3xl shadow-2xl overflow-hidden animate-scale-in">
+        <div className="google-bar" />
         {/* Search Input */}
-        <div className="flex items-center px-4 border-b border-border-primary/80">
-          <Search size={18} className="text-accent-primary flex-shrink-0" />
+        <div className="flex items-center px-4 h-14 border-b border-border-primary gap-2">
+          <Search size={19} className="text-accent-primary flex-shrink-0 ml-1" />
           <input
             ref={inputRef}
             type="text"
@@ -186,13 +187,14 @@ export default function CommandPalette() {
             value={query}
             onChange={handleQueryChange}
             onKeyDown={handleKeyDown}
-            className="w-full h-12 px-3 bg-transparent text-text-primary placeholder:text-text-tertiary text-body-md focus:outline-none"
+            className="w-full h-full px-2 bg-transparent text-text-primary placeholder:text-text-tertiary text-body-md focus:outline-none focus:ring-0 outline-none border-none shadow-none"
+            style={{ outline: 'none', border: 'none', boxShadow: 'none' }}
           />
-          <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-bg-tertiary border border-border-primary text-text-tertiary">ESC</kbd>
+          <kbd className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-bg-tertiary border border-border-primary text-text-tertiary shadow-2xs flex-shrink-0">ESC</kbd>
         </div>
 
         {/* Results List */}
-        <div ref={listRef} className="max-h-80 overflow-y-auto p-2">
+        <div ref={listRef} className="max-h-[380px] overflow-y-auto p-2.5">
           {flatItems.length === 0 ? (
             <div className="py-8 text-center text-body-sm text-text-tertiary">
               No results found for &quot;{query}&quot;
@@ -200,7 +202,7 @@ export default function CommandPalette() {
           ) : (
             Object.entries(grouped).map(([category, items]) => (
               <div key={category} className="mb-2 last:mb-0">
-                <div className="px-2 py-1 text-overline text-text-tertiary font-semibold flex items-center gap-1.5">
+                <div className="px-2 py-1 text-overline text-text-tertiary font-medium flex items-center gap-1.5">
                   {getCategoryIcon(category)}
                   <span>{category}</span>
                 </div>
@@ -213,13 +215,15 @@ export default function CommandPalette() {
                       onClick={item.action}
                       onMouseEnter={() => setSelectedIndex(globalIdx)}
                       className={cn(
-                        'w-full flex items-center gap-3 px-3 py-2 rounded-lg text-body-sm transition-colors text-left cursor-pointer',
-                        isSelected ? 'bg-accent-primary text-white' : 'text-text-primary hover:bg-bg-hover',
+                        'w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-body-sm transition-colors text-left cursor-pointer',
+                        isSelected
+                          ? 'bg-[#E8F0FE] text-[#1967D2] dark:bg-[#3C4043] dark:text-[#8AB4F8] font-medium'
+                          : 'text-text-primary hover:bg-[#F1F3F4] dark:hover:bg-[#303134]',
                       )}
                     >
-                      <span className={isSelected ? 'text-white' : 'text-text-secondary'}>{item.icon}</span>
+                      <span className={isSelected ? 'text-[#1967D2] dark:text-[#8AB4F8]' : 'text-text-secondary'}>{item.icon}</span>
                       <span className="flex-1 truncate">{item.label}</span>
-                      {isSelected && <ArrowRight size={14} className="text-white flex-shrink-0" />}
+                      {isSelected && <ArrowRight size={14} className="text-[#1967D2] dark:text-[#8AB4F8] flex-shrink-0" />}
                     </button>
                   );
                 })}

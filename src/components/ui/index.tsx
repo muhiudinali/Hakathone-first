@@ -18,17 +18,17 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({ variant = 'primary', size = 'md', loading, icon, children, className, disabled, ...props }: ButtonProps) {
   const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus active:scale-[0.98] select-none';
   const variants = {
-    primary: 'bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/35 border border-indigo-400/30 font-semibold',
-    secondary: 'bg-bg-secondary/70 hover:bg-bg-secondary text-text-primary backdrop-blur-md border border-border-primary/80 hover:border-border-focus/40 shadow-xs',
-    ghost: 'text-text-secondary hover:bg-bg-hover hover:text-text-primary active:bg-bg-active',
-    danger: 'bg-error/10 text-error hover:bg-error/20 border border-error/20 active:bg-error/30',
-    outline: 'border border-border-primary/90 bg-white/30 dark:bg-white/5 backdrop-blur-md text-text-primary hover:bg-white/60 dark:hover:bg-white/10 shadow-xs',
-    glass: 'bg-white/40 dark:bg-slate-800/40 backdrop-blur-lg border border-white/40 dark:border-white/10 hover:bg-white/60 dark:hover:bg-slate-800/60 text-text-primary shadow-xs',
+    primary: 'bg-[#1A73E8] hover:bg-[#1557B0] active:bg-[#174EA6] text-white shadow-sm hover:shadow-md border border-transparent font-medium',
+    secondary: 'bg-[#F1F3F4] hover:bg-[#E8EAED] dark:bg-[#303134] dark:hover:bg-[#3C4043] text-[#202124] dark:text-[#E8EAED] border border-[#DADCE0] dark:border-[#3C4043] font-medium shadow-xs',
+    ghost: 'text-text-secondary hover:bg-bg-hover hover:text-text-primary active:bg-bg-active font-medium',
+    danger: 'bg-[#FCE8E6] dark:bg-[#5C1D1D]/30 text-[#EA4335] dark:text-[#F28B82] hover:bg-[#FAD2CF] border border-[#FAD2CF] dark:border-[#5C1D1D]/50 font-medium',
+    outline: 'border border-[#DADCE0] dark:border-[#3C4043] bg-transparent text-[#1A73E8] dark:text-[#8AB4F8] hover:bg-[#E8F0FE] dark:hover:bg-[#303134] font-medium shadow-xs',
+    glass: 'bg-white/90 dark:bg-[#2D2E30]/90 backdrop-blur-md border border-[#DADCE0] dark:border-[#3C4043] hover:bg-white dark:hover:bg-[#35363A] text-text-primary font-medium shadow-xs',
   };
   const sizes = {
     sm: 'h-8 px-3 text-[13px] rounded-lg',
     md: 'h-9 px-4 text-sm rounded-xl',
-    lg: 'h-11 px-6 text-[15px] rounded-xl',
+    lg: 'h-10 px-5 text-[15px] rounded-2xl',
   };
 
   return (
@@ -55,15 +55,15 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 }
 
 export function IconButton({ variant = 'ghost', size = 'md', tooltip, className, children, ...props }: IconButtonProps) {
-  const sizes = { sm: 'h-7 w-7 rounded-lg', md: 'h-8 w-8 rounded-xl', lg: 'h-10 w-10 rounded-xl' };
+  const sizes = { sm: 'h-8 w-8 rounded-full', md: 'h-9 w-9 rounded-full', lg: 'h-10 w-10 rounded-full' };
   return (
     <button
       className={cn(
         'inline-flex items-center justify-center transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-95',
-        variant === 'ghost' && 'text-text-secondary hover:bg-bg-hover/80 hover:text-text-primary',
-        variant === 'outline' && 'border border-border-primary/80 bg-white/20 dark:bg-white/5 backdrop-blur-sm text-text-secondary hover:text-text-primary hover:bg-bg-hover shadow-xs',
-        variant === 'danger' && 'text-text-secondary hover:bg-error/10 hover:text-error',
-        variant === 'glass' && 'bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/30 dark:border-white/10 text-text-primary hover:bg-white/60 dark:hover:bg-slate-800/60 shadow-xs',
+        variant === 'ghost' && 'text-text-secondary hover:bg-bg-hover hover:text-text-primary',
+        variant === 'outline' && 'border border-border-primary bg-bg-secondary text-text-secondary hover:text-text-primary hover:bg-bg-hover shadow-xs',
+        variant === 'danger' && 'text-text-secondary hover:bg-[#FCE8E6] hover:text-[#EA4335]',
+        variant === 'glass' && 'bg-white/80 dark:bg-[#2D2E30]/80 backdrop-blur-md border border-border-primary text-text-primary hover:bg-white dark:hover:bg-[#35363A] shadow-xs',
         sizes[size],
         className,
       )}
@@ -263,22 +263,22 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'default', color, size = 'sm', dot }: BadgeProps) {
   const variants = {
-    default: 'bg-bg-tertiary text-text-secondary border border-border-primary/50',
-    success: 'bg-success/15 text-success border border-success/25',
-    warning: 'bg-warning/15 text-warning border border-warning/25',
-    error: 'bg-error/15 text-error border border-error/25',
-    info: 'bg-info/15 text-info border border-info/25',
-    outline: 'border border-border-primary text-text-secondary backdrop-blur-sm',
+    default: 'bg-[#F1F3F4] text-[#3C4043] dark:bg-[#303134] dark:text-[#E8EAED] border border-[#DADCE0] dark:border-[#3C4043]',
+    success: 'bg-[#E6F4EA] text-[#137333] dark:bg-[#137333]/25 dark:text-[#81C995] border border-[#CEEAD6] dark:border-transparent',
+    warning: 'bg-[#FEF7E0] text-[#B06000] dark:bg-[#B06000]/25 dark:text-[#FDD663] border border-[#FEEFC3] dark:border-transparent',
+    error: 'bg-[#FCE8E6] text-[#C5221F] dark:bg-[#C5221F]/25 dark:text-[#F28B82] border border-[#FAD2CF] dark:border-transparent',
+    info: 'bg-[#E8F0FE] text-[#1A73E8] dark:bg-[#1A73E8]/25 dark:text-[#8AB4F8] border border-[#D2E3FC] dark:border-transparent',
+    outline: 'border border-[#DADCE0] dark:border-[#3C4043] text-text-secondary bg-transparent',
   };
   const sizes = {
-    sm: 'h-5 px-2 text-[11px]',
-    md: 'h-6 px-2.5 text-[12px]',
+    sm: 'h-5 px-2.5 text-[11px]',
+    md: 'h-6 px-3 text-[12px]',
   };
 
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 font-medium rounded-full whitespace-nowrap shadow-xs backdrop-blur-xs',
+        'inline-flex items-center gap-1.5 font-medium rounded-full whitespace-nowrap shadow-2xs',
         variants[variant],
         sizes[size],
       )}
@@ -403,7 +403,8 @@ export function Modal({ open, onClose, title, description, children, size = 'md'
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-overlay/60 backdrop-blur-md animate-fade-in"
       onClick={(e) => e.target === overlayRef.current && onClose()}
     >
-      <div className={cn('w-full glass-panel rounded-2xl shadow-2xl animate-scale-in border border-white/20 dark:border-white/10 overflow-hidden', sizes[size])}>
+      <div className={cn('w-full bg-white dark:bg-[#292A2D] rounded-3xl shadow-2xl animate-scale-in border border-[#DADCE0] dark:border-[#3C4043] overflow-hidden', sizes[size])}>
+        <div className="google-bar" />
         {(title || description) && (
           <div className="px-6 pt-6 pb-2 flex items-start justify-between gap-3">
             <div>
@@ -459,14 +460,14 @@ export function Drawer({ open, onClose, title, children, side = 'right', width =
       <div className="absolute inset-0 bg-bg-overlay/50 backdrop-blur-sm" />
       <div
         className={cn(
-          'relative glass-sidebar h-full shadow-2xl flex flex-col max-w-full border-l border-white/20 dark:border-white/10',
+          'relative bg-white dark:bg-[#292A2D] h-full shadow-2xl flex flex-col max-w-full border-l border-border-primary',
           width,
           side === 'right' ? 'ml-auto animate-slide-in-right' : 'mr-auto',
         )}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className="px-5 h-14 flex items-center border-b border-border-primary/80 glass-header">
+          <div className="px-5 h-14 flex items-center border-b border-border-primary bg-bg-secondary">
             <h3 className="text-heading-sm text-text-primary flex-1">{title}</h3>
             <IconButton onClick={onClose} tooltip="Close" size="sm">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
@@ -507,7 +508,7 @@ export function Dropdown({ trigger, children, align = 'left' }: DropdownProps) {
       {open && (
         <div
           className={cn(
-            'absolute z-50 mt-1.5 min-w-[210px] py-1.5 bg-white dark:bg-[#0F172A] rounded-xl shadow-2xl border border-border-primary ring-1 ring-black/10 animate-slide-in-up',
+            'absolute z-50 mt-1.5 min-w-[210px] py-2 bg-white dark:bg-[#292A2D] rounded-2xl shadow-xl border border-border-primary ring-1 ring-black/5 animate-slide-in-up',
             align === 'right' ? 'right-0' : 'left-0',
           )}
           onClick={() => setOpen(false)}
@@ -568,7 +569,7 @@ export function Tabs({ tabs, activeTab, onChange }: TabsProps) {
           className={cn(
             'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 transition-colors duration-150 -mb-px cursor-pointer',
             activeTab === tab.id
-              ? 'border-accent-primary text-text-primary'
+              ? 'border-accent-primary text-accent-primary font-medium'
               : 'border-transparent text-text-secondary hover:text-text-primary hover:border-border-primary',
           )}
         >
