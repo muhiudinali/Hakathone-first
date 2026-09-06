@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { signup } from '@/store/slices/authSlice';
-import { addMember } from '@/store/slices/workspaceSlice';
+import { addMember, setCurrentWorkspace } from '@/store/slices/workspaceSlice';
+import { selectWorkspaceList } from '@/store/selectors';
 import { Button, Input } from '@/components/ui';
 import { generateId } from '@/lib/utils';
 import Link from 'next/link';
@@ -17,6 +18,7 @@ export default function SignupPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const workspaces = useAppSelector(selectWorkspaceList);
   const router = useRouter();
 
   const validate = () => {
@@ -35,7 +37,7 @@ export default function SignupPage() {
     if (Object.keys(errs).length > 0) return;
 
     setLoading(true);
-    await new Promise(r => setTimeout(r, 600));
+    await new Promise(r => setTimeout(r, 400));
 
     const userId = generateId();
     dispatch(signup({
@@ -46,14 +48,15 @@ export default function SignupPage() {
       createdAt: new Date().toISOString(),
     }));
 
-    // Add to first workspace as member
+    const targetWsId = workspaces[0]?.id || 'ws-main';
     dispatch(addMember({
       id: generateId(),
-      workspaceId: 'ws-1',
+      workspaceId: targetWsId,
       userId,
-      role: 'member',
+      role: 'owner',
       joinedAt: new Date().toISOString(),
     }));
+    dispatch(setCurrentWorkspace(targetWsId));
 
     router.push('/dashboard');
   };

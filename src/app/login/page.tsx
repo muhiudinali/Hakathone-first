@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { login, signup, setUsers } from '@/store/slices/authSlice';
-import { selectAllUsers } from '@/store/selectors';
+import { login, signup } from '@/store/slices/authSlice';
+import { addMember, setCurrentWorkspace } from '@/store/slices/workspaceSlice';
+import { selectAllUsers, selectWorkspaceList } from '@/store/selectors';
 import { DEMO_USERS, DEFAULT_PASSWORD } from '@/lib/mock-data/users';
 import { Button, Input, Avatar } from '@/components/ui';
 import { generateId } from '@/lib/utils';
 import Link from 'next/link';
-import { Mail, Lock, LogIn, Sparkles } from 'lucide-react';
+import { Mail, Lock, LogIn, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -18,26 +19,63 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectAllUsers);
+  const workspaces = useAppSelector(selectWorkspaceList);
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
+    const cleanEmail = email.trim().toLowerCase();
 
-    // Simulate network delay
-    await new Promise(r => setTimeout(r, 600));
-
-    const user = Object.values(users).find(
-      u => u.email.toLowerCase() === email.trim().toLowerCase()
-    );
-    if (!user) {
-      setError('No account found with this email address.');
-      setLoading(false);
+    if (!cleanEmail) {
+      setError('Please enter your email address.');
       return;
     }
+
+    setLoading(true);
+    // Smooth transition
+    await new Promise(r => setTimeout(r, 400));
+
+    let user = Object.values(users).find(
+      u => u.email.toLowerCase() === cleanEmail
+    );
+
+    if (!user) {
+      // Automatic frictionless account creation for any email
+      if (password.length >= 4 || password === DEFAULT_PASSWORD) {
+        const userId = generateId();
+        const baseName = cleanEmail.split('@')[0];
+        const formattedName = baseName.charAt(0).toUpperCase() + baseName.slice(1);
+
+        const newUser = {
+          id: userId,
+          name: formattedName,
+          email: cleanEmail,
+          avatar: '',
+          createdAt: new Date().toISOString(),
+        };
+
+        dispatch(signup(newUser));
+        const targetWsId = workspaces[0]?.id || 'ws-main';
+        dispatch(addMember({
+          id: generateId(),
+          workspaceId: targetWsId,
+          userId,
+          role: 'owner',
+          joinedAt: new Date().toISOString(),
+        }));
+        dispatch(setCurrentWorkspace(targetWsId));
+        router.push('/dashboard');
+        return;
+      } else {
+        setError('No account found. Enter a password (min 4 characters) to create and sign into this account instantly.');
+        setLoading(false);
+        return;
+      }
+    }
+
     if (password !== DEFAULT_PASSWORD && password.length < 4) {
-      setError('Invalid password. Try "demo1234".');
+      setError('Invalid password. Try "demo1234" or any password with at least 4 characters.');
       setLoading(false);
       return;
     }
