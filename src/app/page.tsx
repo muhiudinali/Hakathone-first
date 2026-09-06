@@ -684,39 +684,6 @@ export default function LandingPage() {
       </section>
 
       {/* ============================================================
-          HIGH-IMPACT CALL TO ACTION
-          ============================================================ */}
-      <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
-        <div className="glass-panel rounded-3xl p-10 sm:p-16 border border-indigo-500/30 bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent relative overflow-hidden shadow-xl">
-          <h2 className="font-heading text-3xl sm:text-5xl font-extrabold text-text-primary tracking-tight mb-4">
-            Ready to experience the fastest <br className="hidden sm:inline" />
-            <span className="gradient-text">project management suite?</span>
-          </h2>
-          <p className="max-w-xl mx-auto text-body-lg text-text-secondary mb-8">
-            Try the live application now. No credit card, no sign-up wall. Test full CRUD operations, Kanban boards, and cloud database features in seconds.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={handleLaunchApp}
-              className="w-full sm:w-auto px-8 py-4 text-base font-semibold text-white bg-accent-primary hover:bg-accent-primary-hover rounded-xl shadow-lg shadow-accent-primary/30 transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95"
-            >
-              <span>Launch Live App</span>
-              <ArrowRight size={17} />
-            </button>
-            <a
-              href="https://github.com/muhiudinali/Hakathone-first"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-4 text-base font-semibold text-text-primary bg-bg-secondary hover:bg-bg-hover border border-border-primary rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-              <span>View on GitHub</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================
           COMPREHENSIVE FOOTER
           ============================================================ */}
       <footer className="relative z-10 border-t border-border-primary/80 bg-bg-secondary/70 glass-panel py-12 px-4 sm:px-6 lg:px-8 text-sm">
