@@ -212,7 +212,13 @@ export default function Sidebar() {
               );
             })}
             {projects.length === 0 && (
-              <p className="px-3 py-2 text-caption text-text-tertiary">No projects yet</p>
+              <button
+                onClick={() => dispatch(setCreateProjectOpen(true))}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-caption text-text-tertiary hover:text-accent-primary hover:bg-[#F1F3F4] dark:hover:bg-[#303134] transition-colors cursor-pointer text-left border border-dashed border-border-primary/60 my-1"
+              >
+                <Plus size={13} className="text-text-tertiary flex-shrink-0" />
+                <span>Create first project</span>
+              </button>
             )}
           </div>
         )}
@@ -246,7 +252,7 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom Section - AUTH PAGES & SETTINGS */}
-      <div className="border-t border-border-primary p-3 space-y-1.5">
+      <div className="border-t border-border-primary p-3 pb-3.5 space-y-2">
         {!collapsed && (
           <div className="text-[11px] font-medium uppercase tracking-wider text-text-tertiary px-2 pb-0.5">
             Settings & Account
@@ -255,7 +261,7 @@ export default function Sidebar() {
         <button
           onClick={() => navigate('/settings')}
           className={cn(
-            'w-full flex items-center gap-3.5 px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer text-left',
+            'w-full flex items-center gap-3.5 px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary',
             pathname === '/settings'
               ? 'bg-[#E8F0FE] text-[#1967D2] dark:bg-[#3C4043] dark:text-[#8AB4F8] font-semibold'
               : 'text-text-secondary hover:text-text-primary hover:bg-[#F1F3F4] dark:hover:bg-[#303134]',
@@ -271,7 +277,7 @@ export default function Sidebar() {
         {!collapsed && currentUser && (
           <Dropdown
             trigger={
-              <button className="w-full flex items-center gap-2.5 p-2 rounded-2xl hover:bg-[#F1F3F4] dark:hover:bg-[#303134] transition-colors cursor-pointer text-left border border-border-primary">
+              <button className="w-full flex items-center gap-2.5 p-2 rounded-2xl hover:bg-[#F1F3F4] dark:hover:bg-[#303134] transition-colors cursor-pointer text-left border border-border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-1">
                 <Avatar name={currentUser.name} size="sm" />
                 <div className="flex-1 min-w-0">
                   <div className="text-body-sm font-medium text-text-primary truncate">{currentUser.name}</div>

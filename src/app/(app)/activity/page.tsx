@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import { selectRecentActivity, selectAllUsers } from '@/store/selectors';
-import { Avatar, EmptyState } from '@/components/ui';
+import { Avatar, EmptyState, Dropdown, DropdownItem } from '@/components/ui';
 import { formatRelativeTime } from '@/lib/utils';
 import {
   Activity as ActivityIcon, Filter, User, PlusCircle, CheckCircle2,
-  UserCheck, MessageSquare, Flag, Trash2, Edit3,
+  UserCheck, MessageSquare, Flag, Trash2, Edit3, ChevronDown,
 } from 'lucide-react';
 
 const ACTION_VERBS: Record<string, string> = {
@@ -28,10 +28,9 @@ function getActionIcon(action: string) {
   switch (action) {
     case 'created': return <PlusCircle size={13} className="text-emerald-500 flex-shrink-0" />;
     case 'completed': return <CheckCircle2 size={13} className="text-emerald-500 flex-shrink-0" />;
-    case 'status_changed': return <ActivityIcon size={13} className="text-indigo-500 flex-shrink-0" />;
-    case 'assigned': return <UserCheck size={13} className="text-blue-500 flex-shrink-0" />;
-    case 'commented': return <MessageSquare size={13} className="text-purple-500 flex-shrink-0" />;
-    case 'priority_changed': return <Flag size={13} className="text-amber-500 flex-shrink-0" />;
+    case 'status_changed': return <Flag size={13} className="text-blue-500 flex-shrink-0" />;
+    case 'assigned': return <UserCheck size={13} className="text-purple-500 flex-shrink-0" />;
+    case 'commented': return <MessageSquare size={13} className="text-amber-500 flex-shrink-0" />;
     case 'deleted': return <Trash2 size={13} className="text-rose-500 flex-shrink-0" />;
     default: return <Edit3 size={13} className="text-text-tertiary flex-shrink-0" />;
   }
@@ -59,39 +58,54 @@ export default function ActivityPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {/* User Filter */}
-          <div className="flex items-center gap-1.5 bg-bg-secondary border border-border-primary rounded-full px-3.5 py-1.5 text-xs shadow-2xs">
-            <User size={13} className="text-accent-primary" />
-            <select
-              value={selectedUser}
-              onChange={e => setSelectedUser(e.target.value)}
-              className="bg-transparent text-text-primary text-xs cursor-pointer focus:outline-none"
-            >
-              <option value="all" className="bg-bg-secondary text-text-primary">All Users</option>
-              {Object.values(users).map(u => (
-                <option key={u.id} value={u.id} className="bg-bg-secondary text-text-primary">{u.name}</option>
-              ))}
-            </select>
-          </div>
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {/* User Filter Dropdown */}
+          <Dropdown
+            trigger={
+              <button className="flex items-center gap-2 bg-bg-secondary hover:bg-[#F1F3F4] dark:hover:bg-[#303134] border border-border-primary rounded-full px-3.5 py-1.5 text-xs text-text-primary shadow-2xs transition-colors cursor-pointer">
+                <User size={13} className="text-accent-primary flex-shrink-0" />
+                <span className="font-medium">{selectedUser === 'all' ? 'All Users' : users[selectedUser]?.name || 'User'}</span>
+                <ChevronDown size={12} className="text-text-tertiary ml-0.5 flex-shrink-0" />
+              </button>
+            }
+          >
+            <DropdownItem onClick={() => setSelectedUser('all')}>
+              <span className={selectedUser === 'all' ? 'font-semibold text-accent-primary' : ''}>All Users</span>
+            </DropdownItem>
+            {Object.values(users).map(u => (
+              <DropdownItem key={u.id} onClick={() => setSelectedUser(u.id)}>
+                <div className="flex items-center gap-2">
+                  <Avatar name={u.name} size="xs" />
+                  <span className={selectedUser === u.id ? 'font-semibold text-accent-primary' : ''}>{u.name}</span>
+                </div>
+              </DropdownItem>
+            ))}
+          </Dropdown>
 
-          {/* Action Type Filter */}
-          <div className="flex items-center gap-1.5 bg-bg-secondary border border-border-primary rounded-full px-3.5 py-1.5 text-xs shadow-2xs">
-            <Filter size={13} className="text-accent-primary" />
-            <select
-              value={selectedAction}
-              onChange={e => setSelectedAction(e.target.value)}
-              className="bg-transparent text-text-primary text-xs cursor-pointer focus:outline-none"
-            >
-              <option value="all" className="bg-bg-secondary text-text-primary">All Actions</option>
-              <option value="created" className="bg-bg-secondary text-text-primary">Created</option>
-              <option value="edited" className="bg-bg-secondary text-text-primary">Edited</option>
-              <option value="status_changed" className="bg-bg-secondary text-text-primary">Status Changed</option>
-              <option value="assigned" className="bg-bg-secondary text-text-primary">Assigned</option>
-              <option value="commented" className="bg-bg-secondary text-text-primary">Commented</option>
-              <option value="deleted" className="bg-bg-secondary text-text-primary">Deleted</option>
-            </select>
-          </div>
+          {/* Action Type Filter Dropdown */}
+          <Dropdown
+            trigger={
+              <button className="flex items-center gap-2 bg-bg-secondary hover:bg-[#F1F3F4] dark:hover:bg-[#303134] border border-border-primary rounded-full px-3.5 py-1.5 text-xs text-text-primary shadow-2xs transition-colors cursor-pointer">
+                <Filter size={13} className="text-accent-primary flex-shrink-0" />
+                <span className="font-medium capitalize">{selectedAction === 'all' ? 'All Actions' : selectedAction.replace('_', ' ')}</span>
+                <ChevronDown size={12} className="text-text-tertiary ml-0.5 flex-shrink-0" />
+              </button>
+            }
+          >
+            {[
+              { id: 'all', label: 'All Actions' },
+              { id: 'created', label: 'Created' },
+              { id: 'edited', label: 'Edited' },
+              { id: 'status_changed', label: 'Status Changed' },
+              { id: 'assigned', label: 'Assigned' },
+              { id: 'commented', label: 'Commented' },
+              { id: 'deleted', label: 'Deleted' },
+            ].map(act => (
+              <DropdownItem key={act.id} onClick={() => setSelectedAction(act.id)}>
+                <span className={selectedAction === act.id ? 'font-semibold text-accent-primary' : ''}>{act.label}</span>
+              </DropdownItem>
+            ))}
+          </Dropdown>
         </div>
       </div>
 

@@ -299,7 +299,7 @@ function KanbanColumnView({
   return (
     <div
       ref={setNodeRef}
-      className="w-[290px] flex flex-col flex-shrink-0 glass-column rounded-2xl p-3 border border-white/60 dark:border-white/10 shadow-xs"
+      className="w-[305px] flex flex-col flex-shrink-0 glass-column rounded-2xl p-3 border border-white/60 dark:border-white/10 shadow-xs max-h-[calc(100vh-175px)]"
     >
       <div className="flex items-center justify-between px-1.5 py-1 mb-2.5">
         <div className="flex items-center gap-2 min-w-0">
@@ -331,7 +331,7 @@ function KanbanColumnView({
         </Dropdown>
       </div>
 
-      <div className="flex-1 space-y-2.5 overflow-y-auto pb-2 min-h-[140px] pr-0.5">
+      <div className="flex-1 space-y-2.5 overflow-y-auto pb-2 min-h-[140px] pr-2 pl-0.5">
         {tasks.map(task => (
           <SortableTaskCard
             key={task.id}
@@ -418,7 +418,7 @@ function TaskCardContent({
       )}
 
       {/* Title */}
-      <p className="text-body-sm font-semibold text-text-primary leading-snug mb-2.5 group-hover:text-accent-primary transition-colors">
+      <p className="text-body-sm font-semibold text-text-primary leading-snug mb-2.5 group-hover:text-accent-primary transition-colors break-words">
         {task.title}
       </p>
 

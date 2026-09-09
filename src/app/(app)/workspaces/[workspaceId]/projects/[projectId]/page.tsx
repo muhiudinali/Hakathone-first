@@ -12,6 +12,7 @@ import {
 import {
   setCurrentProject, updateProject, archiveProject, unarchiveProject, deleteProject,
 } from '@/store/slices/projectSlice';
+import { setCurrentWorkspace } from '@/store/slices/workspaceSlice';
 import { setProjectView } from '@/store/slices/settingsSlice';
 import { setCreateTaskOpen } from '@/store/slices/uiSlice';
 import {
@@ -59,8 +60,11 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const [editDesc, setEditDesc] = useState('');
 
   useEffect(() => {
+    if (workspaceId) {
+      dispatch(setCurrentWorkspace(workspaceId));
+    }
     dispatch(setCurrentProject(projectId));
-  }, [projectId, dispatch]);
+  }, [workspaceId, projectId, dispatch]);
 
   const handleOpenEditModal = () => {
     if (project) {
@@ -122,9 +126,9 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       {/* Project Header */}
       <div className="flex-shrink-0 border-b border-border-primary/80 glass-header px-6 py-3.5">
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-3.5 min-w-0 flex-1">
             <div
-              className="h-10 w-10 rounded-xl flex items-center justify-center shadow-xs border"
+              className="h-10 w-10 rounded-xl flex items-center justify-center shadow-xs border flex-shrink-0"
               style={{
                 backgroundColor: `${project.color}15`,
                 borderColor: `${project.color}30`,
@@ -133,20 +137,20 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             >
               <DynamicIcon icon={project.icon || 'folder'} size={20} />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="text-heading-md text-text-primary font-heading">{project.name}</h1>
+                <h1 className="text-heading-md text-text-primary font-heading truncate">{project.name}</h1>
                 {project.archived && (
                   <Badge size="sm" color="#94A3B8">Archived</Badge>
                 )}
               </div>
               {project.description && (
-                <p className="text-caption text-text-secondary line-clamp-1 mt-0.5">{project.description}</p>
+                <p className="text-caption text-text-secondary truncate mt-0.5">{project.description}</p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 flex-shrink-0">
             {/* Members avatars */}
             {projectMembers.length > 0 && (
               <div className="hidden md:flex items-center -space-x-1.5 mr-2">

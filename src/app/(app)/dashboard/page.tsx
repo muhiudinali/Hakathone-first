@@ -354,13 +354,13 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Floating Settings Gear Button */}
+          {/* Quick Settings Gear Button */}
           <button
             onClick={() => dispatch(setCommandPaletteOpen(true))}
-            className="absolute -bottom-2 -right-2 sm:bottom-4 sm:right-4 h-11 w-11 rounded-full bg-white dark:bg-[#303134] shadow-md border border-border-primary flex items-center justify-center text-text-secondary hover:text-accent-primary hover:rotate-90 hover:scale-105 transition-all duration-300 z-10 cursor-pointer"
-            title="Command Palette & Settings (⌘K)"
+            className="absolute top-4 right-4 h-9 w-9 rounded-full bg-bg-secondary hover:bg-bg-hover shadow-xs border border-border-primary flex items-center justify-center text-text-secondary hover:text-accent-primary hover:rotate-90 transition-all z-10 cursor-pointer"
+            title="Command Palette & Settings"
           >
-            <Settings size={18} />
+            <Settings size={16} />
           </button>
         </div>
       </div>

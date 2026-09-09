@@ -38,6 +38,12 @@ export default function WorkspaceSettingsPage({ params }: { params: Promise<{ wo
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [memberToRemove, setMemberToRemove] = useState<{ id: string; name: string } | null>(null);
 
+  useEffect(() => {
+    if (resolvedParams.workspaceId) {
+      dispatch(setCurrentWorkspace(resolvedParams.workspaceId));
+    }
+  }, [resolvedParams.workspaceId, dispatch]);
+
   if (!workspace) {
     return (
       <div className="p-8 text-center text-text-secondary">

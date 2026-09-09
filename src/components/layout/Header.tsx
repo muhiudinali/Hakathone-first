@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import {
@@ -29,6 +30,11 @@ export default function Header() {
   const historyLength = useAppSelector(s => s.tasks.history.length);
   const canUndo = historyIndex >= 0;
   const canRedo = historyIndex < historyLength - 1;
+
+  const [isMac, setIsMac] = useState(false);
+  useEffect(() => {
+    setIsMac(typeof window !== 'undefined' && /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent));
+  }, []);
 
   // Build breadcrumb
   const breadcrumbs: { label: string; path?: string }[] = [];
@@ -62,7 +68,7 @@ export default function Header() {
           {breadcrumbs.map((b, i) => (
             <span key={i} className="flex items-center gap-1.5 min-w-0">
               {i > 0 && <span className="text-text-tertiary flex-shrink-0">/</span>}
-              <span className={`truncate max-w-[120px] sm:max-w-none ${i === breadcrumbs.length - 1 ? 'font-semibold text-text-primary' : 'text-text-secondary'}`}>
+              <span className={`truncate max-w-[200px] sm:max-w-[320px] md:max-w-none ${i === breadcrumbs.length - 1 ? 'font-semibold text-text-primary' : 'text-text-secondary'}`}>
                 {b.label}
               </span>
             </span>
@@ -73,11 +79,13 @@ export default function Header() {
         <button
           onClick={() => dispatch(toggleCommandPalette())}
           className="hidden sm:flex items-center gap-2.5 h-9 px-4 bg-bg-tertiary hover:bg-[#E8EAED] dark:hover:bg-[#3C4043] rounded-full text-body-sm text-text-secondary hover:text-text-primary transition-all cursor-pointer border border-border-primary/60 hover:border-border-primary w-48 md:w-72 lg:w-96 group shadow-2xs"
-          title="Search in workspace (⌘K)"
+          title={`Search in workspace (${isMac ? '⌘K' : 'Ctrl+K'})`}
         >
           <Search size={15} className="text-text-tertiary group-hover:text-accent-primary transition-colors flex-shrink-0" />
           <span className="truncate">Search tasks, projects...</span>
-          <kbd className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white dark:bg-[#202124] border border-border-primary text-text-tertiary ml-auto shadow-2xs flex-shrink-0">⌘K</kbd>
+          <kbd className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-white dark:bg-[#202124] border border-border-primary text-text-tertiary ml-auto shadow-2xs flex-shrink-0">
+            {isMac ? '⌘K' : 'Ctrl K'}
+          </kbd>
         </button>
 
         {/* Online/Offline Status */}
@@ -112,7 +120,7 @@ export default function Header() {
             variant="ghost"
             disabled={!canUndo}
             onClick={() => dispatch(undo())}
-            tooltip="Undo (⌘Z)"
+            tooltip={`Undo (${isMac ? '⌘Z' : 'Ctrl+Z'})`}
           >
             <Undo2 size={16} />
           </IconButton>
@@ -121,7 +129,7 @@ export default function Header() {
             variant="ghost"
             disabled={!canRedo}
             onClick={() => dispatch(redo())}
-            tooltip="Redo (⌘Y)"
+            tooltip={`Redo (${isMac ? '⌘Y' : 'Ctrl+Y'})`}
           >
             <Redo2 size={16} />
           </IconButton>

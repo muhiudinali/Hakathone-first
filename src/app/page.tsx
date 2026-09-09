@@ -701,14 +701,6 @@ export default function LandingPage() {
             <a href="#views" className="hover:text-text-primary transition-colors">Views</a>
             <a href="#architecture" className="hover:text-text-primary transition-colors">Architecture</a>
             <a href="#faq" className="hover:text-text-primary transition-colors">FAQ</a>
-            <a
-              href="https://github.com/muhiudinali/Hakathone-first"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-text-primary flex items-center gap-1 transition-colors"
-            >
-              GitHub <ExternalLink size={11} />
-            </a>
           </div>
 
           <div className="flex items-center gap-2 text-xs text-text-tertiary">

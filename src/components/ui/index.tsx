@@ -16,7 +16,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ variant = 'primary', size = 'md', loading, icon, children, className, disabled, ...props }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus active:scale-[0.98] select-none';
+  const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus active:scale-[0.98] select-none whitespace-nowrap flex-shrink-0';
   const variants = {
     primary: 'bg-[#1A73E8] hover:bg-[#1557B0] active:bg-[#174EA6] text-white shadow-sm hover:shadow-md border border-transparent font-medium',
     secondary: 'bg-[#F1F3F4] hover:bg-[#E8EAED] dark:bg-[#303134] dark:hover:bg-[#3C4043] text-[#202124] dark:text-[#E8EAED] border border-[#DADCE0] dark:border-[#3C4043] font-medium shadow-xs',
@@ -229,13 +229,14 @@ interface SwitchProps {
 
 export function Switch({ checked, onChange, label, disabled }: SwitchProps) {
   return (
-    <label className={cn('inline-flex items-center gap-2.5 cursor-pointer', disabled && 'opacity-50 cursor-not-allowed')}>
+    <label className={cn('inline-flex items-center gap-3 cursor-pointer select-none', disabled && 'opacity-50 cursor-not-allowed')}>
       <button
+        type="button"
         role="switch"
         aria-checked={checked}
         onClick={() => !disabled && onChange(!checked)}
         className={cn(
-          'relative h-5 w-9 rounded-full transition-colors duration-200',
+          'relative h-5 w-9 rounded-full transition-colors duration-200 flex-shrink-0 focus:outline-none',
           checked ? 'bg-accent-primary' : 'bg-border-primary',
         )}
       >
@@ -244,7 +245,7 @@ export function Switch({ checked, onChange, label, disabled }: SwitchProps) {
           checked && 'translate-x-4',
         )} />
       </button>
-      {label && <span className="text-body-sm text-text-primary">{label}</span>}
+      {label && <span className="text-body-sm font-medium text-text-primary">{label}</span>}
     </label>
   );
 }
@@ -561,20 +562,20 @@ interface TabsProps {
 
 export function Tabs({ tabs, activeTab, onChange }: TabsProps) {
   return (
-    <div className="flex border-b border-border-primary">
+    <div className="flex border-b border-border-primary overflow-x-auto scrollbar-none">
       {tabs.map(tab => (
         <button
           key={tab.id}
           onClick={() => onChange(tab.id)}
           className={cn(
-            'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 transition-colors duration-150 -mb-px cursor-pointer',
+            'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 transition-colors duration-150 -mb-px cursor-pointer whitespace-nowrap flex-shrink-0',
             activeTab === tab.id
               ? 'border-accent-primary text-accent-primary font-medium'
               : 'border-transparent text-text-secondary hover:text-text-primary hover:border-border-primary',
           )}
         >
           {tab.icon}
-          {tab.label}
+          <span>{tab.label}</span>
         </button>
       ))}
     </div>

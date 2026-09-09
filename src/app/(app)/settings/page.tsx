@@ -91,7 +91,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 min-w-0">
       <h1 className="text-heading-lg text-text-primary mb-6">Settings</h1>
 
       <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
@@ -124,7 +124,7 @@ export default function SettingsPage() {
               icon={<Palette size={16} className="text-accent-primary" />}
               description="Choose your preferred color theme"
             >
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 {([
                   { value: 'light' as ThemeMode, label: 'Light', icon: <Sun size={16} /> },
                   { value: 'dark' as ThemeMode, label: 'Dark', icon: <Moon size={16} /> },
@@ -133,7 +133,7 @@ export default function SettingsPage() {
                   <button
                     key={opt.value}
                     onClick={() => dispatch(setTheme(opt.value))}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 transition-all cursor-pointer ${
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all cursor-pointer ${
                       theme === opt.value
                         ? 'border-accent-primary bg-bg-hover'
                         : 'border-border-primary hover:border-text-tertiary'
@@ -155,22 +155,37 @@ export default function SettingsPage() {
               icon={<Bell size={16} className="text-accent-primary" />}
               description="Choose what notifications you receive"
             >
-              <div className="space-y-3">
-                <Switch
-                  checked={notifPrefs.assignments}
-                  onChange={c => dispatch(setNotificationPreferences({ assignments: c }))}
-                  label="Task assignments"
-                />
-                <Switch
-                  checked={notifPrefs.mentions}
-                  onChange={c => dispatch(setNotificationPreferences({ mentions: c }))}
-                  label="Comment mentions"
-                />
-                <Switch
-                  checked={notifPrefs.dueDates}
-                  onChange={c => dispatch(setNotificationPreferences({ dueDates: c }))}
-                  label="Due date reminders"
-                />
+              <div className="space-y-1 divide-y divide-border-secondary/50">
+                <div className="py-2.5 flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-body-sm font-medium text-text-primary">Task assignments</div>
+                    <div className="text-caption text-text-tertiary">When a task is assigned to you</div>
+                  </div>
+                  <Switch
+                    checked={notifPrefs.assignments}
+                    onChange={c => dispatch(setNotificationPreferences({ assignments: c }))}
+                  />
+                </div>
+                <div className="py-2.5 flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-body-sm font-medium text-text-primary">Comment mentions</div>
+                    <div className="text-caption text-text-tertiary">When someone mentions you in a task</div>
+                  </div>
+                  <Switch
+                    checked={notifPrefs.mentions}
+                    onChange={c => dispatch(setNotificationPreferences({ mentions: c }))}
+                  />
+                </div>
+                <div className="py-2.5 flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-body-sm font-medium text-text-primary">Due date reminders</div>
+                    <div className="text-caption text-text-tertiary">Upcoming deadlines for your tasks</div>
+                  </div>
+                  <Switch
+                    checked={notifPrefs.dueDates}
+                    onChange={c => dispatch(setNotificationPreferences({ dueDates: c }))}
+                  />
+                </div>
               </div>
             </SettingSection>
           </div>
